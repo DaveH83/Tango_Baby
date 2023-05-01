@@ -5,3 +5,4 @@ Tango Cohort Group project
   - Dan
   - Chayse
   - Yen
+  - Aizirek
