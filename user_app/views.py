@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from .models import App_User
 
 
-def front(request, path):
+def front(request):
     index = open('static/index.html')
     return HttpResponse(index)
 
