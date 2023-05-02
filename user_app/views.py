@@ -1,10 +1,10 @@
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout
-from .models import App_user
+from .models import App_User
 
 
-def front(request):
+def front(request, path):
     index = open('static/index.html')
     return HttpResponse(index)
 
@@ -23,7 +23,7 @@ def register_user(request):
         staff = request.data["staff"]
     # Return JSON obj with only key as 'username' to be either the username or None
     try:
-        new_user = App_user.objects.create_user(
+        new_user = App_User.objects.create_user(
             username=username,
             email=email,
             password=password,
