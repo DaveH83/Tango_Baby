@@ -4,6 +4,11 @@ from django.contrib.auth import authenticate, login, logout
 from .models import App_user
 
 
+def front(request):
+    index = open('static/index.html')
+    return HttpResponse(index)
+
+
 @api_view(["POST"])
 def register_user(request):
     # Handle creating new user, this will change in time as the user model grows for more profile information
@@ -30,7 +35,7 @@ def register_user(request):
     except Exception as e:
         print(e)
         return JsonResponse({"username": None})
-    
+
 
 @api_view(["POST"])
 def user_login(request):
@@ -58,15 +63,3 @@ def user_logout(request):
     except Exception as e:
         print(e)
         return JsonResponse({"success": False})
-
-
-# Serve the react app
-@api_view(["GET"])
-def home(request):
-    # Get the index for the react app
-    # file = open("static/index.html")
-    # Read it to a variable
-    # resp = file.read()
-    # So we can then responsibly close the file and serve the app
-    # file.close()
-    return HttpResponse("Django Home")
