@@ -11,16 +11,16 @@ class App_user (AbstractUser):
     
 
     def __str__(self):
-        return f"This is the class object for username: {self.username}"
+        return f"User object: {self.username}"
     
 
 class Child(models.Model):
     title = models.CharField(max_length=255)
     parent_1 = models.ForeignKey(App_user, on_delete=models.CASCADE)
-    parent_2 = models.EmailField(null=True)
+    parent_2 = models.EmailField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"This is the class object for child: {self.title} belonging to: {self.parent_1_email}"
+        return f"Child object: {self.title}, belonging to: {self.parent_1}"
     
 
 class Name(models.Model):
@@ -28,10 +28,10 @@ class Name(models.Model):
     popularity = models.BigIntegerField(default=0)
     gender = models.CharField(max_length=1)
     custom = models.BooleanField(default=False)
-    child_id = models.BigIntegerField(null=True)
+    child_id = models.BigIntegerField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"This is the class object for name: {self.name}"
+        return f"Name object: {self.name}"
     
 
 class Voted_Name(models.Model):
@@ -41,4 +41,4 @@ class Voted_Name(models.Model):
     child = models.ForeignKey(Child, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f"This is the class object for voted_name: {self.name_id}"
+        return f"Voted_name object: {self.name}, belonging to: {self.child}"
