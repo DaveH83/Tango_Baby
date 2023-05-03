@@ -13,6 +13,7 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 			});
 			if (response.data.user !== null) {
 				setIsLoggedIn(true);
+				window.location.reload(true);
 			} else {
 				alert("Try again.");
 			}
@@ -53,15 +54,17 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="email"
+						name="username"
 						id="input-group-1"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="name@email.com"
 						onChange={(e) => setEmail(e.target.value)}
+						required
 					/>
 				</div>
 
 				<label
-					htmlFor="input-group-1"
+					htmlFor="input-group-2"
 					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 				>
 					Password
@@ -74,10 +77,12 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="password"
-						id="input-group-1"
+						name="password"
+						id="input-group-2"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Password"
 						onChange={(e) => setPassword(e.target.value)}
+						required
 					/>
 				</div>
 				<button
@@ -139,6 +144,7 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 				.then((response) => {
 					if (response.data.user) {
 						setIsLoggedIn(true);
+						window.location.reload(true);
 					} else {
 						alert("Try again.");
 					}
@@ -180,15 +186,17 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="email"
+						name="username"
 						id="input-group-1"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="name@email.com"
 						onChange={(e) => setEmail(e.target.value)}
+						required
 					/>
 				</div>
 
 				<label
-					htmlFor="input-group-1"
+					htmlFor="input-group-2"
 					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 				>
 					Username
@@ -201,15 +209,16 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="text"
-						id="input-group-1"
+						id="input-group-2"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Username"
 						onChange={(e) => setUsername(e.target.value)}
+						required
 					/>
 				</div>
 
 				<label
-					htmlFor="input-group-1"
+					htmlFor="input-group-3"
 					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 				>
 					Password
@@ -222,15 +231,17 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="password"
-						id="input-group-1"
+						name="password"
+						id="input-group-3"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Password"
 						onChange={(e) => setPassword(e.target.value)}
+						required
 					/>
 				</div>
 
 				<label
-					htmlFor="input-group-1"
+					htmlFor="input-group-4"
 					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 				>
 					Confirm Password
@@ -243,10 +254,11 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="password"
-						id="input-group-1"
+						id="input-group-4"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Confirm Password"
 						onChange={(e) => setConfirmPassword(e.target.value)}
+						required
 					/>
 				</div>
 				<button

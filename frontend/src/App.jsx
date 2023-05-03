@@ -6,7 +6,10 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-export const UserInfo = createContext({});
+export const UserInfo = createContext({
+	userInfo: {},
+	setUserInfo: () => {},
+});
 
 export function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,10 +18,11 @@ export function App() {
 	async function getUserInfo() {
 		const response = await axios.get("/user/curr-user/");
 		if (response.data.error) {
-			return;
+			setUserInfo({});
+			setIsLoggedIn(false);
 		} else {
-			setUserInfo(response.data);
 			setIsLoggedIn(true);
+			setUserInfo(response.data);
 		}
 	}
 
@@ -27,17 +31,13 @@ export function App() {
 	}, []);
 
 	return (
-		<UserInfo.Provider value={userInfo}>
+		<UserInfo.Provider value={{ userInfo, setUserInfo }}>
 			<div>
 				{isLoggedIn ? (
 					<>
 						<Header setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
 						<div className="mt-16 md:ml-64">
-							{isLoggedIn ? (
-								<Outlet />
-							) : (
-								<Auth setIsLoggedIn={setIsLoggedIn} setUserInfo={setUserInfo} />
-							)}
+							<Outlet />
 						</div>
 					</>
 				) : (
