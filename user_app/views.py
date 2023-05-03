@@ -2,6 +2,8 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout
 from .models import App_User
+import json
+from django.core.serializers import serialize
 
 
 @api_view(["POST"])
@@ -58,3 +60,13 @@ def user_logout(request):
     except Exception as e:
         print(e)
         return JsonResponse({"success": False})
+
+
+@api_view(["GET"])
+def curr_user(request):
+    if request.user.is_authenticated:
+        user_info = serialize("json", [request.user], fields=[
+                              "username", "email"])
+        user_info_workable = json.loads(user_info)
+        return JsonResponse(user_info_workable[0]["fields"])
+    return JsonResponse({"error": "Not currently logged in."})
