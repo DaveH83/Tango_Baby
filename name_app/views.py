@@ -22,7 +22,15 @@ def handle_children(request):
 
         if request.method == "GET":
             # return all children objects for this parent
-            pass
+            kids = []
+            curr_user = App_User.objects.get(id=curr_user_id)
+            children_p1 = Child.objects.filter(parent_1=curr_user)
+            kids.extend(json.loads(serialize("json", children_p1)))
+            children_p2 = Child.objects.filter(parent_2=curr_user.email)
+            kids.extend(json.loads(serialize("json", children_p2)))
+            if len(kids) > 0:
+                return JsonResponse({'kids': kids, 'success': True})
+            return JsonResponse({'message': 'No children found', 'success': False})
         elif request.method == "PUT":
             # updates blacklist
             # checks for user entry for proposed blacklist user
@@ -85,7 +93,7 @@ def handle_children(request):
                 )
             else:
                 return JsonResponse({'message': 'child already exists', 'success': False})
-        return JsonResponse(data)
+        return JsonResponse({'message': 'You are logged in but something went wrong', 'success': False})
     return JsonResponse({'message': 'You are not logged in', 'success': False})
 
 
