@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { App } from "./App";
+import { App, AppLoader } from "./App";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HowTo from "./pages/HowTo";
@@ -16,6 +16,7 @@ const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <App />,
+		loader: AppLoader,
 		children: [
 			{
 				index: true,
