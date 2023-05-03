@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import OffCanvas from "./components/OffCanvas";
+import Header from "./components/Header";
 
 export default function App() {
 	return (
 		<div>
-			<OffCanvas />
+			<Header />
 			<Outlet />
 		</div>
 	);

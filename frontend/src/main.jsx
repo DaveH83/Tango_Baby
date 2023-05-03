@@ -2,7 +2,6 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import HowTo from "./pages/HowTo";
 import Setup from "./pages/Setup";
 import Results from "./pages/Results";
@@ -11,6 +10,7 @@ import Search from "./pages/Search";
 import SwipeNames from "./pages/SwipeNames";
 import RankChoices from "./pages/RankChoices";
 import Profile from "./pages/Profile";
+import "flowbite/dist/flowbite.js";
 
 const router = createBrowserRouter([
 	{
