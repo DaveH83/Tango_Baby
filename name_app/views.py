@@ -12,56 +12,93 @@ Blacklist = apps.get_model('user_app', 'Blacklist')
 
 
 # Handle viewing and adding children
-@api_view(["POST", "GET"])
+@api_view(["POST", "GET", "PUT"])
 def handle_children(request):
     if request.user.is_authenticated:
-        user_info = serialize("json", [request.user], fields=["email"])
-        user_info_workable = json.loads(user_info)
-        curr_user_id=user_info_workable[0]['pk']
+        user_info = json.loads(serialize("json", [request.user], fields=["email"]))[0]
+        curr_user_id=user_info['pk']
+        data = request.data.dict()
+        nickname = data['nickname']
+        
         if request.method == "GET":
             # return all children objects for this parent
-            pass
+            kids = []
+            curr_user = App_User.objects.get(id=curr_user_id)
+            children_p1 = Child.objects.filter(parent_1=curr_user)
+            kids.extend(json.loads(serialize("json", children_p1)))
+            children_p2 = Child.objects.filter(parent_2=curr_user.email)
+            kids.extend(json.loads(serialize("json", children_p2)))
+            if len(kids) > 0:
+                return JsonResponse({'kids': kids, 'success': True})
+            return JsonResponse({'message': 'No children found', 'success': False})
+        elif request.method == "PUT":
+            # updates blacklist
+            # checks for user entry for proposed blacklist user
+            blacklist_user = App_User.objects.filter(email=data['blacklist_email'])
+            if len(blacklist_user) == 0:
+                return JsonResponse({'message': 'blacklist user not found', 'success': False})
+            curr_user = App_User.objects.get(id=curr_user_id)
+            curr_child_p1 = Child.objects.filter(nickname=nickname, parent_1=curr_user)
+            # check if user is parent1
+            if len(curr_child_p1) > 0:
+                entry = Blacklist.objects.filter(user=blacklist_user[0], child=curr_child_p1[0])
+                # check if black list entry already exists
+                if len(entry) == 0:
+                    Blacklist.objects.create(
+                        user=blacklist_user[0],
+                        child=curr_child_p1[0]
+                    )
+                    return JsonResponse({'message': 'black list entry added', 'success': True})
+                return JsonResponse({'message': 'Black list entry already found', 'success': False})
+            else:
+                curr_child_p2 = Child.objects.filter(nickname=nickname,parent_2=user_info['fields']['email'])
+                # check if user is parent2
+                if len(curr_child_p2) > 0:
+                    entry = Blacklist.objects.filter(user=blacklist_user[0], child=curr_child_p1[0])
+                    # check if black list entry already exists
+                    if len(entry) > 0:
+                        Blacklist.objects.create(
+                            user=blacklist_user[0],
+                            child=curr_child_p2[0]
+                        )
+                        return JsonResponse({'message': 'black list entry added', 'success': True})
+                    return JsonResponse({'message': 'Black list entry already found', 'success': False})
+            return JsonResponse({'message': 'You are not a parent', 'success': False})
         elif request.method == "POST":
-            # add new child object
-            d = request.data.dict()
+            # adds new child object
             parent_2 = None
             p_url = None
-            id = int(curr_user_id)
             g_url = uuid.uuid4()
-            nickname = d['nickname']
-            if d['parent_2']:
-                parent_2 = d['parent_2']
+            if data['parent_2']:
+                parent_2 = data['parent_2']
             else:
                 p_url = uuid.uuid4()
             
-            d['parent_1'] = id
-            d['parent_2'] = parent_2
-            d['parent_url'] = p_url
-            d['guest_url'] = g_url
+            data['parent_1'] = curr_user_id
+            data['parent_2'] = parent_2
+            data['parent_url'] = p_url
+            data['guest_url'] = g_url
 
             # see if child already exists for parent_1
-            children = Child.objects.filter(id=id, nickname=nickname)
+            p = App_User.objects.get(id=curr_user_id)
+            children = Child.objects.filter(parent_1=p).filter(nickname=nickname)
             if len(children) == 0:
                 Child.objects.create(
                     nickname=nickname,
-                    parent_1=id,
+                    parent_1=p,
                     parent_2=parent_2,
                     parent_url=p_url,
                     guest_url=g_url,
                 )
             else:
-                return JsonResponse
-        return JsonResponse(d)
-    return JsonResponse({'founduser': False})
+                return JsonResponse({'message': 'child already exists', 'success': False})
+        return JsonResponse({'message': 'You are logged in but something went wrong', 'success': False})
+    return JsonResponse({'message': 'You are not logged in', 'success': False})
 
 
 # Handle viewing, voting, and adding singular names
-# Name serializer
-# class NameSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Name
-#         fields = '__all__'
-@api_view(["GET","POST"])
+
+@api_view(["POST", "GET"])
 def handle_name(request):
     # get name list 
     if request.method == "GET":
@@ -104,6 +141,54 @@ def handle_name(request):
         
         
     
+
+# handle retrieving and displaying lists of voted on names sorted by vote type
+@api_view(["GET"])
+def handle_voted_names(request):
+    
+    #define parameters
+    user = request.user
+    child_id = request.child['pk']
+    parent1 = request.child['parent1']
+    if request.child['parent2']:
+        parent2 = request.child['parent2']
+
+
+    # Set current user liked / disliked names
+    liked_names = Voted_Name.objects.filter(participant = user, child_id = child_id, liked = True)
+    disliked_names = Voted_Name.objects.filter(participant = user, child_id = child_id, liked = False)
+
+    # Define liked names for other parent
+    if user == parent1:
+        other_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child_id, liked = True)
+    elif user == parent2:
+        other_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child_id, liked = True)
+
+    # compare liked names lists and compile agreed names if parent2 exists and format response   
+    if parent2:
+        agreed_names = []
+
+        for name in liked_names:
+            if name in other_parent_liked_names:
+                agreed_names.append(name)
+                
+        response = {
+            'liked': liked_names,
+            'disliked': disliked_names,
+            'agreed': agreed_names,
+        }
+    # format response with liked / disliked and null value for agreed since parent2 doesn't exist yet
+    else:
+        response = {
+            'liked': liked_names,
+            'disliked': disliked_names,
+            'agreed': None,
+        }
+
+
+    return JsonResponse({'names': response})
+
+
 
 # Handle viewing and ranking of pairs of names
 @api_view(["GET", "PUT"])
