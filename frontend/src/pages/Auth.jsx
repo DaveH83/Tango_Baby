@@ -52,7 +52,7 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 						</svg>
 					</div>
 					<input
-						type="text"
+						type="email"
 						id="input-group-1"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="name@email.com"
@@ -131,13 +131,17 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 					password,
 				})
 				.then(() => {
-					axios.post("/user/login/", {
+					return axios.post("/user/login/", {
 						email,
 						password,
 					});
 				})
-				.then(() => {
-					setIsLoggedIn(true);
+				.then((response) => {
+					if (response.data.user) {
+						setIsLoggedIn(true);
+					} else {
+						alert("Try again.");
+					}
 				});
 		} catch (error) {
 			console.error(error);
@@ -175,7 +179,7 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 						</svg>
 					</div>
 					<input
-						type="text"
+						type="email"
 						id="input-group-1"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="name@email.com"
