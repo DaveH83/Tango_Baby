@@ -14,12 +14,11 @@ Blacklist = apps.get_model('user_app', 'Blacklist')
 @api_view(["POST", "GET", "PUT"])
 def handle_children(request):
     if request.user.is_authenticated:
-        user_info = serialize("json", [request.user], fields=["email"])
-        user_info_workable = json.loads(user_info)
-        curr_user_id=user_info_workable[0]['pk']
+        user_info = json.loads(serialize("json", [request.user], fields=["email"]))[0]
+        curr_user_id=user_info['pk']
         data = request.data.dict()
         nickname = data['nickname']
-
+        
         if request.method == "GET":
             # return all children objects for this parent
             kids = []
@@ -51,7 +50,7 @@ def handle_children(request):
                     return JsonResponse({'message': 'black list entry added', 'success': True})
                 return JsonResponse({'message': 'Black list entry already found', 'success': False})
             else:
-                curr_child_p2 = Child.objects.filter(nickname=nickname,parent_2=user_info_workable[0]['fields']['email'])
+                curr_child_p2 = Child.objects.filter(nickname=nickname,parent_2=user_info['fields']['email'])
                 # check if user is parent2
                 if len(curr_child_p2) > 0:
                     entry = Blacklist.objects.filter(user=blacklist_user[0], child=curr_child_p1[0])
@@ -68,20 +67,19 @@ def handle_children(request):
             # adds new child object
             parent_2 = None
             p_url = None
-            id = int(curr_user_id)
             g_url = uuid.uuid4()
             if data['parent_2']:
                 parent_2 = data['parent_2']
             else:
                 p_url = uuid.uuid4()
             
-            data['parent_1'] = id
+            data['parent_1'] = curr_user_id
             data['parent_2'] = parent_2
             data['parent_url'] = p_url
             data['guest_url'] = g_url
 
             # see if child already exists for parent_1
-            p = App_User.objects.get(id=id)
+            p = App_User.objects.get(id=curr_user_id)
             children = Child.objects.filter(parent_1=p).filter(nickname=nickname)
             if len(children) == 0:
                 Child.objects.create(
