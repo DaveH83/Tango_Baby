@@ -1,4 +1,32 @@
+import { Drawer } from "flowbite";
+import { useEffect, useState } from "react";
+
 export default function Header() {
+	const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsLargeScreen(window.innerWidth >= 768);
+		};
+		window.addEventListener("resize", handleResize);
+		handleResize(); // Initial check
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+
+	useEffect(() => {
+		const $targetEl = document.getElementById("drawer-navigation");
+
+		const options = {};
+
+		const drawer = new Drawer($targetEl, options);
+
+		if (isLargeScreen) {
+			drawer.show();
+		} else {
+			drawer.hide();
+		}
+	}, [isLargeScreen]);
+
 	return (
 		<>
 			<nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -10,7 +38,7 @@ export default function Header() {
 								data-drawer-show="drawer-navigation"
 								aria-controls="drawer-navigation"
 								type="button"
-								className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+								className="md:hidden inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
 							>
 								<span className="sr-only">Open sidebar</span>
 								<svg
@@ -27,7 +55,7 @@ export default function Header() {
 									></path>
 								</svg>
 							</button>
-							<a href="#" className="flex ml-2 md:mr-24">
+							<a href="/" className="flex ml-2 md:mr-24">
 								<img
 									src="https://flowbite.com/docs/images/logo.svg"
 									className="h-8 mr-3"
@@ -118,7 +146,7 @@ export default function Header() {
 									type="button"
 									data-drawer-hide="drawer-navigation"
 									aria-controls="drawer-navigation"
-									className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+									className="md:hidden text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
 								>
 									<svg
 										aria-hidden="true"
