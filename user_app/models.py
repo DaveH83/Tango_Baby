@@ -16,7 +16,7 @@ class App_User(AbstractUser):
 class Child(models.Model):
     nickname = models.CharField(max_length=255)
     parent_1 = models.ForeignKey(App_User, on_delete=models.CASCADE)
-    parent_2 = models.EmailField(blank=True, null=True)
+    parent_2 = models.EmailField(max_length=150,blank=True, null=True)
     parent_url = models.UUIDField(unique=True, null=True, blank=True)
     guest_url = models.UUIDField(unique=True, null=True, blank=True)
 
@@ -29,7 +29,6 @@ class Name(models.Model):
     popularity = models.BigIntegerField(default=0)
     gender = models.CharField(max_length=1)
     custom = models.BooleanField(default=False)
-    child_id = models.BigIntegerField(blank=True, null=True)
 
     def __str__(self) -> str:
         return f"Name object: {self.name}"
