@@ -94,7 +94,7 @@ export default function Header({ setIsLoggedIn, isLoggedIn }) {
 								<img
 									src="https://flowbite.com/docs/images/logo.svg"
 									className="h-8 mr-3"
-									alt="FlowBite Logo"
+									alt="Logo"
 								/>
 								<span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
 									Baby Name Swiper
