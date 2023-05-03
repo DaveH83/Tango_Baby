@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+# All patterns proceeding by 'user/'
 urlpatterns = [
     path("register/", views.register_user),
     path("login/", views.user_login),
