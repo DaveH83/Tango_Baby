@@ -26,9 +26,8 @@ class Child(models.Model):
 
 class Name(models.Model):
     name = models.CharField(max_length=255)
-    popularity = models.BigIntegerField(default=0)
+    popularity = models.BigIntegerField(null=True,default=None)
     gender = models.CharField(max_length=1)
-    custom = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f"Name object: {self.name}"
