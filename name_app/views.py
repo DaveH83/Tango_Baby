@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.core.serializers import serialize
 from rest_framework.decorators import api_view
 from django.apps import apps
+from django.forms.models import model_to_dict
 import json, uuid
 App_User = apps.get_model('user_app', 'App_User')
 Child = apps.get_model('user_app', 'Child')
@@ -55,12 +56,54 @@ def handle_children(request):
 
 
 # Handle viewing, voting, and adding singular names
-@api_view(["POST"])
+# Name serializer
+# class NameSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Name
+#         fields = '__all__'
+@api_view(["GET","POST"])
 def handle_name(request):
-    if request.method == "POST":
-        # add new name object   
-        pass
-
+    # get name list 
+    if request.method == "GET":
+        try:
+            names=Name.objects.all()
+            name_list=[model_to_dict (name) for name in names]
+            return JsonResponse({'name_list':name_list})
+        except Exception as e:
+            print(e)
+            return JsonResponse({'name_list':[]})
+    # add new name object
+    if request.method=="POST":
+        #take name,gender,pk as request data 
+        name=request.data['name']
+        gender=request.data['gender']
+        id=request.data['id']
+        print(name,gender,id)
+        body = request.body.decode('utf-8')
+        print('body',body)
+        child=Child.objects.filter(id=id)
+        participant=request.user
+        if Name.objects.filter(name=name,gender=gender).exists():
+            try:
+                new_vote=Voted_Name.objects.create(name=name,liked=True,participant=participant,child=child)
+                new_vote.save()
+                return JsonResponse({'add child':True})
+            except Exception as e:
+                print(e)
+                return JsonResponse({'add child':False})
+        else:
+            try:
+                new_name=Name.objects.create(name=name,popularity=None,gender=gender)
+                new_name.save()
+                new_vote=Voted_Name.objects.create(name=name,liked=True,participant=participant,child=child)
+                new_vote.save()
+                return JsonResponse({'add child':True})
+            except Exception as e:
+                print(e)
+                return JsonResponse({'add child':False})
+        
+        
+    
 
 # Handle viewing and ranking of pairs of names
 @api_view(["GET", "PUT"])
