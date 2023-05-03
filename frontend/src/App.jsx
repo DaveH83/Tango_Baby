@@ -5,7 +5,9 @@ export default function App() {
 	return (
 		<div>
 			<Header />
-			<Outlet />
+			<div className="mt-16">
+				<Outlet />
+			</div>
 		</div>
 	);
 }
