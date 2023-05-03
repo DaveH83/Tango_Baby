@@ -14,12 +14,14 @@ class App_User(AbstractUser):
     
 
 class Child(models.Model):
-    title = models.CharField(max_length=255)
+    nickname = models.CharField(max_length=255)
     parent_1 = models.ForeignKey(App_User, on_delete=models.CASCADE)
     parent_2 = models.EmailField(blank=True, null=True)
+    parent_url = models.UUIDField(unique=True, null=True, blank=True)
+    guest_url = models.UUIDField(unique=True, null=True, blank=True)
 
     def __str__(self) -> str:
-        return f"Child object: {self.title}, belonging to: {self.parent_1}"
+        return f"Child object: {self.nickname}, belonging to: {self.parent_1}"
     
 
 class Name(models.Model):
@@ -41,3 +43,8 @@ class Voted_Name(models.Model):
 
     def __str__(self) -> str:
         return f"Voted_name object: {self.name}, belonging to: {self.child}"
+
+
+class Blacklist(models.Model):
+    user = models.ForeignKey(App_User, on_delete=models.CASCADE)
+    child = models.ForeignKey(Child, on_delete=models.CASCADE)
