@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import { createContext, useEffect, useState } from "react";
 import Auth from "./pages/Auth";
 import axios from "axios";
+import { initFlowbite } from "flowbite";
 
 axios.defaults.withCredentials = true;
 
@@ -29,6 +30,10 @@ export function App() {
 	useEffect(() => {
 		getUserInfo();
 	}, []);
+
+	useEffect(() => {
+		initFlowbite();
+	});
 
 	return (
 		<UserInfo.Provider value={{ userInfo, setUserInfo }}>
