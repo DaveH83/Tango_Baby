@@ -1,12 +1,7 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout
 from .models import App_User
-
-
-def front(request):
-    index = open('static/index.html')
-    return HttpResponse(index)
 
 
 @api_view(["POST"])
