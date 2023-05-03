@@ -6,12 +6,12 @@ class App_User(AbstractUser):
     username = models.CharField(max_length=150, unique=True)
     email = models.CharField(max_length=150, unique=True)
     last_updated = models.DateField(auto_now=True)
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
         return f"User object: {self.username}"
-    
+
 
 class Child(models.Model):
     nickname = models.CharField(max_length=255)
@@ -22,7 +22,7 @@ class Child(models.Model):
 
     def __str__(self) -> str:
         return f"Child object: {self.nickname}, belonging to: {self.parent_1}"
-    
+
 
 class Name(models.Model):
     name = models.CharField(max_length=255)
@@ -33,7 +33,7 @@ class Name(models.Model):
 
     def __str__(self) -> str:
         return f"Name object: {self.name}"
-    
+
 
 class Voted_Name(models.Model):
     name = models.ForeignKey(Name, on_delete=models.CASCADE)
