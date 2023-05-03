@@ -65,20 +65,50 @@ def handle_name(request):
 # handle retrieving and displaying lists of voted on names sorted by vote type
 @api_view(["GET"])
 def handle_voted_names(request):
+    
+    #define parameters
     user = request.user
     child_id = request.child['pk']
     parent1 = request.child['parent1']
     if request.child['parent2']:
         parent2 = request.child['parent2']
 
-    if user == parent1:
-        parent2_liked_names = Voted_Name.objects.filter(participant = parent2, child_id = child_id, liked = True)
 
-
+    # Set current user liked / disliked names
     liked_names = Voted_Name.objects.filter(participant = user, child_id = child_id, liked = True)
     disliked_names = Voted_Name.objects.filter(participant = user, child_id = child_id, liked = False)
-    
-    
+
+    # Define liked names for other parent
+    if user == parent1:
+        other_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child_id, liked = True)
+    elif user == parent2:
+        other_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child_id, liked = True)
+
+    # compare liked names lists and compile agreed names if parent2 exists and format response   
+    if parent2:
+        agreed_names = []
+
+        for name in liked_names:
+            if name in other_parent_liked_names:
+                agreed_names.append(name)
+                
+        response = {
+            'liked': liked_names,
+            'disliked': disliked_names,
+            'agreed': agreed_names,
+        }
+    # format response with liked / disliked and null value for agreed since parent2 doesn't exist yet
+    else:
+        response = {
+            'liked': liked_names,
+            'disliked': disliked_names,
+            'agreed': None,
+        }
+
+
+    return JsonResponse({'names': response})
+
+
 
 # Handle viewing and ranking of pairs of names
 @api_view(["GET", "PUT"])
