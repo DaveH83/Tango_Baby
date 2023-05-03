@@ -1,5 +1,10 @@
 from rest_framework.decorators import api_view
-from ..user_app.models import App_User, Child, Name, Voted_Name, Blacklist
+from django.apps import apps
+App_User = apps.get_model('user_app', 'App_User')
+Child = apps.get_model('user_app', 'Child')
+Name = apps.get_model('user_app', 'Name')
+Voted_Name = apps.get_model('user_app', 'Voted_Name')
+Blacklist = apps.get_model('user_app', 'Blacklist')
 
 
 # Handle viewing and adding children
