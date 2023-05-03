@@ -55,12 +55,30 @@ def handle_children(request):
 
 
 # Handle viewing, voting, and adding singular names
-@api_view(["POST"])
+@api_view(["POST", "GET"])
 def handle_name(request):
     if request.method == "POST":
         # add new name object   
         pass
 
+
+# handle retrieving and displaying lists of voted on names sorted by vote type
+@api_view(["GET"])
+def handle_voted_names(request):
+    user = request.user
+    child_id = request.child['pk']
+    parent1 = request.child['parent1']
+    if request.child['parent2']:
+        parent2 = request.child['parent2']
+
+    if user == parent1:
+        parent2_liked_names = Voted_Name.objects.filter(participant = parent2, child_id = child_id, liked = True)
+
+
+    liked_names = Voted_Name.objects.filter(participant = user, child_id = child_id, liked = True)
+    disliked_names = Voted_Name.objects.filter(participant = user, child_id = child_id, liked = False)
+    
+    
 
 # Handle viewing and ranking of pairs of names
 @api_view(["GET", "PUT"])
