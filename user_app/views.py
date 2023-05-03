@@ -1,12 +1,7 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout
 from .models import App_User
-
-
-def front(request):
-    index = open('static/index.html')
-    return HttpResponse(index)
 
 
 @api_view(["POST"])
@@ -21,7 +16,7 @@ def register_user(request):
         super_user = request.data["super"]
     if "staff" in request.data:
         staff = request.data["staff"]
-    # Return JSON obj with only key as 'username' to be either the username or None
+    # Return JSON obj with only key as 'username' to be either the user email or None
     try:
         new_user = App_User.objects.create_user(
             username=username,
@@ -31,27 +26,27 @@ def register_user(request):
             is_staff=staff,
         )
         new_user.save()
-        return JsonResponse({"username": username})
+        return JsonResponse({"user": email})
     except Exception as e:
         print(e)
-        return JsonResponse({"username": None})
+        return JsonResponse({"user": None})
 
 
 @api_view(["POST"])
 def user_login(request):
     # Handle login
-    username = request.data["username"]
+    email = request.data["email"]
     password = request.data["password"]
-    user = authenticate(username=username, password=password)
+    user = authenticate(email=email, password=password)
     if user is not None and user.is_active:
-        # Return JSON obj with only key as 'username' to be either the username or None
+        # Return JSON obj with only key as 'user' to be either the user email or None
         try:
             login(request._request, user)
-            return JsonResponse({"username": user.username})
+            return JsonResponse({"user": user.email})
         except Exception as e:
             print(e)
-            return JsonResponse({"username": None})
-    return JsonResponse({"username": None})
+            return JsonResponse({"user": None})
+    return JsonResponse({"user": None})
 
 
 @api_view(["POST"])
