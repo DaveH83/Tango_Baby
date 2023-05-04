@@ -20,14 +20,10 @@ export function App() {
 	const user = useLoaderData();
 
 	handleCSRF();
-	
-	useEffect(() => {
-		initFlowbite();
-	}, [user]);
 
 	useEffect(() => {
 		initFlowbite();
-	});
+	}, [user]);
 
 	return (
 		<UserContext.Provider value={user}>
