@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 class App_User(AbstractUser):
     username = models.CharField(max_length=150, unique=True)
-    email = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(max_length=150, unique=True)
     last_updated = models.DateField(auto_now=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
@@ -19,6 +19,7 @@ class Child(models.Model):
     parent_2 = models.EmailField(max_length=150,blank=True, null=True)
     parent_url = models.UUIDField(unique=True, null=True, blank=True)
     guest_url = models.UUIDField(unique=True, null=True, blank=True)
+    gender = models.CharField(max_length=1, null=True)
 
     def __str__(self) -> str:
         return f"Child object: {self.nickname}, belonging to: {self.parent_1}"
