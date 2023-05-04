@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { useEffect, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
@@ -11,42 +10,12 @@ export default function Header() {
 	const user = useContext(UserContext);
 	const nav = useNavigate();
 	const handleLogout = async () => {
-		try {
-			const csrfToken = Cookies.get("csrftoken");
-			const response = await axios.post(
-				"/user/logout/",
-				{},
-				{
-					headers: {
-						"X-CSRFToken": csrfToken,
-					},
-				}
-			);
-			if (response.data.success) {
-				nav("/");
-			} else {
-				return;
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	const handleToggle = () => {
-		const dropdown = document.getElementById("dropdown-user");
-		const classes = dropdown.className;
-		// if (classes.includes("hidden")) {
-		// 	dropdown.classList.remove("hidden")
-		// } else {
-		// 	dropdown.classList.add("hidden")
-		// }
-		// console.log(classes)
+		const response = await axios.post("/user/logout/")
+		response.data.success ? nav("/") : null
 	};
 
 	useEffect(() => {
-		const handleResize = () => {
-			setIsLargeScreen(window.innerWidth >= 768);
-		};
+		const handleResize = () => setIsLargeScreen(window.innerWidth >= 768);
 		window.addEventListener("resize", handleResize);
 		handleResize(); // Initial check
 		return () => window.removeEventListener("resize", handleResize);
@@ -55,26 +24,19 @@ export default function Header() {
 	useEffect(() => {
 		if (user) {
 			const $targetEl = document.getElementById("drawer-navigation");
-
 			const options = {};
-
 			const drawer = new Drawer($targetEl, options);
 
-			if (isLargeScreen) {
-				drawer.show();
-			} else {
-				drawer.hide();
-			}
+			isLargeScreen ? drawer.show() : drawer.hide();
 		}
 	}, [isLargeScreen, user]);
 
-	// console.log("header user:", user)
 	return (
 		<nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
 			<div className="px-3 py-3 lg:px-5 lg:pl-3">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center justify-start">
-						{user ? (
+						{user && (
 							<button
 								data-drawer-target="drawer-navigation"
 								data-drawer-show="drawer-navigation"
@@ -97,7 +59,7 @@ export default function Header() {
 									></path>
 								</svg>
 							</button>
-						) : null}
+						)}
 						<a href="/" className="flex ml-2 md:mr-24">
 							<img
 								src="https://flowbite.com/docs/images/logo.svg"
@@ -110,20 +72,14 @@ export default function Header() {
 						</a>
 					</div>
 					<div className="flex items-center">
-						{user ? (
+						{user && (
 							<div className="flex items-center ml-3">
-								<div>
-									<button type="button" onClick={handleLogout}>
-										Logout
-									</button>
-								</div>
 								<div>
 									<button
 										type="button"
 										className="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 w-10 h-10 justify-center"
 										aria-expanded="false"
 										data-dropdown-toggle="dropdown-user"
-										onClick={handleToggle}
 									>
 										<span className="sr-only">Open user menu</span>
 										<span className="material-symbols-outlined text-4xl">
@@ -181,8 +137,8 @@ export default function Header() {
 									</ul>
 								</div>
 							</div>
-						) : null}
-						{user ? (
+						)}
+						{user && (
 							<div
 								id="drawer-navigation"
 								className="fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800 mt-14"
@@ -281,7 +237,7 @@ export default function Header() {
 									</ul>
 								</div>
 							</div>
-						) : null}
+						)}
 					</div>
 				</div>
 			</div>

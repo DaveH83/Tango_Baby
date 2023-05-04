@@ -1,10 +1,10 @@
 import { Outlet, useLoaderData } from "react-router-dom";
 import Header from "./components/Header";
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import Auth from "./pages/Auth";
 import axios from "axios";
-
-axios.defaults.withCredentials = true;
+import { initFlowbite } from "flowbite";
+import { handleCSRF } from "./components/Utilities";
 
 export const UserContext = createContext(null);
 
@@ -18,6 +18,12 @@ export async function AppLoader() {
 
 export function App() {
 	const user = useLoaderData();
+
+	handleCSRF();
+	
+	useEffect(() => {
+		initFlowbite();
+	}, [user]);
 
 	return (
 		<UserContext.Provider value={user}>
