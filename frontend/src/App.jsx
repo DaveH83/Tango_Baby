@@ -4,7 +4,7 @@ import { createContext, useEffect } from "react";
 import Auth from "./pages/Auth";
 import axios from "axios";
 import { initFlowbite } from "flowbite";
-import { handleCSRF } from "./components/Utilities";
+import { handleCSRF } from "./Utilities/Utilities";
 
 export const UserContext = createContext(null);
 

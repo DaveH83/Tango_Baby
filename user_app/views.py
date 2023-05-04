@@ -68,5 +68,7 @@ def curr_user(request):
         user_info = serialize("json", [request.user], fields=[
                               "username", "email"])
         user_info_workable = json.loads(user_info)
+
+        print(user_info_workable[0]["fields"])
         return JsonResponse(user_info_workable[0]["fields"])
     return JsonResponse({"error": "Not currently logged in."})

@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { useEffect, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Header() {
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -60,7 +60,7 @@ export default function Header() {
 								</svg>
 							</button>
 						)}
-						<a href="/" className="flex ml-2 md:mr-24">
+						<Link href="/" className="flex ml-2 md:mr-24">
 							<img
 								src="https://flowbite.com/docs/images/logo.svg"
 								className="h-8 mr-3"
@@ -69,9 +69,29 @@ export default function Header() {
 							<span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
 								Baby Name Swiper
 							</span>
-						</a>
+						</Link>
+
+
 					</div>
 					<div className="flex items-center">
+						<button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white hover:bg-gray-100 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark: dark:hover:bg-gray-700" type="button">Dropdown button <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+						
+						<div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+							<ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+							<li>
+								<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+							</li>
+							<li>
+								<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+							</li>
+							<li>
+								<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+							</li>
+							<li>
+								<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+							</li>
+							</ul>
+						</div>
 						{user && (
 							<div className="flex items-center ml-3">
 								<div>
@@ -107,32 +127,32 @@ export default function Header() {
 									</div>
 									<ul className="py-1" role="none">
 										<li>
-											<a
+											<Link
 												href="#"
 												className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
 												role="menuitem"
 											>
 												Dashboard
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a
+											<Link
 												href="#"
 												className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
 												role="menuitem"
 											>
 												Settings
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a
+											<Link
 												href="#"
 												className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
 												role="menuitem"
 												onClick={handleLogout}
 											>
 												Sign out
-											</a>
+											</Link>
 										</li>
 									</ul>
 								</div>
@@ -175,64 +195,64 @@ export default function Header() {
 								<div className="py-4 overflow-y-auto">
 									<ul className="space-y-2 font-medium">
 										<li>
-											<a
+											<Link
 												href="#"
 												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 											>
 												<span className="flex-1 ml-3 whitespace-nowrap">
 													Setup
 												</span>
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a
+											<Link
 												href="#"
 												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 											>
 												<span className="flex-1 ml-3 whitespace-nowrap">
 													Results
 												</span>
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a
-												href="#"
+											<Link
+												to="matches"
 												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 											>
 												<span className="flex-1 ml-3 whitespace-nowrap">
 													Matches
 												</span>
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a
+											<Link
 												href="#"
 												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 											>
 												<span className="flex-1 ml-3 whitespace-nowrap">
 													Search/Add Name
 												</span>
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a
+											<Link
 												href="#"
 												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 											>
 												<span className="flex-1 ml-3 whitespace-nowrap">
 													Swipe Names
 												</span>
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a
+											<Link
 												href="#"
 												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 											>
 												<span className="flex-1 ml-3 whitespace-nowrap">
 													Rank Choices
 												</span>
-											</a>
+											</Link>
 										</li>
 									</ul>
 								</div>

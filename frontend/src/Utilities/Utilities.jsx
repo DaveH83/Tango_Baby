@@ -19,3 +19,11 @@ export const handleCSRF = () => {
 	const csrftoken = getCookie("csrftoken");
 	axios.defaults.headers.common["X-CSRFToken"] = csrftoken;
 };
+
+
+export const handleNameList = () => {
+
+	console.log('get name list api call')
+
+	return {'task':'success'}
+}
