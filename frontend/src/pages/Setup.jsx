@@ -1,7 +1,135 @@
+import { useContext, useState } from "react";
+import { UserContext } from "../App";
+
+const axCreateChild = (user,parent2,nickname,gender) => {
+	console.log(user,parent2,nickname,gender)
+}
+
 export default function Setup() {
+	//user context 
+	const user = useContext(UserContext);
+
+	//state handlers for form data
+	const [parent2, setParent2] = useState(null)
+	const [nickname, setNickname] = useState(null)
+	const [gender, setGender] = useState("M")
+
 	return (
 		<div>
-			<div>Setup</div>
+			<form>
+				<div class="mb-6">
+					{user ? (
+						<>
+							<label
+								for="parent1"
+								class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+							>
+								Parent 1
+							</label>
+							<input
+								type="email"
+								id="parent1"
+								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								placeholder="name@flowbite.com"
+								value={user.email}
+								disabled
+								required
+							/>
+						</>
+					) : ( //this is a fallback for the user not being populated but it *should* never happen
+						<>
+							<label
+								for="parent1"
+								class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+							>
+								Parent 1
+							</label>
+							<input
+								type="email"
+								id="parent1"
+								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								placeholder="name@email.com"
+								required
+							/>
+						</>
+					)}
+				</div>
+				<div class="mb-6">
+					<label
+						for="parent2"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>
+						Parent 2 {"(optional)"}
+					</label>
+					<input
+						type="email"
+						id="parent2"
+						value={parent2}
+						onChange={(e) => setParent2(e.target.value)}
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+					/>
+				</div>
+				<div class="mb-6">
+					<label
+						for="nickname"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>
+						Child Nickname
+					</label>
+					<input
+						type="text"
+						id="nickname"
+						value={nickname}
+						onChange={(e) => setNickname(e.target.value)}
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+					/>
+				</div>
+				<div class="flex items-start mb-6">
+					<fieldset>
+						<legend class="sr-only">Gender</legend>
+
+						<div class="flex items-center mb-4">
+							<input
+								id="gender-option-1"
+								type="radio"
+								name="gender"
+								value="M"
+								class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
+								checked
+							/>
+							<label
+								for="gender-option-1"
+								class="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+							>
+								Boy
+							</label>
+						</div>
+
+						<div class="flex items-center mb-4">
+							<input
+								id="gender-option-2"
+								type="radio"
+								name="gender"
+								value="F"
+								class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
+							/>
+							<label
+								for="gender-option-2"
+								class="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+							>
+								Girl
+							</label>
+						</div>
+					</fieldset>
+				</div>
+				<button
+					type="submit"
+					onClick={(e) => [e.preventDefault(),axCreateChild(user,parent2,nickname,gender)]}
+					class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+				>
+					Create Child
+				</button>
+			</form>
 		</div>
 	);
 }
