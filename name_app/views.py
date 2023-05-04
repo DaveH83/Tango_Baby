@@ -177,6 +177,7 @@ def handle_voted_names(request):
             'disliked': disliked_names,
             'agreed': agreed_names,
         }
+        
     # format response with liked / disliked and null value for agreed since parent2 doesn't exist yet
     else:
         response = {

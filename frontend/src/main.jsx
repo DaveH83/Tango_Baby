@@ -35,7 +35,7 @@ const router = createBrowserRouter([
 				element: <Results />,
 			},
 			{
-				path: ":id/matches",
+				path: "matches",
 				element: <Matches />,
 			},
 			{
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
 				element: <Search />,
 			},
 			{
-				path: ":id/swipe",
+				path: "swipe",
 				element: <SwipeNames />,
 			},
 			{
