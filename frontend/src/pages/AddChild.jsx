@@ -12,7 +12,7 @@ const axCreateChild = async (parent2, nickname, gender) => {
 	console.log('axCreateChild', r.data);
 };
 
-export default function Setup() {
+export default function AddChild() {
 	//user context
 	const user = useContext(UserContext);
 
@@ -110,6 +110,7 @@ export default function Setup() {
 								value="M"
 								class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
 								checked
+								onClickCapture={() => setGender("M")}
 							/>
 							<label
 								for="gender-option-1"
@@ -126,6 +127,7 @@ export default function Setup() {
 								name="gender"
 								value="F"
 								class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
+								onClickCapture={() => setGender("F")}
 							/>
 							<label
 								for="gender-option-2"

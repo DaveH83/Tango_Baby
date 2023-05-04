@@ -84,6 +84,7 @@ def handle_children(request):
             p = App_User.objects.get(id=curr_user_id)
             children = Child.objects.filter(parent_1=p).filter(nickname=nickname)
             if len(children) == 0:
+                # need to add try/except block here
                 Child.objects.create(
                     nickname=nickname,
                     parent_1=p,
