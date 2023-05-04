@@ -43,7 +43,7 @@ const router = createBrowserRouter([
 				element: <Search />,
 			},
 			{
-				path: ":id/swipe",
+				path: "swipe",
 				element: <SwipeNames />,
 			},
 			{
