@@ -1,24 +1,29 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const axCreateChild = async (parent2, nickname, gender) => {
+const axCreateChild = async (parent2, nickname, gender,nav) => {
 	const r = await axios.post('/app/children/', {
 		'parent_2':parent2,
 		'nickname': nickname,
 		'gender':gender,
 	})
 	
-	console.log('axCreateChild', r.data);
+	// eventually will nav to the childs page on creation
+	r.data.success ? nav('/') : null
 };
 
 export default function AddChild() {
 	//user context
 	const user = useContext(UserContext);
 
+	//nav handler
+	const nav = useNavigate()
+
 	//state handlers for form data
 	const [parent2, setParent2] = useState(null);
-	const [nickname, setNickname] = useState('Temp Default');
+	const [nickname, setNickname] = useState(null);
 	const [gender, setGender] = useState("M");
 
 	return (
@@ -26,7 +31,7 @@ export default function AddChild() {
 			<form
 				onSubmit={(e) => [
 					e.preventDefault(),
-					axCreateChild(parent2, nickname, gender),
+					axCreateChild(parent2, nickname, gender,nav),
 				]}
 			>
 				<div class="mb-6">
