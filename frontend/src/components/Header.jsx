@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 
 export default function Header({ setIsLoggedIn, isLoggedIn }) {
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
-	const userInfo = useContext(UserInfo);
+	const { userInfo, setUserInfo } = useContext(UserInfo);
 
 	const handleLogout = async () => {
 		try {
@@ -23,6 +23,7 @@ export default function Header({ setIsLoggedIn, isLoggedIn }) {
 			);
 			if (response.data.success) {
 				setIsLoggedIn(false);
+				setUserInfo({});
 			} else {
 				return;
 			}
@@ -55,10 +56,6 @@ export default function Header({ setIsLoggedIn, isLoggedIn }) {
 			}
 		}
 	}, [isLargeScreen, isLoggedIn]);
-
-	useEffect(() => {
-		console.log(userInfo);
-	}, [userInfo]);
 
 	return (
 		<>
