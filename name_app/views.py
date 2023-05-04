@@ -17,7 +17,7 @@ def handle_children(request):
     if request.user.is_authenticated:
         user_info = json.loads(serialize("json", [request.user], fields=["email"]))[0]
         curr_user_id=user_info['pk']
-        data = request.data.dict()
+        data = request.data
         nickname = data['nickname']
         
         if request.method == "GET":
@@ -69,6 +69,7 @@ def handle_children(request):
             parent_2 = None
             p_url = None
             g_url = uuid.uuid4()
+            gender = request.data['gender']
             if data['parent_2']:
                 parent_2 = data['parent_2']
             else:
@@ -89,7 +90,9 @@ def handle_children(request):
                     parent_2=parent_2,
                     parent_url=p_url,
                     guest_url=g_url,
+                    gender=gender,
                 )
+                return JsonResponse({'message': 'child added to the DB', 'success': True})
             else:
                 return JsonResponse({'message': 'child already exists', 'success': False})
         return JsonResponse({'message': 'You are logged in but something went wrong', 'success': False})
