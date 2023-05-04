@@ -1,10 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function Login({ setIsLogin, setIsLoggedIn }) {
+function Login({ setIsLoginForm }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-
+	const nav = useNavigate()
 	const handleLogin = async () => {
 		try {
 			const response = await axios.post("/user/login/", {
@@ -12,8 +13,7 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 				password,
 			});
 			if (response.data.user !== null) {
-				setIsLoggedIn(true);
-				window.location.reload(true);
+				nav("/")
 			} else {
 				alert("Try again.");
 			}
@@ -98,7 +98,7 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 				<span
 					className="underline text-blue-600 hover:text-[#6cceff] hover:cursor-pointer"
 					onClick={() => {
-						setIsLogin(false);
+						setIsLoginForm(false);
 					}}
 				>
 					create an account
@@ -109,12 +109,12 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 	);
 }
 
-function SignUp({ setIsLogin, setIsLoggedIn }) {
+function SignUp({ setIsLoginForm }) {
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
-
+	const nav = useNavigate()
 	const validatePassword = () => {
 		if (confirmPassword === password) {
 			return true;
@@ -143,8 +143,7 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 				})
 				.then((response) => {
 					if (response.data.user) {
-						setIsLoggedIn(true);
-						window.location.reload(true);
+						nav("/")
 					} else {
 						alert("Try again.");
 					}
@@ -274,7 +273,7 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 				<span
 					className="underline text-blue-600 hover:text-[#6cceff] hover:cursor-pointer"
 					onClick={() => {
-						setIsLogin(true);
+						setIsLoginForm(true);
 					}}
 				>
 					login
@@ -285,15 +284,15 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 	);
 }
 
-export default function Auth({ setIsLoggedIn }) {
-	const [isLogin, setIsLogin] = useState(true);
+export default function Auth() {
+	const [isLoginForm, setIsLoginForm] = useState(true);
 
 	return (
 		<>
-			{isLogin ? (
-				<Login setIsLogin={setIsLogin} setIsLoggedIn={setIsLoggedIn} />
+			{isLoginForm ? (
+				<Login setIsLoginForm={setIsLoginForm} />
 			) : (
-				<SignUp setIsLogin={setIsLogin} setIsLoggedIn={setIsLoggedIn} />
+				<SignUp setIsLoginForm={setIsLoginForm} />
 			)}
 		</>
 	);
