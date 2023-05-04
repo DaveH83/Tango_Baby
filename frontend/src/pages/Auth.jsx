@@ -1,10 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function Login({ setIsLogin, setIsLoggedIn }) {
+function Login({ setIsLoginForm }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-
+	const nav = useNavigate()
 	const handleLogin = async () => {
 		try {
 			const response = await axios.post("/user/login/", {
@@ -12,7 +13,7 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 				password,
 			});
 			if (response.data.user !== null) {
-				setIsLoggedIn(true);
+				nav("/")
 			} else {
 				alert("Try again.");
 			}
@@ -53,15 +54,17 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="email"
+						name="username"
 						id="input-group-1"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="name@email.com"
 						onChange={(e) => setEmail(e.target.value)}
+						required
 					/>
 				</div>
 
 				<label
-					htmlFor="input-group-1"
+					htmlFor="input-group-2"
 					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 				>
 					Password
@@ -74,10 +77,12 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="password"
-						id="input-group-1"
+						name="password"
+						id="input-group-2"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Password"
 						onChange={(e) => setPassword(e.target.value)}
+						required
 					/>
 				</div>
 				<button
@@ -93,7 +98,7 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 				<span
 					className="underline text-blue-600 hover:text-[#6cceff] hover:cursor-pointer"
 					onClick={() => {
-						setIsLogin(false);
+						setIsLoginForm(false);
 					}}
 				>
 					create an account
@@ -104,12 +109,12 @@ function Login({ setIsLogin, setIsLoggedIn }) {
 	);
 }
 
-function SignUp({ setIsLogin, setIsLoggedIn }) {
+function SignUp({ setIsLoginForm }) {
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
-
+	const nav = useNavigate()
 	const validatePassword = () => {
 		if (confirmPassword === password) {
 			return true;
@@ -138,7 +143,7 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 				})
 				.then((response) => {
 					if (response.data.user) {
-						setIsLoggedIn(true);
+						nav("/")
 					} else {
 						alert("Try again.");
 					}
@@ -180,15 +185,17 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="email"
+						name="username"
 						id="input-group-1"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="name@email.com"
 						onChange={(e) => setEmail(e.target.value)}
+						required
 					/>
 				</div>
 
 				<label
-					htmlFor="input-group-1"
+					htmlFor="input-group-2"
 					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 				>
 					Username
@@ -201,15 +208,16 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="text"
-						id="input-group-1"
+						id="input-group-2"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Username"
 						onChange={(e) => setUsername(e.target.value)}
+						required
 					/>
 				</div>
 
 				<label
-					htmlFor="input-group-1"
+					htmlFor="input-group-3"
 					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 				>
 					Password
@@ -222,15 +230,17 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="password"
-						id="input-group-1"
+						name="password"
+						id="input-group-3"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Password"
 						onChange={(e) => setPassword(e.target.value)}
+						required
 					/>
 				</div>
 
 				<label
-					htmlFor="input-group-1"
+					htmlFor="input-group-4"
 					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 				>
 					Confirm Password
@@ -243,10 +253,11 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 					</div>
 					<input
 						type="password"
-						id="input-group-1"
+						id="input-group-4"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Confirm Password"
 						onChange={(e) => setConfirmPassword(e.target.value)}
+						required
 					/>
 				</div>
 				<button
@@ -262,7 +273,7 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 				<span
 					className="underline text-blue-600 hover:text-[#6cceff] hover:cursor-pointer"
 					onClick={() => {
-						setIsLogin(true);
+						setIsLoginForm(true);
 					}}
 				>
 					login
@@ -273,15 +284,15 @@ function SignUp({ setIsLogin, setIsLoggedIn }) {
 	);
 }
 
-export default function Auth({ setIsLoggedIn }) {
-	const [isLogin, setIsLogin] = useState(true);
+export default function Auth() {
+	const [isLoginForm, setIsLoginForm] = useState(true);
 
 	return (
 		<>
-			{isLogin ? (
-				<Login setIsLogin={setIsLogin} setIsLoggedIn={setIsLoggedIn} />
+			{isLoginForm ? (
+				<Login setIsLoginForm={setIsLoginForm} />
 			) : (
-				<SignUp setIsLogin={setIsLogin} setIsLoggedIn={setIsLoggedIn} />
+				<SignUp setIsLoginForm={setIsLoginForm} />
 			)}
 		</>
 	);

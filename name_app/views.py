@@ -105,6 +105,7 @@ def handle_name(request):
         try:
             names=Name.objects.all()
             name_list=[model_to_dict (name) for name in names]
+            Voted_N
             return JsonResponse({'name_list':name_list})
         except Exception as e:
             print(e)

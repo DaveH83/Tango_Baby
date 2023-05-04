@@ -1,56 +1,44 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLoaderData } from "react-router-dom";
 import Header from "./components/Header";
-import { getToken } from "./components/CsrfToken";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect } from "react";
 import Auth from "./pages/Auth";
 import axios from "axios";
+import { initFlowbite } from "flowbite";
+import { handleCSRF } from "./components/Utilities";
 
-axios.defaults.withCredentials = true;
+export const UserContext = createContext(null);
 
-export const UserInfo = createContext({});
+export async function AppLoader() {
+	const r = await axios.get("/user/curr-user/");
+	if (r.data.error) {
+		return null;
+	}
+	return r.data;
+}
 
 export function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [userInfo, setUserInfo] = useState({});
-	getToken();
+	const user = useLoaderData();
 
-	async function getUserInfo() {
-		const response = await axios.get("/user/curr-user/");
-		if (response.data.error) {
-			return;
-		} else {
-			setUserInfo(response.data);
-			setIsLoggedIn(true);
-		}
-	}
+	handleCSRF();
 
 	useEffect(() => {
-		getUserInfo();
-	}, []);
+		initFlowbite();
+	}, [user]);
 
 	return (
-		<UserInfo.Provider value={userInfo}>
+		<UserContext.Provider value={user}>
 			<div>
-				{isLoggedIn ? (
-					<>
-						<Header setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
-						<div className="mt-16 md:ml-64">
-							{isLoggedIn ? (
-								<Outlet />
-							) : (
-								<Auth setIsLoggedIn={setIsLoggedIn} setUserInfo={setUserInfo} />
-							)}
-						</div>
-					</>
+				<Header />
+				{user ? (
+					<div className="mt-16 md:ml-64">
+						<Outlet />
+					</div>
 				) : (
-					<>
-						<Header setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
-						<div className="mt-16">
-							<Auth setIsLoggedIn={setIsLoggedIn} setUserInfo={setUserInfo} />
-						</div>
-					</>
+					<div className="mt-16">
+						<Auth />
+					</div>
 				)}
 			</div>
-		</UserInfo.Provider>
+		</UserContext.Provider>
 	);
 }
