@@ -25,6 +25,10 @@ export function App() {
 		initFlowbite();
 	}, [user]);
 
+	useEffect(() => {
+		initFlowbite();
+	});
+
 	return (
 		<UserContext.Provider value={user}>
 			<div>
