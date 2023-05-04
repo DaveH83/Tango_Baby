@@ -100,7 +100,7 @@ def handle_children(request):
 
 @api_view(["POST", "GET"])
 def handle_name(request):
-    # get name list 
+# get name list 
     if request.method == "GET":
         try:
             names=Name.objects.all()
@@ -109,20 +109,19 @@ def handle_name(request):
         except Exception as e:
             print(e)
             return JsonResponse({'name_list':[]})
-    # add new name object
+# add new name object
     if request.method=="POST":
         #take name,gender,pk as request data 
         name=request.data['name']
         gender=request.data['gender']
         id=request.data['id']
-        print(name,gender,id)
-        body = request.body.decode('utf-8')
-        print('body',body)
-        child=Child.objects.filter(id=id)
+        child=Child.objects.get(id=id)
         participant=request.user
         if Name.objects.filter(name=name,gender=gender).exists():
             try:
-                new_vote=Voted_Name.objects.create(name=name,liked=True,participant=participant,child=child)
+# get Name instance and create Voted_Name 
+                nameIns=Name.objects.filter(name=name,gender=gender).first()
+                new_vote=Voted_Name.objects.create(name=nameIns,liked=True,participant=participant,child=child)
                 new_vote.save()
                 return JsonResponse({'add child':True})
             except Exception as e:
@@ -132,7 +131,7 @@ def handle_name(request):
             try:
                 new_name=Name.objects.create(name=name,popularity=None,gender=gender)
                 new_name.save()
-                new_vote=Voted_Name.objects.create(name=name,liked=True,participant=participant,child=child)
+                new_vote=Voted_Name.objects.create(name=new_name,liked=True,participant=participant,child=child)
                 new_vote.save()
                 return JsonResponse({'add child':True})
             except Exception as e:

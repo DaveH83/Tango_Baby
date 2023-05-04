@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
+import { getToken } from "./components/CsrfToken";
 import { createContext, useEffect, useState } from "react";
 import Auth from "./pages/Auth";
 import axios from "axios";
@@ -11,6 +12,7 @@ export const UserInfo = createContext({});
 export function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [userInfo, setUserInfo] = useState({});
+	getToken();
 
 	async function getUserInfo() {
 		const response = await axios.get("/user/curr-user/");

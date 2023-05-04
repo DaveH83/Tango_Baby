@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { UserInfo } from "../App";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Link } from 'react-router-dom';
 
 export default function Header({ setIsLoggedIn, isLoggedIn }) {
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -245,14 +246,15 @@ export default function Header({ setIsLoggedIn, isLoggedIn }) {
 												</a>
 											</li>
 											<li>
-												<a
-													href="#"
+												{/* <a
+													href=":id/swipe"
 													className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 												>
 													<span className="flex-1 ml-3 whitespace-nowrap">
 														Swipe Names
 													</span>
-												</a>
+												</a> */}
+												<Link className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" to=':id/swipe'>Swipe Names</Link>
 											</li>
 											<li>
 												<a
