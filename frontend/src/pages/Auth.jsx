@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function Login({ setIsLogin }) {
+function Login({ setIsLoginForm }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const nav = useNavigate()
@@ -94,7 +94,7 @@ function Login({ setIsLogin }) {
 				<span
 					className="underline text-blue-600 hover:text-[#6cceff] hover:cursor-pointer"
 					onClick={() => {
-						setIsLogin(false);
+						setIsLoginForm(false);
 					}}
 				>
 					create an account
@@ -105,7 +105,7 @@ function Login({ setIsLogin }) {
 	);
 }
 
-function SignUp({ setIsLogin }) {
+function SignUp({ setIsLoginForm }) {
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -263,7 +263,7 @@ function SignUp({ setIsLogin }) {
 				<span
 					className="underline text-blue-600 hover:text-[#6cceff] hover:cursor-pointer"
 					onClick={() => {
-						setIsLogin(true);
+						setIsLoginForm(true);
 					}}
 				>
 					login
@@ -275,14 +275,14 @@ function SignUp({ setIsLogin }) {
 }
 
 export default function Auth() {
-	const [isLogin, setIsLogin] = useState(true);
+	const [isLoginForm, setIsLoginForm] = useState(true);
 
 	return (
 		<>
-			{isLogin ? (
-				<Login setIsLogin={setIsLogin} />
+			{isLoginForm ? (
+				<Login setIsLoginForm={setIsLoginForm} />
 			) : (
-				<SignUp setIsLogin={setIsLogin} />
+				<SignUp setIsLoginForm={setIsLoginForm} />
 			)}
 		</>
 	);
