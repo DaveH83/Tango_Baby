@@ -19,3 +19,15 @@ export const handleCSRF = () => {
 	const csrftoken = getCookie("csrftoken");
 	axios.defaults.headers.common["X-CSRFToken"] = csrftoken;
 };
+
+// loader function for swipe names page
+export const nameListLoader = async()=>{
+	try{
+		let response =await axios.get('/app/name/');
+		// console.log(response.data['unshown_list'])
+		return response.data['unshown_list']
+	} catch (e){
+		console.error(e)
+		return null
+	}
+    }

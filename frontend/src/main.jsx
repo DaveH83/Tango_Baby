@@ -11,6 +11,7 @@ import SwipeNames from "./pages/SwipeNames";
 import RankChoices from "./pages/RankChoices";
 import Profile from "./pages/Profile";
 import "flowbite/dist/flowbite.js";
+import { nameListLoader } from "./components/Utilities";
 
 const router = createBrowserRouter([
 	{
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
 			{
 				path: ":id/swipe",
 				element: <SwipeNames />,
+				loader: nameListLoader
 			},
 			{
 				path: ":id/rank",

@@ -3,7 +3,8 @@ import { useContext } from "react";
 import { useEffect, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AddName from "./AddName";
 
 export default function Header() {
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -205,34 +206,15 @@ export default function Header() {
 											</a>
 										</li>
 										<li>
-											<a
-												href="#"
-												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-											>
-												<span className="flex-1 ml-3 whitespace-nowrap">
-													Search/Add Name
-												</span>
-											</a>
+										<AddName />
+											{/* <Link className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" to="/:id/rank">Add Name</Link> */}
 										</li>
 										<li>
-											<a
-												href="#"
-												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-											>
-												<span className="flex-1 ml-3 whitespace-nowrap">
-													Swipe Names
-												</span>
-											</a>
+		
+											<Link className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" to="/:id/swipe">Swipe Names</Link>
 										</li>
 										<li>
-											<a
-												href="#"
-												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-											>
-												<span className="flex-1 ml-3 whitespace-nowrap">
-													Rank Choices
-												</span>
-											</a>
+											<Link className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" to="/:id/rank">Rank Choices</Link>
 										</li>
 									</ul>
 								</div>

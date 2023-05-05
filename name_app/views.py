@@ -103,13 +103,16 @@ def handle_name(request):
 # get name list 
     if request.method == "GET":
         try:
-            names=Name.objects.all()
+            gender=request.data['gender']
+            names=Name.objects.filter()
             name_list=[model_to_dict (name) for name in names]
-            # voted_list=Voted_Name.objects.all()
-            return JsonResponse({'name_list':name_list})
+            voted_list=[model_to_dict (voted_name)for voted_name in (Voted_Name.objects.all())]
+            voted_list_id=[i['name'] for i in voted_list]
+            unshown_list=[name for name in name_list if name['id'] not in voted_list_id]
+            return JsonResponse({'unshown_list':unshown_list})
         except Exception as e:
             print(e)
-            return JsonResponse({'name_list':[]})
+            return JsonResponse({'unshown_list':[]})
 # add new name object
     if request.method=="POST":
         #take name,gender,pk as request data 
