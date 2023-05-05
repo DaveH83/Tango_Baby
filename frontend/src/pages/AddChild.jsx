@@ -4,19 +4,19 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const axCreateChild = async (parent2, nickname, gender,nav) => {
-	const r = await axios.post('/app/children/', {
+	const c = await axios.post('/app/children/', {
 		'parent_2':parent2,
 		'nickname': nickname,
 		'gender':gender,
 	})
-	
-	// eventually will nav to the childs page on creation
-	r.data.success ? nav('/') : null
+
+	// const n = await axios.post()
+	c.data.success ? nav(`/child/${c.data.url}`) : null
 };
 
 export default function AddChild() {
 	//user context
-	const user = useContext(UserContext);
+	const {user} = useContext(UserContext);
 
 	//nav handler
 	const nav = useNavigate()
@@ -25,13 +25,14 @@ export default function AddChild() {
 	const [parent2, setParent2] = useState(null);
 	const [nickname, setNickname] = useState(null);
 	const [gender, setGender] = useState("M");
+	const [name, setName] = useState(null);
 
 	return (
 		<div>
 			<form
 				onSubmit={(e) => [
 					e.preventDefault(),
-					axCreateChild(parent2, nickname, gender,nav),
+					axCreateChild(parent2, nickname, gender, nav),
 				]}
 			>
 				<div class="mb-6">
@@ -142,6 +143,22 @@ export default function AddChild() {
 							</label>
 						</div>
 					</fieldset>
+				</div>
+				<div class="mb-6">
+					<label
+						for="nickname"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>
+						First Name Suggestion
+					</label>
+					<input
+						type="text"
+						id="nickname"
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+						required
+					/>
 				</div>
 				<button
 					type="submit"

@@ -11,6 +11,7 @@ import RankChoices from "./pages/RankChoices";
 import Profile from "./pages/Profile";
 import "flowbite/dist/flowbite.js";
 import AddChild from "./pages/AddChild";
+import Child, { ChildLoader } from "./pages/Child";
 
 const router = createBrowserRouter([
 	{
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
 			{
 				path: "addchild",
 				element: <AddChild />,
+			},
+			{
+				path: "child/:uuid",
+				element: <Child />,
+				loader: ChildLoader,
 			},
 			{
 				path: "profile",

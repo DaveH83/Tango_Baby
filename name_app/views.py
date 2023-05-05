@@ -12,6 +12,29 @@ Blacklist = apps.get_model('user_app', 'Blacklist')
 
 
 # Handle viewing and adding children
+@api_view(["GET"])
+def handle_child(request, uuid):
+    if request.user.is_authenticated:
+        # Find child from UUID
+        child_query = Child.objects.filter(parent_url=uuid)
+        if len(child_query) == 0:
+            child_query = Child.objects.filter(guest_url=uuid)
+        if len(child_query) == 0:
+            return JsonResponse({'message': 'Child not found', 'success': False})
+        child = json.loads(serialize("json", child_query))[0]['fields']
+        # Find parent 1
+        parent1_query = App_User.objects.filter(id=child["parent_1"])
+        child["parent_1"] = json.loads(serialize("json", parent1_query, fields=["username", "email", "first_name", "last_name"]))[0]['fields']
+        # Find parent 2 if any
+        if child["parent_2"]:
+            parent2_query = App_User.objects.filter(email=child["parent_2"])
+            child.parent_2 = json.loads(serialize("json", parent2_query, fields=["username", "email", "first_name", "last_name"]))[0]['fields']
+        # return child object, now with parent information
+        return JsonResponse({'message': 'Found UUID', 'success': True, 'child': child})
+    return JsonResponse({'message': 'User is not logged in', 'success': False})
+
+
+# Handle viewing and adding children
 @api_view(["POST", "GET", "PUT"])
 def handle_children(request):
     if request.user.is_authenticated:
@@ -93,7 +116,8 @@ def handle_children(request):
                     guest_url=g_url,
                     gender=gender,
                 )
-                return JsonResponse({'message': 'child added to the DB', 'success': True})
+                # since child is always created by parent_1, need only pass p_url back to handle redirect
+                return JsonResponse({'message': 'child added to the DB', 'success': True, 'url': p_url})
             else:
                 return JsonResponse({'message': 'child already exists', 'success': False})
         return JsonResponse({'message': 'You are logged in but something went wrong', 'success': False})

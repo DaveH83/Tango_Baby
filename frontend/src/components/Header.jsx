@@ -8,14 +8,11 @@ import { useNavigate, Link } from "react-router-dom";
 export default function Header() {
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
 	const {user, children, activeChild, setActiveChild} = useContext(UserContext);
-	// const {children} = useContext(UserContext)
-	// const {activeChild}
 	const nav = useNavigate();
 	const handleLogout = async () => {
 		const response = await axios.post("/user/logout/")
 		response.data.success ? nav("/") : null
 	};
-	console.log(children)
 
 	useEffect(() => {
 		const handleResize = () => setIsLargeScreen(window.innerWidth >= 768);
