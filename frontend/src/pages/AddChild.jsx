@@ -3,23 +3,35 @@ import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const axCreateChild = async (parent2, nickname, gender,nav) => {
-	const c = await axios.post('/app/children/', {
-		'parent_2':parent2,
-		'nickname': nickname,
-		'gender':gender,
-	})
-
-	// const n = await axios.post()
-	c.data.success ? nav(`/child/${c.data.url}`) : null
+const axCreateChild = async (parent2, nickname, gender, nav) => {
+	// creates the child object
+	const c = await axios.post("/app/children/", {
+		parent_2: parent2,
+		nickname: nickname,
+		gender: gender,
+	});
+	// then creates a voted_name object for that child
+	if (c.data.success) {
+		const n = axios
+			.post("/app/name/", {
+				name: name,
+				gender: gender,
+				id: c.data.id,
+			})
+			.then(
+				// then nav to the childs unique ccid page
+				nav(`/child/${c.data.url}`)
+			)
+			.catch((e) => console.log("name error", e.message));
+	}
 };
 
 export default function AddChild() {
 	//user context
-	const {user} = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
 	//nav handler
-	const nav = useNavigate()
+	const nav = useNavigate();
 
 	//state handlers for form data
 	const [parent2, setParent2] = useState(null);
