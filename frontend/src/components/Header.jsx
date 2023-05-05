@@ -8,14 +8,11 @@ import { useNavigate, Link } from "react-router-dom";
 export default function Header() {
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
 	const {user, children, activeChild, setActiveChild} = useContext(UserContext);
-	// const {children} = useContext(UserContext)
-	// const {activeChild}
 	const nav = useNavigate();
 	const handleLogout = async () => {
 		const response = await axios.post("/user/logout/")
 		response.data.success ? nav("/") : null
 	};
-	console.log(children)
 
 	useEffect(() => {
 		const handleResize = () => setIsLargeScreen(window.innerWidth >= 768);
@@ -73,20 +70,58 @@ export default function Header() {
 								Baby Name Swiper
 							</span>
 						</Link>
-
-
 					</div>
 					<div className="flex items-center">
-						{children.length > 0 && <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white hover:bg-gray-100 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark: dark:hover:bg-gray-700" type="button">{ activeChild.nickname ? activeChild.nickname : 'Select Child' } <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>}
-						
-						<div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-							<ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-							
-							{children.map((child) => (
-							<li>
-								<a onClick={() => setActiveChild(child)} href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{child.nickname}</a>
-							</li>
-							))}
+						{children.length > 0 && (
+							<button
+								id="dropdownDefaultButton"
+								data-dropdown-toggle="dropdown"
+								class="text-white hover:bg-gray-100 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark: dark:hover:bg-gray-700"
+								type="button"
+							>
+								{activeChild.nickname ? activeChild.nickname : "Select Child"}{" "}
+								<svg
+									class="w-4 h-4 ml-2"
+									aria-hidden="true"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M19 9l-7 7-7-7"
+									></path>
+								</svg>
+							</button>
+						)}
+
+						<div
+							id="dropdown"
+							class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+						>
+							<ul
+								class="py-2 text-sm text-gray-700 dark:text-gray-200"
+								aria-labelledby="dropdownDefaultButton"
+							>
+								{children.map((child) => (
+									<li>
+										<a
+											onClick={(e) => [
+												e.preventDefault(),
+												setActiveChild(child),
+												// will need to add logic here to see if should use parent or guest url, using guest for now
+												nav(`/child/${child.guest_url}`),
+											]}
+											href="#"
+											class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+										>
+											{child.nickname}
+										</a>
+									</li>
+								))}
 							</ul>
 						</div>
 						{user && (
@@ -193,11 +228,11 @@ export default function Header() {
 									<ul className="space-y-2 font-medium">
 										<li>
 											<Link
-												href="#"
+												to="addchild"
 												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 											>
 												<span className="flex-1 ml-3 whitespace-nowrap">
-													Setup
+													Add Child
 												</span>
 											</Link>
 										</li>

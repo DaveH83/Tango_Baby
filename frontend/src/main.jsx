@@ -3,7 +3,6 @@ import { App, AppLoader } from "./App";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HowTo from "./pages/HowTo";
-import Setup from "./pages/Setup";
 import Results from "./pages/Results";
 import Matches from "./pages/Matches";
 import Search from "./pages/Search";
@@ -11,6 +10,8 @@ import SwipeNames from "./pages/SwipeNames";
 import RankChoices from "./pages/RankChoices";
 import Profile from "./pages/Profile";
 import "flowbite/dist/flowbite.js";
+import AddChild from "./pages/AddChild";
+import Child, { ChildLoader } from "./pages/Child";
 
 const router = createBrowserRouter([
 	{
@@ -23,8 +24,13 @@ const router = createBrowserRouter([
 				element: <HowTo />,
 			},
 			{
-				path: "setup",
-				element: <Setup />,
+				path: "addchild",
+				element: <AddChild />,
+			},
+			{
+				path: "child/:uuid",
+				element: <Child />,
+				loader: ChildLoader,
 			},
 			{
 				path: "profile",

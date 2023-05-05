@@ -20,22 +20,23 @@ export function App() {
 	const data = useLoaderData();
 	let user = null
 	let children = []
+
+	const [testKids, setTestKids] = useState([])
 	
 	if (data){
 		user = data.curr_user
 		children = data.children
+		// setTestKids([data.children])
 	}
 	const [activeChild, setActiveChild] = useState({})
 	
-
 	handleCSRF();
 
 	useEffect(() => {
 		initFlowbite();
-	}, [user]);
-
+	}, [user, testKids]);
 	return (
-		<UserContext.Provider value={{user, children, activeChild, setActiveChild}}>
+		<UserContext.Provider value={{user, children, activeChild, setActiveChild, testKids, setTestKids}}>
 			<div>
 				<Header />
 				{user ? (
