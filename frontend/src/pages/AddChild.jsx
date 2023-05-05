@@ -3,13 +3,15 @@ import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const axCreateChild = async (parent2, nickname, gender, nav) => {
+const axCreateChild = async (parent2, nickname, gender, nav, testKids, setTestKids) => {
 	// creates the child object
 	const c = await axios.post("/app/children/", {
 		parent_2: parent2,
 		nickname: nickname,
 		gender: gender,
 	});
+	// attempt to update children context with new child
+	setTestKids([...testKids, c.data.child])
 	// then creates a voted_name object for that child
 	if (c.data.success) {
 		const n = axios
@@ -19,8 +21,8 @@ const axCreateChild = async (parent2, nickname, gender, nav) => {
 				id: c.data.id,
 			})
 			.then(
-				// then nav to the childs unique ccid page
-				nav(`/child/${c.data.url}`)
+				// then nav to the childs unique ccid page, parent_url here since was just created by parent
+				nav(`/child/${c.data.child.parent_url}`)
 			)
 			.catch((e) => console.log("name error", e.message));
 	}
@@ -28,7 +30,7 @@ const axCreateChild = async (parent2, nickname, gender, nav) => {
 
 export default function AddChild() {
 	//user context
-	const { user } = useContext(UserContext);
+	const { user, testKids, setTestKids } = useContext(UserContext);
 
 	//nav handler
 	const nav = useNavigate();
@@ -44,7 +46,7 @@ export default function AddChild() {
 			<form
 				onSubmit={(e) => [
 					e.preventDefault(),
-					axCreateChild(parent2, nickname, gender, nav),
+					axCreateChild(parent2, nickname, gender, nav, testKids, setTestKids),
 				]}
 			>
 				<div class="mb-6">
@@ -116,6 +118,8 @@ export default function AddChild() {
 						required
 					/>
 				</div>
+				{/* These radio buttons are not permanent and also don't work correctly, 
+				they reset to Male alot, perhaps a drop down would be better? Send halp. */}
 				<div class="flex items-start mb-6">
 					<fieldset>
 						<legend class="sr-only">Gender</legend>

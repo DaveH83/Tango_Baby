@@ -116,10 +116,11 @@ def handle_children(request):
                     guest_url=g_url,
                     gender=gender,
                 )
-                # get this new childs id to pass back to the front to be able to handle adding first voted_name
+                # get this new childs object to pass back to the front to be able to handle adding first voted_name
                 new_kid_query = Child.objects.filter(parent_url=p_url)
+                new_kid = json.loads(serialize("json", new_kid_query))[0]['fields']
                 new_kid_id = json.loads(serialize("json", new_kid_query))[0]['pk']
-                return JsonResponse({'message': 'child added to the DB', 'success': True, 'url': p_url, 'id': new_kid_id})
+                return JsonResponse({'message': 'child added to the DB', 'success': True, 'id': new_kid_id, 'child': new_kid})
             else:
                 return JsonResponse({'message': 'child already exists', 'success': False})
         return JsonResponse({'message': 'You are logged in but something went wrong', 'success': False})
