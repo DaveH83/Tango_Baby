@@ -15,7 +15,27 @@ Blacklist = apps.get_model('user_app', 'Blacklist')
 class NameViewSet(viewsets.ModelViewSet):
   serializer_class = NameSerializer
   queryset = Name.objects.all()
-  # create - won't create if duplicate due to serializer validator
+
+  # get list of 100 names by calling /app/name/ with GET
+  def list(self, request, *args, **kwargs):
+        # can do most popular, alphabetical (still most popular) or search by term
+        # request.data(body) - alphabetical (boolean), match (string)
+        #queryset = self.filter_queryset(self.get_queryset())
+        if 'match' in request.data:
+          queryset = Name.objects.filter(headline__icontains=request.data['match']).order_by("popularity")[:100]
+        else:
+          queryset = Name.objects.order_by("popularity")[:100]
+        if 'alphabetical' in request.data:
+           queryset = queryset.order_by("name")
+
+        # django mix-in standard code below
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class VoteViewSet(viewsets.ModelViewSet):
@@ -26,7 +46,7 @@ class VoteViewSet(viewsets.ModelViewSet):
   def create(self, request, *args, **kwargs):
     # data - name, liked(boolean), child(id)
     request.data['participant'] = request.user.id
-    if not request.data['liked']:
+    if 'liked' not in request.data:
       request.data['liked'] = True
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
