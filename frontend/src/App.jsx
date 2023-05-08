@@ -34,7 +34,8 @@ export function App() {
 
 	useEffect(() => {
 		initFlowbite();
-	}, [user, testKids]);
+	}, []);
+	
 	return (
 		<UserContext.Provider value={{user, children, activeChild, setActiveChild, testKids, setTestKids}}>
 			<div>
