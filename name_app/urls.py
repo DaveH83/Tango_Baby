@@ -1,5 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from .viewsets import NameViewSet, VoteViewSet, ChildViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'name', NameViewSet, basename='name')
+router.register(r'vote', VoteViewSet, basename='vote')
+router.register(r'child', ChildViewSet, basename='child')
 
 # All patterns proceeding by 'app/'
 urlpatterns = [
@@ -7,5 +14,5 @@ urlpatterns = [
     path("child/<str:uuid>", views.handle_child),
     path("name/", views.handle_name),
     path("ranking/", views.handle_ranking),
-    path("new/ranking/", views.handle_ranking),
+    path("new/", include(router.urls)),
 ]

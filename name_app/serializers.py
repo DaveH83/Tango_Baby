@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import *
+from ..user_app.models import *
 from rest_framework.validators import UniqueTogetherValidator
 
 class NameSerializer(serializers.ModelSerializer):
