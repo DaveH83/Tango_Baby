@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import axios from 'axios';
 export const handleCSRF = () => {
 	function getCookie(name) {
 		let cookieValue = null;
@@ -20,14 +19,34 @@ export const handleCSRF = () => {
 	axios.defaults.headers.common["X-CSRFToken"] = csrftoken;
 };
 
-// loader function for swipe names page
-export const nameListLoader = async()=>{
+
+export const nameListLoader = async (uuid) => {
 	try{
-		let response =await axios.get('/app/name/');
-		// console.log(response.data['unshown_list'])
+		const response= await axios.put(`/app/name/`,{
+			'uuid':uuid
+		}
+		
+		)
 		return response.data['unshown_list']
+	  
 	} catch (e){
 		console.error(e)
 		return null
-	}
-    }
+	}  
+	
+};
+export const swipeHandler = async(name,uuid,liked)=> {
+	try{
+		const response= await axios.post('/app/swipe/',{
+			'name':name,//name dict from swipe card
+			'uuid':uuid,//parent_url
+			'liked':liked 
+	})
+		return response.data
+	  
+	} catch (e){
+		console.error(e)
+		return null
+	}  
+	
+};

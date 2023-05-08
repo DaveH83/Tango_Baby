@@ -3,7 +3,6 @@ import { App, AppLoader } from "./App";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HowTo from "./pages/HowTo";
-import Setup from "./pages/Setup";
 import Results from "./pages/Results";
 import Matches from "./pages/Matches";
 import Search from "./pages/Search";
@@ -11,7 +10,11 @@ import SwipeNames from "./pages/SwipeNames";
 import RankChoices from "./pages/RankChoices";
 import Profile from "./pages/Profile";
 import "flowbite/dist/flowbite.js";
-import { nameListLoader } from "./components/Utilities";
+import AddChild from "./pages/AddChild";
+import Child, { ChildLoader } from "./pages/Child";
+import { nameListLoader } from "./Utilities/Utilities";
+
+
 
 const router = createBrowserRouter([
 	{
@@ -24,8 +27,13 @@ const router = createBrowserRouter([
 				element: <HowTo />,
 			},
 			{
-				path: "setup",
-				element: <Setup />,
+				path: "addchild",
+				element: <AddChild />,
+			},
+			{
+				path: "child/:uuid",
+				element: <Child />,
+				loader: ChildLoader,
 			},
 			{
 				path: "profile",
@@ -36,7 +44,7 @@ const router = createBrowserRouter([
 				element: <Results />,
 			},
 			{
-				path: ":id/matches",
+				path: "matches",
 				element: <Matches />,
 			},
 			{
@@ -44,9 +52,11 @@ const router = createBrowserRouter([
 				element: <Search />,
 			},
 			{
-				path: ":id/swipe",
+				path: "swipe/:uuid",
 				element: <SwipeNames />,
-				loader: nameListLoader
+				loader:({ params }) => 				 nameListLoader
+				(params.uuid),
+		
 			},
 			{
 				path: ":id/rank",

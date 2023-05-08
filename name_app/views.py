@@ -12,12 +12,35 @@ Blacklist = apps.get_model('user_app', 'Blacklist')
 
 
 # Handle viewing and adding children
+@api_view(["GET"])
+def handle_child(request, uuid):
+    if request.user.is_authenticated:
+        # Find child from UUID
+        child_query = Child.objects.filter(parent_url=uuid)
+        if len(child_query) == 0:
+            child_query = Child.objects.filter(guest_url=uuid)
+        if len(child_query) == 0:
+            return JsonResponse({'message': 'Child not found', 'success': False})
+        child = json.loads(serialize("json", child_query))[0]['fields']
+        # Find parent 1
+        parent1_query = App_User.objects.filter(id=child["parent_1"])
+        child["parent_1"] = json.loads(serialize("json", parent1_query, fields=["username", "email", "first_name", "last_name"]))[0]['fields']
+        # Find parent 2 if any
+        if child["parent_2"]:
+            parent2_query = App_User.objects.filter(email=child["parent_2"])
+            child.parent_2 = json.loads(serialize("json", parent2_query, fields=["username", "email", "first_name", "last_name"]))[0]['fields']
+        # return child object, now with parent information
+        return JsonResponse({'message': 'Found UUID', 'success': True, 'child': child})
+    return JsonResponse({'message': 'User is not logged in', 'success': False})
+
+
+# Handle viewing and adding children
 @api_view(["POST", "GET", "PUT"])
 def handle_children(request):
     if request.user.is_authenticated:
         user_info = json.loads(serialize("json", [request.user], fields=["email"]))[0]
         curr_user_id=user_info['pk']
-        data = request.data.dict()
+        data = request.data
         nickname = data['nickname']
         
         if request.method == "GET":
@@ -69,6 +92,7 @@ def handle_children(request):
             parent_2 = None
             p_url = None
             g_url = uuid.uuid4()
+            gender = request.data['gender']
             if data['parent_2']:
                 parent_2 = data['parent_2']
             else:
@@ -83,28 +107,54 @@ def handle_children(request):
             p = App_User.objects.get(id=curr_user_id)
             children = Child.objects.filter(parent_1=p).filter(nickname=nickname)
             if len(children) == 0:
+                # need to add try/except block here
                 Child.objects.create(
                     nickname=nickname,
                     parent_1=p,
                     parent_2=parent_2,
                     parent_url=p_url,
                     guest_url=g_url,
+                    gender=gender,
                 )
+                # get this new childs object to pass back to the front to be able to handle adding first voted_name
+                new_kid_query = Child.objects.filter(parent_url=p_url)
+                new_kid = json.loads(serialize("json", new_kid_query))[0]['fields']
+                new_kid_id = json.loads(serialize("json", new_kid_query))[0]['pk']
+                return JsonResponse({'message': 'child added to the DB', 'success': True, 'id': new_kid_id, 'child': new_kid})
             else:
                 return JsonResponse({'message': 'child already exists', 'success': False})
         return JsonResponse({'message': 'You are logged in but something went wrong', 'success': False})
     return JsonResponse({'message': 'You are not logged in', 'success': False})
 
+#Handle swiping name and create Voted_name objects
+@api_view(["POST"])
+def vote_name(request):
+    if request.method=="POST":
+        try:
+            name=request.data['name']
+            child_uuid=request.data['uuid']
+            liked=request.data['liked']
+            childIns=Child.objects.get(parent_url=child_uuid)
+            nameIns=Name.objects.get(id=name['id'])
+            participant=request.user
+            new_vote=Voted_Name.objects.create(name=nameIns,liked=liked,participant=participant,child=childIns)
+            new_vote.save()
+            return JsonResponse({'voted':True})
+        except Exception as e:
+            print(e)
+            return JsonResponse({'voted':False})
 
 # Handle viewing, voting, and adding singular names
-
-@api_view(["POST", "GET"])
+@api_view(["POST", "GET","PUT"])
 def handle_name(request):
 # get name list 
-    if request.method == "GET":
+    if request.method == "PUT":
         try:
-            gender=request.data['gender']
-            names=Name.objects.filter()
+            uuid=request.data['uuid']
+            child=Child.objects.get(parent_url=uuid)
+            gender=child.gender
+            names=Name.objects.filter(gender=gender)
+            print(gender)
             name_list=[model_to_dict (name) for name in names]
             voted_list=[model_to_dict (voted_name)for voted_name in (Voted_Name.objects.all())]
             voted_list_id=[i['name'] for i in voted_list]
@@ -127,20 +177,20 @@ def handle_name(request):
                 nameIns=Name.objects.filter(name=name,gender=gender).first()
                 new_vote=Voted_Name.objects.create(name=nameIns,liked=True,participant=participant,child=child)
                 new_vote.save()
-                return JsonResponse({'add child':True})
+                return JsonResponse({'voted':True})
             except Exception as e:
                 print(e)
-                return JsonResponse({'add child':False})
+                return JsonResponse({'voted':False})
         else:
             try:
                 new_name=Name.objects.create(name=name,popularity=None,gender=gender)
                 new_name.save()
                 new_vote=Voted_Name.objects.create(name=new_name,liked=True,participant=participant,child=child)
                 new_vote.save()
-                return JsonResponse({'add child':True})
+                return JsonResponse({'added and voted':True})
             except Exception as e:
                 print(e)
-                return JsonResponse({'add child':False})
+                return JsonResponse({'added and voted':False})
         
         
     
@@ -180,6 +230,7 @@ def handle_voted_names(request):
             'disliked': disliked_names,
             'agreed': agreed_names,
         }
+        
     # format response with liked / disliked and null value for agreed since parent2 doesn't exist yet
     else:
         response = {

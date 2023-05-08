@@ -1,9 +1,10 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout
-from .models import App_User
+from .models import App_User, Voted_Name, Child
 import json
 from django.core.serializers import serialize
+from django.forms.models import model_to_dict
 
 
 @api_view(["POST"])
@@ -65,8 +66,31 @@ def user_logout(request):
 @api_view(["GET"])
 def curr_user(request):
     if request.user.is_authenticated:
+
         user_info = serialize("json", [request.user], fields=[
-                              "username", "email"])
+                              "username", "email", "pk"])
         user_info_workable = json.loads(user_info)
-        return JsonResponse(user_info_workable[0]["fields"])
+        user_info_workable[0]['fields']['pk'] = request.user.pk
+    
+        kids=[model_to_dict(voted_name)for voted_name in (Voted_Name.objects.filter(participant = request.user).distinct('child_id'))]
+       
+      
+        output = []
+
+        for kid in kids:
+            new_kid = Child.objects.filter(id=kid['child'])
+            output.extend(json.loads(serialize("json", new_kid)))
+
+        children = []
+
+        for kid in output:
+            children.append(kid['fields'])
+
+        response = {
+            'curr_user': user_info_workable[0]["fields"],
+            'children': children,
+        }
+
+        return JsonResponse(response)
+    
     return JsonResponse({"error": "Not currently logged in."})

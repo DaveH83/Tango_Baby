@@ -1,10 +1,10 @@
 import { Outlet, useLoaderData } from "react-router-dom";
 import Header from "./components/Header";
-import { createContext, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 import Auth from "./pages/Auth";
 import axios from "axios";
 import { initFlowbite } from "flowbite";
-import { handleCSRF } from "./components/Utilities";
+import { handleCSRF } from "./Utilities/Utilities";
 
 export const UserContext = createContext(null);
 
@@ -17,16 +17,26 @@ export async function AppLoader() {
 }
 
 export function App() {
-	const user = useLoaderData();
+	const data = useLoaderData();
+	let user = null
+	let children = []
 
+	const [testKids, setTestKids] = useState([])
+	
+	if (data){
+		user = data.curr_user
+		children = data.children
+		// setTestKids([data.children])
+	}
+	const [activeChild, setActiveChild] = useState({})
+	
 	handleCSRF();
 
 	useEffect(() => {
 		initFlowbite();
-	}, [user]);
-
+	}, [user, testKids]);
 	return (
-		<UserContext.Provider value={user}>
+		<UserContext.Provider value={{user, children, activeChild, setActiveChild, testKids, setTestKids}}>
 			<div>
 				<Header />
 				{user ? (
