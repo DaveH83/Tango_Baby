@@ -68,7 +68,7 @@ def curr_user(request):
     if request.user.is_authenticated:
 
         user_info = serialize("json", [request.user], fields=[
-                              "username", "email", "pk"])
+                              "username", "email", "pk", "last_updated", "date_joined"])
         user_info_workable = json.loads(user_info)
         user_info_workable[0]['fields']['pk'] = request.user.pk
     
