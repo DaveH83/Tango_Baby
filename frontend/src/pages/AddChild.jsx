@@ -8,7 +8,7 @@ const axCreateChild = async (parent2, nickname, lastname, gender, nav, testKids,
 	const c = await axios.post("/app/children/", {
 		parent_2: parent2,
 		nickname: nickname,
-		last_name: lastname,
+		lastname: lastname,
 		gender: gender,
 	});
 	// attempt to update children context with new child
