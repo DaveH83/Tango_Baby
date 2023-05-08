@@ -126,21 +126,43 @@ def handle_children(request):
         return JsonResponse({'message': 'You are logged in but something went wrong', 'success': False})
     return JsonResponse({'message': 'You are not logged in', 'success': False})
 
-
-# Handle viewing, voting, and adding singular names
-
-@api_view(["POST", "GET"])
-def handle_name(request):
-# get name list 
-    if request.method == "GET":
+#Handle swiping name and create Voted_name objects
+@api_view(["POST"])
+def vote_name(request):
+    if request.method=="POST":
         try:
-            names=Name.objects.all()
-            name_list=[model_to_dict (name) for name in names]
-            # voted_list=Voted_Name.objects.all()
-            return JsonResponse({'name_list':name_list})
+            name=request.data['name']
+            child_uuid=request.data['uuid']
+            liked=request.data['liked']
+            childIns=Child.objects.get(parent_url=child_uuid)
+            nameIns=Name.objects.get(id=name['id'])
+            participant=request.user
+            new_vote=Voted_Name.objects.create(name=nameIns,liked=liked,participant=participant,child=childIns)
+            new_vote.save()
+            return JsonResponse({'voted':True})
         except Exception as e:
             print(e)
-            return JsonResponse({'name_list':[]})
+            return JsonResponse({'voted':False})
+
+# Handle viewing, voting, and adding singular names
+@api_view(["POST", "GET","PUT"])
+def handle_name(request):
+# get name list 
+    if request.method == "PUT":
+        try:
+            uuid=request.data['uuid']
+            child=Child.objects.get(parent_url=uuid)
+            gender=child.gender
+            names=Name.objects.filter(gender=gender)
+            print(gender)
+            name_list=[model_to_dict (name) for name in names]
+            voted_list=[model_to_dict (voted_name)for voted_name in (Voted_Name.objects.all())]
+            voted_list_id=[i['name'] for i in voted_list]
+            unshown_list=[name for name in name_list if name['id'] not in voted_list_id]
+            return JsonResponse({'unshown_list':unshown_list})
+        except Exception as e:
+            print(e)
+            return JsonResponse({'unshown_list':[]})
 # add new name object
     if request.method=="POST":
         #take name,gender,pk as request data 
@@ -155,20 +177,20 @@ def handle_name(request):
                 nameIns=Name.objects.filter(name=name,gender=gender).first()
                 new_vote=Voted_Name.objects.create(name=nameIns,liked=True,participant=participant,child=child)
                 new_vote.save()
-                return JsonResponse({'add child':True})
+                return JsonResponse({'voted':True})
             except Exception as e:
                 print(e)
-                return JsonResponse({'add child':False})
+                return JsonResponse({'voted':False})
         else:
             try:
                 new_name=Name.objects.create(name=name,popularity=None,gender=gender)
                 new_name.save()
                 new_vote=Voted_Name.objects.create(name=new_name,liked=True,participant=participant,child=child)
                 new_vote.save()
-                return JsonResponse({'add child':True})
+                return JsonResponse({'added and voted':True})
             except Exception as e:
                 print(e)
-                return JsonResponse({'add child':False})
+                return JsonResponse({'added and voted':False})
         
         
     

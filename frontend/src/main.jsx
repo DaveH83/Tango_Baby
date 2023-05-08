@@ -12,6 +12,8 @@ import Profile from "./pages/Profile";
 import "flowbite/dist/flowbite.js";
 import AddChild from "./pages/AddChild";
 import Child, { ChildLoader } from "./pages/Child";
+import { nameListLoader } from "./Utilities/Utilities";
+
 
 const router = createBrowserRouter([
 	{
@@ -49,8 +51,11 @@ const router = createBrowserRouter([
 				element: <Search />,
 			},
 			{
-				path: "swipe",
+				path: "swipe/:uuid",
 				element: <SwipeNames />,
+				loader:({ params }) => 				 nameListLoader
+				(params.uuid),
+		
 			},
 			{
 				path: ":id/rank",
