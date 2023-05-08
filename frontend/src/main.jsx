@@ -34,10 +34,10 @@ const router = createBrowserRouter([
 				element: <Child />,
 				loader: ChildLoader,
 			},
-			{
-				path: "profile",
-				element: <Profile />,
-			},
+			// {
+			// 	path: "profile",
+			// 	element: <Profile />,
+			// },
 			{
 				path: ":id/results",
 				element: <Results />,
