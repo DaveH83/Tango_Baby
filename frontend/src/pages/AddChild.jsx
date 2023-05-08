@@ -3,11 +3,12 @@ import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const axCreateChild = async (parent2, nickname, gender, nav, testKids, setTestKids) => {
+const axCreateChild = async (parent2, nickname, lastname, gender, nav, testKids, setTestKids) => {
 	// creates the child object
 	const c = await axios.post("/app/children/", {
 		parent_2: parent2,
 		nickname: nickname,
+		last_name: lastname,
 		gender: gender,
 	});
 	// attempt to update children context with new child
@@ -38,6 +39,7 @@ export default function AddChild() {
 	//state handlers for form data
 	const [parent2, setParent2] = useState(null);
 	const [nickname, setNickname] = useState(null);
+	const [lastname, setLastName] = useState(null);
 	const [gender, setGender] = useState("M");
 	const [name, setName] = useState(null);
 
@@ -46,7 +48,7 @@ export default function AddChild() {
 			<form
 				onSubmit={(e) => [
 					e.preventDefault(),
-					axCreateChild(parent2, nickname, gender, nav, testKids, setTestKids),
+					axCreateChild(parent2, nickname, lastname, gender, nav, testKids, setTestKids),
 				]}
 			>
 				<div class="mb-6">
@@ -92,11 +94,12 @@ export default function AddChild() {
 						for="parent2"
 						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 					>
-						Parent 2 {"(optional)"}
+						Parent 2
 					</label>
 					<input
 						type="email"
 						id="parent2"
+						placeholder="optional@optional.com"
 						value={parent2}
 						onChange={(e) => setParent2(e.target.value)}
 						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -112,10 +115,27 @@ export default function AddChild() {
 					<input
 						type="text"
 						id="nickname"
+						placeholder="Our first baby"
 						value={nickname}
 						onChange={(e) => setNickname(e.target.value)}
 						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						required
+					/>
+				</div>
+				<div class="mb-6">
+					<label
+						for="lastname"
+						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+					>
+						Last Name
+					</label>
+					<input
+						type="text"
+						id="lastname"
+						placeholder="Optional last name"
+						value={lastname}
+						onChange={(e) => setLastName(e.target.value)}
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 					/>
 				</div>
 				{/* These radio buttons are not permanent and also don't work correctly, 
@@ -165,11 +185,12 @@ export default function AddChild() {
 						for="nickname"
 						class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 					>
-						First Name Suggestion
+						Enter your initial First Name suggestion for this child
 					</label>
 					<input
 						type="text"
 						id="nickname"
+						placeholder="eventually might put a random name from the db as a placeholder here based on gender selected..."
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
