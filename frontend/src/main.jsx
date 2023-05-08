@@ -21,7 +21,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <HowTo />,
+				element: <Profile />,
 			},
 			{
 				path: "addchild",

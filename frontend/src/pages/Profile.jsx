@@ -1,11 +1,28 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const updatePassword = async (password,confirmPassword) => {
+const updatePassword = async (email, password, setPassword, confirmPassword, setConfirmPassword, nav) => {
 	if (password === confirmPassword) {
 		// attempt back end password update
-		const r = axios.put()
+		const r = await axios.put("/user/curr-user/", {
+			password,
+		});
+		// if success then relog in the user since dJango logs them out on password update
+		if (r.data.success) {
+			const l = await axios.post("/user/login/", {
+				email,
+				password,
+			});
+			if (l.data.user) {
+				setPassword("");
+				setConfirmPassword("");
+				nav("/");
+			} else {
+				alert("Try again.")
+			}
+		}
 	}
 	else {
 		// some kind of alert that passwords dont match
@@ -14,12 +31,11 @@ const updatePassword = async (password,confirmPassword) => {
 
 export default function Profile() {
 	const { user } = useContext(UserContext)
-	
+	const nav = useNavigate()
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 
 
-	console.log(user)
 	return (
 		<div className="flex items-center flex-col">
 			<h1 className="text-transform: capitalize text-4xl">Welcome {user.username}!</h1>
@@ -27,7 +43,8 @@ export default function Profile() {
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					updatePassword();
+					updatePassword(user.email, password, setPassword, confirmPassword, setConfirmPassword, nav);
+
 				}}
 				className="w-[300px] bg-slate-600 p-8 rounded-lg mt-10 flex flex-col"
 			>
