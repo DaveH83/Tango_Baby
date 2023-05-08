@@ -13,8 +13,6 @@ const customStyles = {
     },
   };
   
-  // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
-//   Modal.setAppElement('#root');
   
   export default function AddName() {
     
