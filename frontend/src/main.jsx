@@ -15,7 +15,6 @@ import Child, { ChildLoader } from "./pages/Child";
 import { nameListLoader } from "./Utilities/Utilities";
 
 
-
 const router = createBrowserRouter([
 	{
 		path: "/",

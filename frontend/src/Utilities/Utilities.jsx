@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 export const handleCSRF = () => {
 	function getCookie(name) {
 		let cookieValue = null;
@@ -35,6 +36,8 @@ export const nameListLoader = async (uuid) => {
 	}  
 	
 };
+
+
 export const swipeHandler = async(name,uuid,liked)=> {
 	try{
 		const response= await axios.post('/app/swipe/',{
@@ -50,3 +53,12 @@ export const swipeHandler = async(name,uuid,liked)=> {
 	}  
 	
 };
+
+
+export const handleNameList = () => {
+
+	console.log('get name list api call')
+
+	return {'task':'success'}
+}
+
