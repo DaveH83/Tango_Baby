@@ -1,96 +1,88 @@
-import { useState } from 'react';
-import Modal from 'react-modal';
-import axios from 'axios';
+import { useState } from "react";
+import Modal from "react-modal";
+import axios from "axios";
 
 const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-    },
-  };
-  
-  
-  export default function AddName() {
-    
+	content: {
+		top: "50%",
+		left: "50%",
+		right: "auto",
+		bottom: "auto",
+		marginRight: "-50%",
+		transform: "translate(-50%, -50%)",
+	},
+};
 
-    let subtitle;
-    const [modalIsOpen, setIsOpen] = useState(false);
-    const [name,setName] = useState('');
-    const [gender,setGender] = useState('');
-    const [child,setChild]=useState('')
-    function openModal() {
-      setIsOpen(true);
-    }
-  
-    function afterOpenModal() {
-      // references are now sync'd and can be accessed.
-      subtitle.style.color = '#f00';
-    }
-  
-    function closeModal() {
-      setIsOpen(false);
-    }
-   
-    const submitHandler = async(name,gender,child)=>{
-        let response =await axios.post('/app/name/',
-                {
-                    'name':name,
-                    'gender':gender,
-                    'id':child
-                });
-    }
-    return (
-      <div>
-        <button onClick={openModal}>Add Name</button>
-        <Modal
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Add Name</h2>
-          <button onClick={closeModal}>close</button>
-       
-          <form onSubmit={(e)=>{
-                e.preventDefault();
-                submitHandler(name,gender,child)
-                console.log('onSubmit:',name,gender,id)
-                setName('');
-                setGender('');
-            }}>
-                <input
-                    placeholder="Name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <label for="gender">Choose Gender:</label>
-                <select 
-                    name='gender'
-                    onChange={(e) => setGender(e.target.value)}
-                >
-                    <option value="M">Boy</option>
-                    <option value="F">Girl</option>
-                </select>
-                <label for="child">Choose Child:</label>
-                <select 
-                    name='child'
-                    onChange={(e) => setChild(e.target.value)}
-                >
-                    <option value="none" selected disabled hidden>Select an Option</option>
-                    <option value="1" >1</option>
-                    <option value="2" >2</option>
-                </select>
-                <input type="submit" value="Save" />
-            
-          </form>
-        </Modal>
-      </div>
-    );
-  }
-  
+export default function AddName() {
+	let subtitle;
+	const [modalIsOpen, setIsOpen] = useState(false);
+	const [name, setName] = useState("");
+	const [gender, setGender] = useState("");
+	const [child, setChild] = useState("");
+	function openModal() {
+		setIsOpen(true);
+	}
+
+	function afterOpenModal() {
+		// references are now sync'd and can be accessed.
+		subtitle.style.color = "#f00";
+	}
+
+	function closeModal() {
+		setIsOpen(false);
+	}
+
+	const submitHandler = async (name, gender, child) => {
+		await axios.post("/app/name/", {
+			name: name,
+			gender: gender,
+			id: child,
+		});
+	};
+	return (
+		<div>
+			<button onClick={openModal}>Add Name</button>
+			<Modal
+				isOpen={modalIsOpen}
+				onAfterOpen={afterOpenModal}
+				onRequestClose={closeModal}
+				style={customStyles}
+				contentLabel="Example Modal"
+			>
+				<h2 ref={(_subtitle) => (subtitle = _subtitle)}>Add Name</h2>
+				<button onClick={closeModal}>close</button>
+
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						submitHandler(name, gender, child);
+						console.log("onSubmit:", name, gender);
+						setName("");
+						setGender("");
+					}}
+				>
+					<input
+						placeholder="Name"
+						type="text"
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+					/>
+					<label htmlFor="gender">Choose Gender:</label>
+					<select name="gender" onChange={(e) => setGender(e.target.value)}>
+						<option value="M">Boy</option>
+						<option value="F">Girl</option>
+					</select>
+					<label htmlFor="child">Choose Child:</label>
+					<select name="child" onChange={(e) => setChild(e.target.value)}>
+						<option value="none" selected disabled hidden>
+							Select an Option
+						</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+					</select>
+					<input type="submit" value="Save" />
+				</form>
+			</Modal>
+		</div>
+	);
+}

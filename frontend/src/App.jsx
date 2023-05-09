@@ -1,4 +1,4 @@
-import { Outlet, useLoaderData } from "react-router-dom";
+import { Outlet, useLoaderData, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import { createContext, useEffect, useState } from "react";
 import Auth from "./pages/Auth";
@@ -18,24 +18,26 @@ export async function AppLoader() {
 
 export function App() {
 	const data = useLoaderData();
-	let user = null
-	let children = []
+	let user = null;
+	let children = [];
+	const location = useLocation();
 
-	
-	if (data){
-		user = data.curr_user
-		children = data.children
+	if (data) {
+		user = data.curr_user;
+		children = data.children;
 	}
-	const [activeChild, setActiveChild] = useState({})
-	
+	const [activeChild, setActiveChild] = useState({});
+
 	handleCSRF();
 
 	useEffect(() => {
 		initFlowbite();
-	}, []);
+	}, [location]);
 
 	return (
-		<UserContext.Provider value={{user, children, activeChild, setActiveChild}}>
+		<UserContext.Provider
+			value={{ user, children, activeChild, setActiveChild }}
+		>
 			<div>
 				<Header />
 				{user ? (
