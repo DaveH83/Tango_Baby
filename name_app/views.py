@@ -90,18 +90,12 @@ def handle_children(request):
         elif request.method == "POST":
             # adds new child object
             parent_2 = None
-            p_url = None
+            p_url = uuid.uuid4()
             g_url = uuid.uuid4()
             gender = request.data['gender']
+            lastname = request.data['lastname']
             if data['parent_2']:
                 parent_2 = data['parent_2']
-            else:
-                p_url = uuid.uuid4()
-            
-            data['parent_1'] = curr_user_id
-            data['parent_2'] = parent_2
-            data['parent_url'] = p_url
-            data['guest_url'] = g_url
 
             # see if child already exists for parent_1
             p = App_User.objects.get(id=curr_user_id)
@@ -112,6 +106,7 @@ def handle_children(request):
                     nickname=nickname,
                     parent_1=p,
                     parent_2=parent_2,
+                    last_name=lastname,
                     parent_url=p_url,
                     guest_url=g_url,
                     gender=gender,
