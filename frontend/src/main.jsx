@@ -53,7 +53,7 @@ const router = createBrowserRouter([
 			{
 				path: "swipe/:uuid",
 				element: <SwipeNames />,
-				loader:({ params }) => 				 nameListLoader
+				loader:({ params }) => nameListLoader
 				(params.uuid),
 		
 			},

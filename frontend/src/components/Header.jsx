@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate, Link,useParams } from "react-router-dom";
-import AddName from "./AddName";
+
 
 export default function Header() {
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -258,11 +258,6 @@ export default function Header() {
 													Matches
 												</span>
 											</Link>
-										</li>
-										<li>
-
-										<AddName />
-								
 										</li>
 										<li>
 											<Link

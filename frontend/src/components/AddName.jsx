@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { UserContext } from "../App";
 
 const customStyles = {
     content: {
@@ -16,12 +17,14 @@ const customStyles = {
   
   export default function AddName() {
     
-
+    
     let subtitle;
     const [modalIsOpen, setIsOpen] = useState(false);
     const [name,setName] = useState('');
     const [gender,setGender] = useState('');
     const [child,setChild]=useState('')
+    const {children}=useContext(UserContext)
+
     function openModal() {
       setIsOpen(true);
     }
@@ -82,9 +85,12 @@ const customStyles = {
                     name='child'
                     onChange={(e) => setChild(e.target.value)}
                 >
-                    <option value="none" selected disabled hidden>Select an Option</option>
-                    <option value="1" >1</option>
-                    <option value="2" >2</option>
+                  <option value="none" selected disabled hidden>Select an Option</option>
+                  {children.map(child=>(
+                    <option value={child.id}>{child.nickname}</option>
+                  ))}
+                    
+            
                 </select>
                 <input type="submit" value="Save" />
             
