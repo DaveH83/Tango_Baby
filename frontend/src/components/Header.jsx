@@ -4,14 +4,12 @@ import { useEffect, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import AddName from "./AddName";
+
 
 export default function Header() {
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
 	const { user, children, activeChild, setActiveChild } =
 		useContext(UserContext);
-	// const uuid = activeChild.parent_url;
-	//temp fix when logging into a brand new user account this activeChild wont exist so setting swipe names to "/" until a child is made
 	const uuid = activeChild ? `swipe/${activeChild.parent_url}` : "/"
 	const nav = useNavigate();
 	const handleLogout = async () => {
@@ -252,18 +250,15 @@ export default function Header() {
 											</Link>
 										</li>
 										<li>
-											<AddName />
+											<Link
+												to={`${uuid}`}
+												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+											>
+												<span className="flex-1 ml-3 whitespace-nowrap">
+													Swipe Names
+												</span>
+											</Link>
 										</li>
-											<li>
-												<Link
-													to={`${uuid}`}
-													className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-												>
-													<span className="flex-1 ml-3 whitespace-nowrap">
-														Swipe Names
-													</span>
-												</Link>
-											</li>
 										<li>
 											<Link
 												href="#"

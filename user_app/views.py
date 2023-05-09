@@ -6,7 +6,6 @@ import json
 from django.core.serializers import serialize
 from django.forms.models import model_to_dict
 
-
 @api_view(["POST"])
 def register_user(request):
     # Handle creating new user, this will change in time as the user model grows for more profile information
