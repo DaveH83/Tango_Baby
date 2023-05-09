@@ -21,7 +21,10 @@ const axCreateChild = async (parent2, nickname, lastname, gender, nav) => {
 			})
 			.then(
 				// then nav to the childs unique ccid page, parent_url here since was just created by parent
-				nav(`/child/${c.data.child.parent_url}`)
+				() => {
+					nav(`/child/${c.data.child.parent_url}`);
+					window.location.reload();
+				}
 			)
 			.catch((e) => console.log("name error", e.message));
 	}
@@ -186,7 +189,7 @@ export default function AddChild() {
 					</label>
 					<input
 						type="text"
-						id="nickname"
+						id="nickname2"
 						placeholder="eventually might put a random name from the db as a placeholder here based on gender selected..."
 						value={name}
 						onChange={(e) => setName(e.target.value)}
