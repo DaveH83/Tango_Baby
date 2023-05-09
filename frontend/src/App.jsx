@@ -31,7 +31,11 @@ export function App() {
 	handleCSRF();
 
 	useEffect(() => {
-		data ? setActiveChild(data.children[0]) : setActiveChild({})
+		data
+			? Object.keys(activeChild).length === 0
+				? setActiveChild(data.children[0])
+				: null
+			: setActiveChild({});
 		initFlowbite();
 	}, [location, data]);
 
