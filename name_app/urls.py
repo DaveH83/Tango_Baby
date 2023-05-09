@@ -13,6 +13,7 @@ urlpatterns = [
     path("children/", views.handle_children),
     path("child/<str:uuid>", views.handle_child),
     path("name/", views.handle_name),
+    path("swipe/", views.vote_name),
     path("ranking/", views.handle_ranking),
     path("new/", include(router.urls)),
 ]

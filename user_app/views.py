@@ -62,34 +62,53 @@ def user_logout(request):
         return JsonResponse({"success": False})
 
 
-@api_view(["GET"])
+@api_view(["GET", "PUT", "DELETE"])
 def curr_user(request):
     if request.user.is_authenticated:
+        if request.method == "GET":
+            user_info = serialize("json", [request.user], fields=[
+                                "username", "email", "pk", "last_updated", "date_joined"])
+            user_info_workable = json.loads(user_info)
+            user_info_workable[0]['fields']['pk'] = request.user.pk
+        
+            kids=[model_to_dict(voted_name)for voted_name in (Voted_Name.objects.filter(participant = request.user).distinct('child_id'))]
+        
+        
+            output = []
 
-        user_info = serialize("json", [request.user], fields=[
-                              "username", "email", "pk"])
-        user_info_workable = json.loads(user_info)
-        user_info_workable[0]['fields']['pk'] = request.user.pk
-    
-        kids=[model_to_dict(voted_name)for voted_name in (Voted_Name.objects.filter(participant = request.user).distinct('child_id'))]
-       
-      
-        output = []
+            for kid in kids:
+                new_kid = Child.objects.filter(id=kid['child'])
+                output.extend(json.loads(serialize("json", new_kid)))
 
-        for kid in kids:
-            new_kid = Child.objects.filter(id=kid['child'])
-            output.extend(json.loads(serialize("json", new_kid)))
+            children = []
 
-        children = []
+            for kid in output:
+                children.append(kid['fields'])
 
-        for kid in output:
-            children.append(kid['fields'])
+            response = {
+                'curr_user': user_info_workable[0]["fields"],
+                'children': children,
+            }
 
-        response = {
-            'curr_user': user_info_workable[0]["fields"],
-            'children': children,
-        }
-
-        return JsonResponse(response)
+            return JsonResponse(response)
+        elif request.method == "PUT":
+            try:
+                user_info = json.loads(serialize("json", [request.user]))[0]
+                user = App_User.objects.get(id=user_info['pk'])
+                user.set_password(request.data['password'])
+                user.save()
+                # print(user)
+                return JsonResponse({"success": True, "message": "Updated users password"})
+            except Exception as e:
+                return JsonResponse({"success": False, "message": e})
+        elif request.method == "DELETE":
+            try:
+                user_info = json.loads(serialize("json", [request.user]))[0]
+                user = App_User.objects.get(id=user_info['pk'])
+                user.delete()
+                print(user)
+                return JsonResponse({"success": True, "message": "Deleted User"})
+            except Exception as e:
+                return JsonResponse({"success": False, "message": e})
     
     return JsonResponse({"error": "Not currently logged in."})

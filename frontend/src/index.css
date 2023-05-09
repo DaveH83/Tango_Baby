@@ -2,14 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+	overflow-y: auto;
+}
+
 body {
 	background-color: #acceef;
 }
 
 .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 48
+	font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+.card-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.name-holder {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 2rem;
+	position: absolute;
+	background-color: antiquewhite;
+	width: 600px;
+	padding: 20px;
+	border-radius: 20px;
+	max-width: 65vw;
+	height: 45vh;
+	box-shadow: 0px 18px 20px 0px rgba(132, 131, 131, 0.3);
+}
+.icons {
+	display: flex;
+	width: 100%;
+	justify-content: space-evenly;
+	position: fixed;
 }
