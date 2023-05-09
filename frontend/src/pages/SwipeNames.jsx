@@ -1,4 +1,4 @@
-import {useLoaderData,useParams} from 'react-router-dom';
+import { useLoaderData, useParams } from "react-router-dom";
 import { useEffect,useState } from 'react';
 import TinderCard from 'react-tinder-card';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -13,10 +13,12 @@ export default function SwipeNames() {
 
 	//handler for swiping name card
 	const onSwipe = (name, direction) => {
-		console.log('You swiped: ' + direction)
+		console.log("You swiped: " + direction);
 		// Update liked based on swipe direction
-		if(direction==='right'){
-			swipeHandler(name,uuid,true)
+		if (direction === "right") {
+			swipeHandler(name, uuid, true);
+		} else if (direction === "left") {
+			swipeHandler(name, uuid, false);
 		}
 		else if(direction==='left'){
 			swipeHandler(name,uuid,false)
