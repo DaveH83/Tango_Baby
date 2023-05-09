@@ -138,8 +138,7 @@ def vote_name(request):
             childIns=Child.objects.get(parent_url=child_uuid)
             nameIns=Name.objects.get(id=name['id'])
             participant=request.user
-            new_vote=Voted_Name.objects.create(name=nameIns,liked=liked,participant=participant,child=childIns)
-            new_vote.save()
+            Voted_Name.objects.create(name=nameIns,liked=liked,participant=participant,child=childIns)
             return JsonResponse({'voted':True})
         except Exception as e:
             print(e)
@@ -155,7 +154,6 @@ def handle_name(request):
             child=Child.objects.get(parent_url=uuid)
             gender=child.gender
             names=Name.objects.filter(gender=gender)
-            print(gender)
             name_list=[model_to_dict (name) for name in names]
             voted_list=[model_to_dict (voted_name)for voted_name in (Voted_Name.objects.all())]
             voted_list_id=[i['name'] for i in voted_list]
@@ -172,22 +170,26 @@ def handle_name(request):
         id=request.data['id']
         child=Child.objects.get(id=id)
         participant=request.user
-        if Name.objects.filter(name=name,gender=gender).exists():
+        if request.data['parent_2']:
+            try:
+                participant=App_User.objects.get(email=request.data['parent_2'])
+            except Exception as e:
+                participant=None
+                print(e)
+
+        if participant and Name.objects.filter(name=name,gender=gender).exists():
             try:
 # get Name instance and create Voted_Name 
                 nameIns=Name.objects.filter(name=name,gender=gender).first()
-                new_vote=Voted_Name.objects.create(name=nameIns,liked=True,participant=participant,child=child)
-                new_vote.save()
+                Voted_Name.objects.create(name=nameIns,liked=True,participant=participant,child=child)
                 return JsonResponse({'voted':True})
             except Exception as e:
                 print(e)
                 return JsonResponse({'voted':False})
-        else:
+        elif participant:
             try:
                 new_name=Name.objects.create(name=name,popularity=None,gender=gender)
-                new_name.save()
-                new_vote=Voted_Name.objects.create(name=new_name,liked=True,participant=participant,child=child)
-                new_vote.save()
+                Voted_Name.objects.create(name=new_name,liked=True,participant=participant,child=child)
                 return JsonResponse({'added and voted':True})
             except Exception as e:
                 print(e)
