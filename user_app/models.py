@@ -20,6 +20,7 @@ class Child(models.Model):
     parent_url = models.UUIDField(unique=True, null=True, blank=True)
     guest_url = models.UUIDField(unique=True, null=True, blank=True)
     gender = models.CharField(max_length=1, null=True)
+    last_name = models.CharField(max_length=150, null=True, blank=True)
 
     def __str__(self) -> str:
         return f"Child object: {self.nickname}, belonging to: {self.parent_1}"

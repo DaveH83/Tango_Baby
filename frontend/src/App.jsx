@@ -22,7 +22,6 @@ export function App() {
 	let user = null
 	let children = []
 	
-	const [testKids, setTestKids] = useState([])
 	const [activeChild, setActiveChild] = useState({})
 	const [votedNames, setVotedNames] = useState({})
 
@@ -30,14 +29,14 @@ export function App() {
 	if (data){
 		user = data.curr_user
 		children = data.children
-		// setTestKids([data.children])
 	}
 	
 	handleCSRF();
 
 	useEffect(() => {
 		initFlowbite();
-	}, [user, testKids]);
+	}, []);
+
 	return (
 		<UserContext.Provider value={{user, children, activeChild, setActiveChild, testKids, setTestKids, votedNames, setVotedNames}}>
 			<div>

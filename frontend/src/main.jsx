@@ -12,6 +12,8 @@ import Profile from "./pages/Profile";
 import "flowbite/dist/flowbite.js";
 import AddChild from "./pages/AddChild";
 import Child, { ChildLoader } from "./pages/Child";
+import { nameListLoader } from "./Utilities/Utilities";
+
 
 const router = createBrowserRouter([
 	{
@@ -21,7 +23,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <HowTo />,
+				element: <Profile />,
 			},
 			{
 				path: "addchild",
@@ -32,10 +34,10 @@ const router = createBrowserRouter([
 				element: <Child />,
 				loader: ChildLoader,
 			},
-			{
-				path: "profile",
-				element: <Profile />,
-			},
+			// {
+			// 	path: "profile",
+			// 	element: <Profile />,
+			// },
 			{
 				path: ":id/results",
 				element: <Results />,
@@ -49,8 +51,11 @@ const router = createBrowserRouter([
 				element: <Search />,
 			},
 			{
-				path: "swipe",
+				path: "swipe/:uuid",
 				element: <SwipeNames />,
+				loader:({ params }) => 				 nameListLoader
+				(params.uuid),
+		
 			},
 			{
 				path: ":id/rank",
