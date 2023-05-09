@@ -63,7 +63,7 @@ def user_logout(request):
         return JsonResponse({"success": False})
 
 
-@api_view(["GET", "PUT"])
+@api_view(["GET", "PUT", "DELETE"])
 def curr_user(request):
     if request.user.is_authenticated:
         if request.method == "GET":
@@ -100,6 +100,15 @@ def curr_user(request):
                 user.save()
                 # print(user)
                 return JsonResponse({"success": True, "message": "Updated users password"})
+            except Exception as e:
+                return JsonResponse({"success": False, "message": e})
+        elif request.method == "DELETE":
+            try:
+                user_info = json.loads(serialize("json", [request.user]))[0]
+                user = App_User.objects.get(id=user_info['pk'])
+                user.delete()
+                print(user)
+                return JsonResponse({"success": True, "message": "Deleted User"})
             except Exception as e:
                 return JsonResponse({"success": False, "message": e})
     

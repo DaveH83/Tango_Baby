@@ -36,6 +36,15 @@ const updatePassword = async (
 	}
 };
 
+const deleteUser = async () => {
+	// really need to add some confirmation type of thing here
+	// force user to re-enter password or something
+	// send halp.
+
+	const r = await axios.delete("/user/curr-user/");
+	r.data.success ? window.location.reload() : alert("something went wrong")
+};
+
 export default function Profile() {
 	const { user, children } = useContext(UserContext);
 	const nav = useNavigate();
@@ -284,6 +293,15 @@ export default function Profile() {
 						</ul>
 					</div>
 				</div> */}
+			</div>
+			<div>
+				<button
+					type="button"
+					className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+					onClick={deleteUser}
+				>
+					Delete User
+				</button>
 			</div>
 		</div>
 	);
