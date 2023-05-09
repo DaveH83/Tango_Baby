@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
+/* html {
 	overflow-y: auto;
-}
+} */
 
 body {
 	background-color: #acceef;
@@ -30,7 +30,6 @@ body {
   padding: 20px;
   border-radius: 20px;
   max-width: 65vw;
-  height: 45vh;
 
 }
 .icons{
