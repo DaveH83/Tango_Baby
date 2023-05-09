@@ -9,7 +9,6 @@ import SwipeNames from "./pages/SwipeNames";
 import RankChoices from "./pages/RankChoices";
 import Profile from "./pages/Profile";
 import "flowbite/dist/flowbite.js";
-import AddChild from "./pages/AddChild";
 import Child, { ChildLoader } from "./pages/Child";
 import { nameListLoader } from "./Utilities/Utilities";
 
@@ -22,10 +21,6 @@ const router = createBrowserRouter([
 			{
 				index: true,
 				element: <Profile />,
-			},
-			{
-				path: "addchild",
-				element: <AddChild />,
 			},
 			{
 				path: "child/:uuid",

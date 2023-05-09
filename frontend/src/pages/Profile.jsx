@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import AddChild from "./AddChild";
+import AddChild from "../components/AddChild";
 
 const updatePassword = async (
 	email,
