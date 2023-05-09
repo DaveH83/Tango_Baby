@@ -2,7 +2,6 @@ import { createRoot } from "react-dom/client";
 import { App, AppLoader } from "./App";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HowTo from "./pages/HowTo";
 import Results from "./pages/Results";
 import Matches from "./pages/Matches";
 import Search from "./pages/Search";
@@ -13,7 +12,6 @@ import "flowbite/dist/flowbite.js";
 import AddChild from "./pages/AddChild";
 import Child, { ChildLoader } from "./pages/Child";
 import { nameListLoader } from "./Utilities/Utilities";
-
 
 const router = createBrowserRouter([
 	{
@@ -53,9 +51,7 @@ const router = createBrowserRouter([
 			{
 				path: "swipe/:uuid",
 				element: <SwipeNames />,
-				loader:({ params }) => 				 nameListLoader
-				(params.uuid),
-		
+				loader: ({ params }) => nameListLoader(params.uuid),
 			},
 			{
 				path: ":id/rank",
