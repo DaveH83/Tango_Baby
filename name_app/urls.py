@@ -15,5 +15,7 @@ urlpatterns = [
     path("name/", views.handle_name),
     path("swipe/", views.vote_name),
     path("ranking/", views.handle_ranking),
+    path("namelist/<str:uuid>", views.handle_voted_names),
     path("new/", include(router.urls)),
+
 ]

@@ -40,9 +40,7 @@ export function App() {
 	}, [location, data]);
 
 	return (
-		<UserContext.Provider
-			value={{ user, children, activeChild, setActiveChild }}
-		>
+		<UserContext.Provider value={{user, children, activeChild, setActiveChild}}>
 			<div>
 				<Header />
 				{user ? (
