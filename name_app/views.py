@@ -26,9 +26,15 @@ def handle_child(request, uuid):
         parent1_query = App_User.objects.filter(id=child["parent_1"])
         child["parent_1"] = json.loads(serialize("json", parent1_query, fields=["username", "email", "first_name", "last_name"]))[0]['fields']
         # Find parent 2 if any
+        print(child["parent_2"])
         if child["parent_2"]:
             parent2_query = App_User.objects.filter(email=child["parent_2"])
-            child.parent_2 = json.loads(serialize("json", parent2_query, fields=["username", "email", "first_name", "last_name"]))[0]['fields']
+            # if the parent_2 already has a database entry then load it into the child data object
+            if len(parent2_query) > 0:
+                child["parent_2"] = json.loads(serialize("json", parent2_query, fields=["username", "email", "first_name", "last_name"]))[0]['fields']
+            # otherwise we can just load the email that was provided by parent_1 on child creation
+            else:
+                child["parent_2"] = {'username': 'not created yet', 'email': child["parent_2"]}
         # return child object, now with parent information
         return JsonResponse({'message': 'Found UUID', 'success': True, 'child': child})
     return JsonResponse({'message': 'User is not logged in', 'success': False})
