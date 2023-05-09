@@ -3,7 +3,7 @@ import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const axCreateChild = async (parent2, nickname, lastname, gender, nav, testKids, setTestKids) => {
+const axCreateChild = async (parent2, nickname, lastname, gender, nav) => {
 	// creates the child object
 	const c = await axios.post("/app/children/", {
 		parent_2: parent2,
@@ -11,8 +11,6 @@ const axCreateChild = async (parent2, nickname, lastname, gender, nav, testKids,
 		lastname: lastname,
 		gender: gender,
 	});
-	// attempt to update children context with new child
-	setTestKids([...testKids, c.data.child])
 	// then creates a voted_name object for that child
 	if (c.data.success) {
 		const n = axios
@@ -31,7 +29,7 @@ const axCreateChild = async (parent2, nickname, lastname, gender, nav, testKids,
 
 export default function AddChild() {
 	//user context
-	const { user, testKids, setTestKids } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
 	//nav handler
 	const nav = useNavigate();
@@ -48,7 +46,7 @@ export default function AddChild() {
 			<form
 				onSubmit={(e) => [
 					e.preventDefault(),
-					axCreateChild(parent2, nickname, lastname, gender, nav, testKids, setTestKids),
+					axCreateChild(parent2, nickname, lastname, gender, nav),
 				]}
 			>
 				<div class="mb-6">

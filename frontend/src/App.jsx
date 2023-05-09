@@ -21,12 +21,10 @@ export function App() {
 	let user = null
 	let children = []
 
-	const [testKids, setTestKids] = useState([])
 	
 	if (data){
 		user = data.curr_user
 		children = data.children
-		// setTestKids([data.children])
 	}
 	const [activeChild, setActiveChild] = useState({})
 	
@@ -35,9 +33,9 @@ export function App() {
 	useEffect(() => {
 		initFlowbite();
 	}, []);
-	
+
 	return (
-		<UserContext.Provider value={{user, children, activeChild, setActiveChild, testKids, setTestKids}}>
+		<UserContext.Provider value={{user, children, activeChild, setActiveChild}}>
 			<div>
 				<Header />
 				{user ? (
