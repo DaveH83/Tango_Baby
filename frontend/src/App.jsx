@@ -31,9 +31,9 @@ export function App() {
 	handleCSRF();
 
 	useEffect(() => {
-		setActiveChild(data.children[0]);
+		data ? setActiveChild(data.children[0]) : setActiveChild({})
 		initFlowbite();
-	}, [location, data.children]);
+	}, [location, data]);
 
 	return (
 		<UserContext.Provider
