@@ -38,7 +38,7 @@ export function App() {
 	}, []);
 
 	return (
-		<UserContext.Provider value={{user, children, activeChild, setActiveChild, testKids, setTestKids, votedNames, setVotedNames}}>
+		<UserContext.Provider value={{user, children, activeChild, setActiveChild, votedNames, setVotedNames}}>
 			<div>
 				<Header />
 				{user ? (

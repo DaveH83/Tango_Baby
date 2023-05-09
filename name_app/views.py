@@ -208,23 +208,36 @@ def handle_voted_names(request, uuid):
     # Set current user liked / disliked names
     liked_names = []
     disliked_names = []
+    other_parent_liked_names = []
 
     liked_names_query = Voted_Name.objects.filter(participant = user, child_id = child.id, liked = True)
 
     for name in liked_names_query:
-        liked_names.append(model_to_dict(name))
+        
+      liked_name = model_to_dict(name)
+      liked_name['nameStr'] = name.name.name
+      liked_names.append(liked_name)
         
     disliked_names_query = Voted_Name.objects.filter(participant = user, child_id = child.id, liked = False)
 
     for name in disliked_names_query:
-        disliked_names.append(model_to_dict(name))
+      disliked_name = model_to_dict(name)
+      disliked_name['nameStr'] = name.name.name
+      disliked_names.append(disliked_name)
            
     # Define liked names for other parent
     if parent2 and user == parent1:
-        other_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child.id, liked = True)
+        alt_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child.id, liked = True)
         print(other_parent_liked_names)
     elif parent2 and user == parent2:
-        other_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child.id, liked = True)
+        alt_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child.id, liked = True)
+
+    for name in alt_parent_liked_names:
+        alt_like = model_to_dict(name)
+        alt_like['nameStr'] = name.name.name
+        other_parent_liked_names.append(alt_like)
+
+
 
     # compare liked names lists and compile agreed names if parent2 exists and format response   
     if parent2:
@@ -248,6 +261,7 @@ def handle_voted_names(request, uuid):
             'agreed': None,
         }
 
+    print(response)
 
     return JsonResponse({'names': response})
 
