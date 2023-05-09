@@ -2,12 +2,21 @@ import axios from "axios";
 import { useLoaderData } from "react-router-dom";
 
 export async function ChildLoader({ params }) {
-	const r = await axios.get(`/app/child/${params.uuid}`);
-	return r.data.success ? r.data.child : r.data.message;
+	
+	// console.log(params.uuid)
+	const apiCalls = [`/app/child/${params.uuid}`, `/app/namelist/${params.uuid}`]
+	// const apiCalls = [`/app/child/${params.uuid}`]
+	// console.log(apiCalls[0])
+	const promises = apiCalls.map(apiCall => axios.get(apiCall))
+
+	return Promise.all(promises)
+		.then(responses => responses.map(response => response.data))
+		.catch(error => console.log(error))
 }
 
 export default function Child() {
-	const child = useLoaderData();
+	const data = useLoaderData();
+	const child = data[0].child
 
 	return (
 		<div>

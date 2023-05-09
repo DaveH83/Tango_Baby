@@ -61,7 +61,7 @@ const customStyles = {
           <form onSubmit={(e)=>{
                 e.preventDefault();
                 submitHandler(name,gender,child)
-                console.log('onSubmit:',name,gender,id)
+                console.log('onSubmit:',name,gender)
                 setName('');
                 setGender('');
             }}>

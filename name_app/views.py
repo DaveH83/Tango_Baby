@@ -14,21 +14,25 @@ Blacklist = apps.get_model('user_app', 'Blacklist')
 # Handle viewing and adding children
 @api_view(["GET"])
 def handle_child(request, uuid):
+    
     if request.user.is_authenticated:
         # Find child from UUID
-        child_query = Child.objects.filter(parent_url=uuid)
-        if len(child_query) == 0:
-            child_query = Child.objects.filter(guest_url=uuid)
-        if len(child_query) == 0:
-            return JsonResponse({'message': 'Child not found', 'success': False})
-        child = json.loads(serialize("json", child_query))[0]['fields']
-        # Find parent 1
-        parent1_query = App_User.objects.filter(id=child["parent_1"])
-        child["parent_1"] = json.loads(serialize("json", parent1_query, fields=["username", "email", "first_name", "last_name"]))[0]['fields']
-        # Find parent 2 if any
-        if child["parent_2"]:
-            parent2_query = App_User.objects.filter(email=child["parent_2"])
-            child.parent_2 = json.loads(serialize("json", parent2_query, fields=["username", "email", "first_name", "last_name"]))[0]['fields']
+
+        try:
+            child = Child.objects.get(parent_url=uuid)
+        except:
+            child = Child.objects.get(guest_url=uuid)
+
+        # Pull and clean up user data for parents
+        parent1 = model_to_dict(child.parent_1, fields=['username', 'email', 'first_name', 'last_name'])
+        parent2_obj = App_User.objects.get(email=child.parent_2)
+        parent2 = model_to_dict(parent2_obj, fields=['username', 'email', 'first_name', 'last_name'])
+        
+        # serialize data and insert cleaned up parent data to final object
+        child = model_to_dict(child)
+        child['parent_1'] = parent1
+        child['parent_2'] = parent2
+                
         # return child object, now with parent information
         return JsonResponse({'message': 'Found UUID', 'success': True, 'child': child})
     return JsonResponse({'message': 'User is not logged in', 'success': False})
@@ -175,25 +179,35 @@ def handle_name(request):
 
 # handle retrieving and displaying lists of voted on names sorted by vote type
 @api_view(["GET"])
-def handle_voted_names(request):
+def handle_voted_names(request, uuid):
     
     #define parameters
     user = request.user
-    child_id = request.child['pk']
-    parent1 = request.child['parent1']
-    if request.child['parent2']:
-        parent2 = request.child['parent2']
-
-
+    child = Child.objects.get(guest_url=uuid)
+    parent1 = child.parent_1
+    if child.parent_2:
+        parent2 = App_User.objects.get(email=child.parent_2)
+    
     # Set current user liked / disliked names
-    liked_names = Voted_Name.objects.filter(participant = user, child_id = child_id, liked = True)
-    disliked_names = Voted_Name.objects.filter(participant = user, child_id = child_id, liked = False)
+    liked_names = []
+    disliked_names = []
 
+    liked_names_query = Voted_Name.objects.filter(participant = user, child_id = child.id, liked = True)
+
+    for name in liked_names_query:
+        liked_names.append(model_to_dict(name))
+        
+    disliked_names_query = Voted_Name.objects.filter(participant = user, child_id = child.id, liked = False)
+
+    for name in disliked_names_query:
+        disliked_names.append(model_to_dict(name))
+           
     # Define liked names for other parent
-    if user == parent1:
-        other_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child_id, liked = True)
-    elif user == parent2:
-        other_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child_id, liked = True)
+    if parent2 and user == parent1:
+        other_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child.id, liked = True)
+        print(other_parent_liked_names)
+    elif parent2 and user == parent2:
+        other_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child.id, liked = True)
 
     # compare liked names lists and compile agreed names if parent2 exists and format response   
     if parent2:

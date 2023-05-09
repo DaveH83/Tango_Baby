@@ -18,17 +18,20 @@ export async function AppLoader() {
 
 export function App() {
 	const data = useLoaderData();
+	
 	let user = null
 	let children = []
-
+	
 	const [testKids, setTestKids] = useState([])
+	const [activeChild, setActiveChild] = useState({})
+	const [votedNames, setVotedNames] = useState({})
+
 	
 	if (data){
 		user = data.curr_user
 		children = data.children
 		// setTestKids([data.children])
 	}
-	const [activeChild, setActiveChild] = useState({})
 	
 	handleCSRF();
 
@@ -36,7 +39,7 @@ export function App() {
 		initFlowbite();
 	}, [user, testKids]);
 	return (
-		<UserContext.Provider value={{user, children, activeChild, setActiveChild, testKids, setTestKids}}>
+		<UserContext.Provider value={{user, children, activeChild, setActiveChild, testKids, setTestKids, votedNames, setVotedNames}}>
 			<div>
 				<Header />
 				{user ? (
