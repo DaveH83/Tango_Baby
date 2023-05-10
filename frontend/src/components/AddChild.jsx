@@ -3,7 +3,14 @@ import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const axCreateChild = async (parent2, nickname, lastname, gender, nav) => {
+const axCreateChild = async (
+	parent2,
+	nickname,
+	lastname,
+	gender,
+	nav,
+	name
+) => {
 	// creates the child object
 	const c = await axios.post("/app/children/", {
 		parent_2: parent2,
@@ -13,20 +20,34 @@ const axCreateChild = async (parent2, nickname, lastname, gender, nav) => {
 	});
 	// then creates a voted_name object for that child
 	if (c.data.success) {
-		axios
-			.post("/app/name/", {
+		if (parent2) {
+			console.log("trying 2 votes")
+			const vote_1 = await axios.post("/app/name/", {
 				name: name,
 				gender: gender,
 				id: c.data.id,
-			})
-			.then(
-				// then nav to the childs unique ccid page, parent_url here since was just created by parent
-				() => {
-					nav(`/child/${c.data.child.parent_url}`);
-					window.location.reload();
-				}
-			)
-			.catch((e) => console.log("name error", e.message));
+				parent_2: null,
+			});
+			
+			const vote_2 = await axios.post("/app/name/", {
+				name: "DEFAULT",
+				gender: gender,
+				id: c.data.id,
+				parent_2: parent2,
+			});
+			// nav(`/child/${c.data.child.parent_url}`);
+			window.location.reload();
+		} else {
+			console.log("trying 1 votes")
+			const vote_1 = await axios.post("/app/name/", {
+				name: name,
+				gender: gender,
+				id: c.data.id,
+				parent_2: parent2,
+			});
+			// nav(`/child/${c.data.child.parent_url}`);
+			window.location.reload();
+		}
 	}
 };
 
@@ -49,7 +70,7 @@ export default function AddChild() {
 			<form
 				onSubmit={(e) => [
 					e.preventDefault(),
-					axCreateChild(parent2, nickname, lastname, gender, nav),
+					axCreateChild(parent2, nickname, lastname, gender, nav, name),
 				]}
 			>
 				<div className="mb-6">
