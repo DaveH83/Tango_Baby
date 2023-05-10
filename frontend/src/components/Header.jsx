@@ -10,9 +10,7 @@ export default function Header() {
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
 	const { user, children, activeChild, setActiveChild } =
 		useContext(UserContext);
-	
 	const uuid = activeChild ? `swipe/${activeChild.parent_url}` : "/"
-	
 	const nav = useNavigate();
 	const handleLogout = async () => {
 		const response = await axios.post("/user/logout/");

@@ -22,9 +22,6 @@ export default function SwipeNames() {
 		} else if (direction === "left") {
 			swipeHandler(name, uuid, false);
 		}
-		else if(direction==='left'){
-			swipeHandler(name,uuid,false)
-		}
 	}
 
 	//handler for clicking icon 
