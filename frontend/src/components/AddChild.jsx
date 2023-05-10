@@ -1,76 +1,95 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import Datepicker from 'tailwind-datepicker-react'; // https://github.com/OMikkel/tailwind-datepicker-react
 
-const axCreateChild = async (
-	parent2,
-	nickname,
-	lastname,
-	gender,
-	nav,
-	name
-) => {
+const axCreateChild = async (parent2, nickname, lastname, gender, selectedDate) => {
 	// creates the child object
 	const c = await axios.post("/app/children/", {
 		parent_2: parent2,
 		nickname: nickname,
 		lastname: lastname,
 		gender: gender,
+		due_date: selectedDate,
 	});
 	// then creates a voted_name object for that child
 	if (c.data.success) {
 		if (parent2) {
-			console.log("trying 2 votes")
 			const vote_1 = await axios.post("/app/name/", {
-				name: name,
+				name: "DEFAULT",
 				gender: gender,
 				id: c.data.id,
 				parent_2: null,
 			});
-			
+
 			const vote_2 = await axios.post("/app/name/", {
 				name: "DEFAULT",
 				gender: gender,
 				id: c.data.id,
 				parent_2: parent2,
 			});
-			// nav(`/child/${c.data.child.parent_url}`);
 			window.location.reload();
 		} else {
-			console.log("trying 1 votes")
 			const vote_1 = await axios.post("/app/name/", {
-				name: name,
+				name: "DEFAULT",
 				gender: gender,
 				id: c.data.id,
 				parent_2: parent2,
 			});
-			// nav(`/child/${c.data.child.parent_url}`);
 			window.location.reload();
 		}
 	}
+};
+
+const options = {
+	title: "Due Date",
+	autoHide: true,
+	todayBtn: true,
+	clearBtn: true,
+	maxDate: new Date("2030-01-01"),
+	minDate: new Date(),
+	theme: {
+		background: "bg-gray-700 dark:bg-gray-800",
+		todayBtn: "",
+		clearBtn: "",
+		icons: "",
+		text: "",
+		disabledText: "bg-red-500",
+		input: "",
+		inputIcon: "",
+		selected: "",
+	},
+	icons: {
+		// () => ReactElement | JSX.Element
+		prev: () => <span>Previous</span>,
+		next: () => <span>Next</span>,
+	},
+	datepickerClassNames: "top-12",
+	defaultDate: "",
+	language: "en",
 };
 
 export default function AddChild() {
 	//user context
 	const { user } = useContext(UserContext);
 
-	//nav handler
-	const nav = useNavigate();
-
 	//state handlers for form data
 	const [parent2, setParent2] = useState(null);
 	const [nickname, setNickname] = useState(null);
 	const [lastname, setLastName] = useState(null);
 	const [gender, setGender] = useState("M");
-	const [name, setName] = useState(null);
+	const [show, setShow] = useState(false);
+	const [selectedDate, setSelectedDate] = useState(null)
+	const handleDate = (selectedDate) => {
+		setSelectedDate(selectedDate)
+	}
 
 	return (
 		<div>
 			<form
 				onSubmit={(e) => [
 					e.preventDefault(),
-					axCreateChild(parent2, nickname, lastname, gender, nav, name),
+					axCreateChild(parent2, nickname, lastname, gender, selectedDate),
 				]}
 			>
 				<div className="mb-6">
@@ -202,20 +221,11 @@ export default function AddChild() {
 					</fieldset>
 				</div>
 				<div className="mb-6">
-					<label
-						htmlFor="nickname"
-						className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-					>
-						Enter your initial First Name suggestion for this child
-					</label>
-					<input
-						type="text"
-						id="nickname2"
-						placeholder="eventually might put a random name from the db as a placeholder here based on gender selected..."
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-						required
+					<Datepicker
+						options={options}
+						show={show}
+						onChange={handleDate}
+						setShow={() => setShow(!show)}
 					/>
 				</div>
 				<button
