@@ -3,6 +3,7 @@ from django.core.serializers import serialize
 from rest_framework.decorators import api_view
 from django.apps import apps
 from django.forms.models import model_to_dict
+from datetime import datetime
 import json, uuid
 App_User = apps.get_model('user_app', 'App_User')
 Child = apps.get_model('user_app', 'Child')
@@ -96,10 +97,15 @@ def handle_children(request):
         elif request.method == "POST":
             # adds new child object
             parent_2 = None
+            due_date = None
             p_url = uuid.uuid4()
             g_url = uuid.uuid4()
             gender = request.data['gender']
             lastname = request.data['lastname']
+            if request.data['due_date']:
+                date_str = request.data['due_date']
+                date_obj = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
+                due_date = date_obj.strftime('%Y-%m-%d')
             if data['parent_2']:
                 parent_2 = data['parent_2']
 
@@ -116,6 +122,7 @@ def handle_children(request):
                     parent_url=p_url,
                     guest_url=g_url,
                     gender=gender,
+                    due_date=due_date,
                 )
                 # get this new childs object to pass back to the front to be able to handle adding first voted_name
                 new_kid_query = Child.objects.filter(parent_url=p_url)
