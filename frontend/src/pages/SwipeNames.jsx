@@ -25,12 +25,12 @@ export default function SwipeNames() {
 			swipeHandler(name, uuid, false);
 			setListLength(preLength=>preLength-1)
 		}
-	}
+	};
 
-	//handler for clicking icon 
-	const onClick = (name,button) => {
-		if(button==='right'){
-			swipeHandler(name,uuid,true);
+	//handler for clicking icon
+	const onClick = (name, button) => {
+		if (button === "right") {
+			swipeHandler(name, uuid, true);
 			setToShowList((prevList) => prevList.slice(0, -1));
 			setListLength(preLength=>preLength-1)
 			console.log(listLength)
@@ -57,29 +57,31 @@ export default function SwipeNames() {
 	
 
 	return (
-		
-			<div className="card-container" >
-			<AddName />
-			{toShowList.map((name)=> (
-				<div className='single-card'>
-					<TinderCard className='tinder_card' onSwipe={(dir) => onSwipe(name, dir)} preventSwipe={['up', 'down']}>
-							<p className='name-holder' key={name.id}>{name.name}</p>
-					</TinderCard> 
-					<div className='icons'>
-						<button onClick={()=>onClick(name,'left')}>
-							<HeartBrokenIcon fontSize="large"/>
-						</button>
-						<button onClick={()=>onClick(name, 'right')}>
-							<FavoriteIcon fontSize="large"/>
-						</button>
+		children && (
+			<div className="card-container h-[500px]">
+				<AddName />
+				{toShowList.map((name) => (
+					<div className="single-card">
+						<TinderCard
+							className="tinder_card"
+							onSwipe={(dir) => onSwipe(name, dir)}
+							preventSwipe={["up", "down"]}
+						>
+							<p className="name-holder" key={name.id}>
+								{name.name}
+							</p>
+						</TinderCard>
+						<div className="icons">
+							<button onClick={() => onClick(name, "left")}>
+								<HeartBrokenIcon fontSize="large" />
+							</button>
+							<button onClick={() => onClick(name, "right")}>
+								<FavoriteIcon fontSize="large" />
+							</button>
+						</div>
 					</div>
-				</div>
-			)	
-			)}
+				))}
 			</div>
-		
-		
-			
-	
+		)
 	);
 }
