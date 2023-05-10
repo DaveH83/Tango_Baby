@@ -208,7 +208,6 @@ def handle_voted_names(request, uuid):
     parent1 = child.parent_1
     parent2 = None
     if child.parent_2:
-        print('conditional parent 2 db call')
         parent2 = App_User.objects.get(email=child.parent_2)
         
     
@@ -225,6 +224,8 @@ def handle_voted_names(request, uuid):
     # serialize liked names query set, and add name string for rendering on front end
     for name in liked_names_query:
       liked_name = model_to_dict(name.name)
+      if liked_name['name'] == 'DEFAULT':
+          continue
       liked_names.append(liked_name)
 
     # pull disliked names for current user        
@@ -270,10 +271,10 @@ def handle_voted_names(request, uuid):
             'agreed': None,
         }
 
-    # print('\nliked names\n****************\n', liked_names)
-    # print('\ndisliked names\n****************\n', disliked_names)
-    # print('\nagreed names\n****************\n', agreed_names)
-    print(response)
+    print('\nliked names\n****************\n', liked_names)
+    print('\ndisliked names\n****************\n', disliked_names)
+    print('\nagreed names\n****************\n', agreed_names)
+    # print(response)
 
     return JsonResponse({'names': response})
 
