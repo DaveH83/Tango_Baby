@@ -5,16 +5,17 @@ import { useContext, useState } from "react";
 import { UserContext } from "../App";
 
 export async function ChildLoader({ params }) {
-	
-	// console.log(params.uuid)
 	const apiCalls = [`/app/child/${params.uuid}`, `/app/namelist/${params.uuid}`]
-	// const apiCalls = [`/app/child/${params.uuid}`]
-	// console.log(apiCalls[0])
+	console.log('loader called')
+
 	const promises = apiCalls.map(apiCall => axios.get(apiCall))
 
 	return Promise.all(promises)
 		.then(responses => responses.map(response => response.data))
 		.catch(error => console.log(error))
+	// console.log(Promise.all(promises)
+	// 	.then(responses => responses.map(response => response.data))
+	// 	.catch(error => console.log(error)))
 }
 
 export default function Child() {
@@ -22,7 +23,7 @@ export default function Child() {
 	const data = useLoaderData();
 	const child = data[0].child
 	const votedNamesList = data[1].names
-	console.log(activeChild)
+	console.log(data)
 
 	return (
 		<div className="p-1">
@@ -38,8 +39,8 @@ export default function Child() {
 					<div className="flex flex-col items-front pb-10">
 					<h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Parents</h5>
 					<span className="text-sm text-gray-500 dark:text-gray-400">{child.parent_1.username} | {child.parent_1.email}</span>
-					<span className="text-sm text-gray-500 dark:text-gray-400">{child.parent_2.username} | {child.parent_2.email}</span>
-					</div>
+					{ child.parent_2 && <span className="text-sm text-gray-500 dark:text-gray-400">{child.parent_2.username} | {child.parent_2.email}</span> }
+					</div> 
 
 				</div>
 			</div>
@@ -63,7 +64,7 @@ export default function Child() {
 
 						<div className="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="liked" role="tabpanel" aria-labelledby="liked-tab">
 						{votedNamesList.liked.length > 0 ? votedNamesList.liked.map((likedNames) => (
-								<p className="mb-3 text-gray-500 dark:text-white">{likedNames.nameStr}</p>
+								<p className="mb-3 text-gray-500 dark:text-white">{likedNames.name}</p>
 							)):
 							<p className="mb-3 text-gray-500 dark:text-white">You haven't liked any names yet!</p>}
 						</div>
@@ -71,15 +72,15 @@ export default function Child() {
 						<div className="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="disliked" role="tabpanel" aria-labelledby="disliked-tab">
 							
 							{votedNamesList.disliked.length > 0 ? votedNamesList.disliked.map((dislikedNames) => (
-								<p className="mb-3 text-gray-500 dark:text-white">{dislikedNames.nameStr}</p>
+								<p className="mb-3 text-gray-500 dark:text-white">{dislikedNames.name}</p>
 							)):
 							<p className="mb-3 text-gray-500 dark:text-white">My, aren't you open minded?  You haven't disliked anything yet!</p>}
 							
 						</div>
 
 						<div className="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="agreed" role="tabpanel" aria-labelledby="agreed-tab">
-							{votedNamesList.agreed.length > 0 ? votedNamesList.agreed.map((agreedNames) => (
-								<p className="mb-3 text-gray-500 dark:text-white">{agreedNames.nameStr}</p>
+							{votedNamesList.agreed && votedNamesList.agreed.length > 0 ? votedNamesList.agreed.map((agreedNames) => (
+								<p className="mb-3 text-gray-500 dark:text-white">{agreedNames.name}</p>
 							)):
 							<p className="mb-3 text-gray-500 dark:text-white">Don't worry, I'm sure you'll agree on something eventually...</p>}
 						</div>
