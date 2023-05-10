@@ -1,9 +1,17 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
-import Datepicker from 'tailwind-datepicker-react'; // https://github.com/OMikkel/tailwind-datepicker-react
+import DatePicker from "react-date-picker";
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
 
-const axCreateChild = async (parent2, nickname, lastname, gender, selectedDate) => {
+const axCreateChild = async (
+	parent2,
+	nickname,
+	lastname,
+	gender,
+	selectedDate
+) => {
 	// creates the child object
 	const c = await axios.post("/app/children/", {
 		parent_2: parent2,
@@ -41,34 +49,6 @@ const axCreateChild = async (parent2, nickname, lastname, gender, selectedDate) 
 	}
 };
 
-const options = {
-	title: "Due Date",
-	autoHide: true,
-	todayBtn: true,
-	clearBtn: true,
-	maxDate: new Date("2030-01-01"),
-	minDate: new Date(),
-	theme: {
-		background: "bg-gray-700 dark:bg-gray-800",
-		todayBtn: "",
-		clearBtn: "",
-		icons: "",
-		text: "",
-		disabledText: "bg-red-500",
-		input: "",
-		inputIcon: "",
-		selected: "",
-	},
-	icons: {
-		// () => ReactElement | JSX.Element
-		prev: () => <span>Previous</span>,
-		next: () => <span>Next</span>,
-	},
-	datepickerClassNames: "top-12",
-	defaultDate: "",
-	language: "en",
-};
-
 export default function AddChild() {
 	//user context
 	const { user } = useContext(UserContext);
@@ -78,11 +58,11 @@ export default function AddChild() {
 	const [nickname, setNickname] = useState(null);
 	const [lastname, setLastName] = useState(null);
 	const [gender, setGender] = useState("M");
-	const [show, setShow] = useState(false);
-	const [selectedDate, setSelectedDate] = useState(null)
+	const [selectedDate, setSelectedDate] = useState(null);
 	const handleDate = (selectedDate) => {
-		setSelectedDate(selectedDate)
-	}
+		setSelectedDate(selectedDate);
+		console.log(selectedDate)
+	};
 
 	return (
 		<div>
@@ -220,13 +200,8 @@ export default function AddChild() {
 						</div>
 					</fieldset>
 				</div>
-				<div className="mb-6">
-					<Datepicker
-						options={options}
-						show={show}
-						onChange={handleDate}
-						setShow={() => setShow(!show)}
-					/>
+				<div>
+					<DatePicker value={new Date()} onChange={handleDate} />
 				</div>
 				<button
 					type="submit"
