@@ -25,6 +25,8 @@ def handle_child(request, uuid):
 
         # Pull and clean up user data for parents
         parent1 = model_to_dict(child.parent_1, fields=['username', 'email', 'first_name', 'last_name'])
+        print(child)
+        print(child.parent_2)
         parent2_obj = App_User.objects.get(email=child.parent_2)
         parent2 = model_to_dict(parent2_obj, fields=['username', 'email', 'first_name', 'last_name'])
         
@@ -34,6 +36,7 @@ def handle_child(request, uuid):
         child['parent_2'] = parent2
                 
         # return child object, now with parent information
+      
         return JsonResponse({'message': 'Found UUID', 'success': True, 'child': child})
     return JsonResponse({'message': 'User is not logged in', 'success': False})
 

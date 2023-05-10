@@ -46,9 +46,9 @@ export default function SwipeNames() {
 	// 		setToShowList(newlist.slice(0,2))
 	// 	}
 	// },[toShowList.length])
-	if (!toShowList){
-        return (<div>Loading...</div>);
-    }
+	// if (!toShowList){
+    //     return (<div>Loading...</div>);
+    // }
 	return (
 		
 			<div className="card-container" >
