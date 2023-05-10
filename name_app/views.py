@@ -206,7 +206,7 @@ def handle_voted_names(request, uuid):
     parent1 = child.parent_1
     if child.parent_2:
         parent2 = App_User.objects.get(email=child.parent_2)
-    
+        
     # Set current user liked / disliked names
     liked_names = []
     disliked_names = []
