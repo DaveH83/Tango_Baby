@@ -25,15 +25,15 @@ def handle_child(request, uuid):
 
         # Pull and clean up user data for parents
         parent1 = model_to_dict(child.parent_1, fields=['username', 'email', 'first_name', 'last_name'])
-        print(child)
-        print(child.parent_2)
-        parent2_obj = App_User.objects.get(email=child.parent_2)
-        parent2 = model_to_dict(parent2_obj, fields=['username', 'email', 'first_name', 'last_name'])
+        if child.parent_2:
+            parent2_obj = App_User.objects.get(email=child.parent_2)
+            parent2 = model_to_dict(parent2_obj, fields=['username', 'email', 'first_name', 'last_name'])
         
         # serialize data and insert cleaned up parent data to final object
         child = model_to_dict(child)
         child['parent_1'] = parent1
-        child['parent_2'] = parent2
+        if child['parent_2']:
+            child['parent_2'] = parent2
                 
         # return child object, now with parent information
       
@@ -207,47 +207,51 @@ def handle_voted_names(request, uuid):
     user = request.user
     child = Child.objects.get(guest_url=uuid)
     parent1 = child.parent_1
+    parent2 = None
     if child.parent_2:
+        print('conditional parent 2 db call')
         parent2 = App_User.objects.get(email=child.parent_2)
-        
+    
     # Set current user liked / disliked names
     liked_names = []
     disliked_names = []
     other_parent_liked_names = []
+    alt_parent_liked_names = []
+    agreed_names = []
 
+    # pull liked names for current user
     liked_names_query = Voted_Name.objects.filter(participant = user, child_id = child.id, liked = True)
 
+    # serialize liked names query set, and add name string for rendering on front end
     for name in liked_names_query:
-        
-      liked_name = model_to_dict(name)
-      liked_name['nameStr'] = name.name.name
+      liked_name = model_to_dict(name.name)
       liked_names.append(liked_name)
-        
+
+    # pull disliked names for current user        
     disliked_names_query = Voted_Name.objects.filter(participant = user, child_id = child.id, liked = False)
 
+    # serialize disliked names query set, and add name string for rendering on front end
     for name in disliked_names_query:
-      disliked_name = model_to_dict(name)
-      disliked_name['nameStr'] = name.name.name
+      disliked_name = model_to_dict(name.name)
       disliked_names.append(disliked_name)
            
-    # Define liked names for other parent
+    # Define liked names for other parent as long as parent 2 exists
+    # If current user is parent 1, pull liked names for parent 2
     if parent2 and user == parent1:
         alt_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child.id, liked = True)
-        print('alt parent liked names', other_parent_liked_names)
-    elif parent2 and user == parent2:
-        alt_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child.id, liked = True)
 
-    for name in alt_parent_liked_names:
-        alt_like = model_to_dict(name)
-        alt_like['nameStr'] = name.name.name
-        other_parent_liked_names.append(alt_like)
+    # If current user is parent 2, pull liked names for parent 1
+    elif parent2 and user.email == child.parent_2:
+        alt_parent_liked_names = Voted_Name.objects.filter(participant = parent1, child = child.id, liked = True)
 
-
-
+    # serialize other parent liked names query set, and add name string for rendering on front end if parent 2 exists
+    if alt_parent_liked_names:
+        for name in alt_parent_liked_names:
+            alt_like = model_to_dict(name.name)
+            other_parent_liked_names.append(alt_like)
+        
     # compare liked names lists and compile agreed names if parent2 exists and format response   
     if parent2:
-        agreed_names = []
-
         for name in liked_names:
             if name in other_parent_liked_names:
                 agreed_names.append(name)
@@ -266,6 +270,9 @@ def handle_voted_names(request, uuid):
             'agreed': None,
         }
 
+    # print('\nliked names\n****************\n', liked_names)
+    # print('\ndisliked names\n****************\n', disliked_names)
+    # print('\nagreed names\n****************\n', agreed_names)
     print(response)
 
     return JsonResponse({'names': response})
