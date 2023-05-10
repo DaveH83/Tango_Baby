@@ -10,7 +10,7 @@ const axCreateChild = async (
 	nickname,
 	lastname,
 	gender,
-	selectedDate
+	selectedDueDate
 ) => {
 	// creates the child object
 	const c = await axios.post("/app/children/", {
@@ -18,7 +18,7 @@ const axCreateChild = async (
 		nickname: nickname,
 		lastname: lastname,
 		gender: gender,
-		due_date: selectedDate,
+		due_date: selectedDueDate,
 	});
 	// then creates a voted_name object for that child
 	if (c.data.success) {
@@ -58,10 +58,10 @@ export default function AddChild() {
 	const [nickname, setNickname] = useState(null);
 	const [lastname, setLastName] = useState(null);
 	const [gender, setGender] = useState("M");
-	const [selectedDate, setSelectedDate] = useState(null);
-	const handleDate = (selectedDate) => {
-		setSelectedDate(selectedDate);
-		console.log(selectedDate)
+	const [selectedDueDate, setselectedDueDate] = useState(null);
+	const handleDate = (selectedDueDate) => {
+		setselectedDueDate(selectedDueDate);
+		console.log(selectedDueDate)
 	};
 
 	return (
@@ -69,7 +69,7 @@ export default function AddChild() {
 			<form
 				onSubmit={(e) => [
 					e.preventDefault(),
-					axCreateChild(parent2, nickname, lastname, gender, selectedDate),
+					axCreateChild(parent2, nickname, lastname, gender, selectedDueDate),
 				]}
 			>
 				<div className="mb-6">
@@ -201,7 +201,7 @@ export default function AddChild() {
 					</fieldset>
 				</div>
 				<div>
-					<DatePicker value={new Date()} onChange={handleDate} />
+					<DatePicker minDate={new Date()} value={selectedDueDate} onChange={handleDate} />
 				</div>
 				<button
 					type="submit"
