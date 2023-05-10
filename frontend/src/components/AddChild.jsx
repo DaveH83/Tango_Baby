@@ -1,15 +1,16 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import DatePicker from "react-date-picker";
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
 
 const axCreateChild = async (
 	parent2,
 	nickname,
 	lastname,
 	gender,
-	nav,
-	name
+	selectedDueDate
 ) => {
 	// creates the child object
 	const c = await axios.post("/app/children/", {
@@ -17,35 +18,32 @@ const axCreateChild = async (
 		nickname: nickname,
 		lastname: lastname,
 		gender: gender,
+		due_date: selectedDueDate,
 	});
 	// then creates a voted_name object for that child
 	if (c.data.success) {
 		if (parent2) {
-			console.log("trying 2 votes")
 			const vote_1 = await axios.post("/app/name/", {
-				name: name,
+				name: "DEFAULT",
 				gender: gender,
 				id: c.data.id,
 				parent_2: null,
 			});
-			
+
 			const vote_2 = await axios.post("/app/name/", {
 				name: "DEFAULT",
 				gender: gender,
 				id: c.data.id,
 				parent_2: parent2,
 			});
-			// nav(`/child/${c.data.child.parent_url}`);
 			window.location.reload();
 		} else {
-			console.log("trying 1 votes")
 			const vote_1 = await axios.post("/app/name/", {
-				name: name,
+				name: "DEFAULT",
 				gender: gender,
 				id: c.data.id,
 				parent_2: parent2,
 			});
-			// nav(`/child/${c.data.child.parent_url}`);
 			window.location.reload();
 		}
 	}
@@ -55,22 +53,23 @@ export default function AddChild() {
 	//user context
 	const { user } = useContext(UserContext);
 
-	//nav handler
-	const nav = useNavigate();
-
 	//state handlers for form data
 	const [parent2, setParent2] = useState(null);
 	const [nickname, setNickname] = useState(null);
 	const [lastname, setLastName] = useState(null);
 	const [gender, setGender] = useState("M");
-	const [name, setName] = useState(null);
+	const [selectedDueDate, setselectedDueDate] = useState(null);
+	const handleDate = (selectedDueDate) => {
+		setselectedDueDate(selectedDueDate);
+		console.log(selectedDueDate)
+	};
 
 	return (
 		<div>
 			<form
 				onSubmit={(e) => [
 					e.preventDefault(),
-					axCreateChild(parent2, nickname, lastname, gender, nav, name),
+					axCreateChild(parent2, nickname, lastname, gender, selectedDueDate),
 				]}
 			>
 				<div className="mb-6">
@@ -201,22 +200,8 @@ export default function AddChild() {
 						</div>
 					</fieldset>
 				</div>
-				<div className="mb-6">
-					<label
-						htmlFor="nickname"
-						className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-					>
-						Enter your initial First Name suggestion for this child
-					</label>
-					<input
-						type="text"
-						id="nickname2"
-						placeholder="eventually might put a random name from the db as a placeholder here based on gender selected..."
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-						required
-					/>
+				<div>
+					<DatePicker minDate={new Date()} value={selectedDueDate} onChange={handleDate} />
 				</div>
 				<button
 					type="submit"
