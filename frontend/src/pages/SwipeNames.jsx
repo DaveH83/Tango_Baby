@@ -5,6 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 import { nameListLoader, swipeHandler } from '../Utilities/Utilities';
 import AddName from '../components/AddName';
+import AddChild from "../components/AddChild";
 import { UserContext } from "../App";
 
 export default function SwipeNames() {
@@ -37,19 +38,19 @@ export default function SwipeNames() {
 			console.log(toShowList)
 	}}
 	//working on this, its not working yet
-	useEffect(async()=>{
-		if (toShowList.length===0){ 
-			console.log("noname to swipe")
-			const newlist=await nameListLoader(uuid)
-			console.log(newlist)
-			setToShowList(newlist.slice(0,2))
-		}
-	},[toShowList.length])
+	// useEffect(async()=>{
+	// 	if (toShowList.length===0){ 
+	// 		console.log("noname to swipe")
+	// 		const newlist=await nameListLoader(uuid)
+	// 		console.log(newlist)
+	// 		setToShowList(newlist.slice(0,2))
+	// 	}
+	// },[toShowList.length])
 	if (!toShowList){
         return (<div>Loading...</div>);
     }
 	return (
-		children && ( 
+		
 			<div className="card-container" >
 			<AddName />
 			{toShowList.map((name)=> (
@@ -69,7 +70,7 @@ export default function SwipeNames() {
 			)	
 			)}
 			</div>
-		)
+		
 		
 			
 	
