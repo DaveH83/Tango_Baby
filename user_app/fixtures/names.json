@@ -1,6 +1,24 @@
 [
 	{
 		"model": "user_app.Name",
+		"pk": "999998",
+		"fields": {
+			"name": "DEFAULT",
+			"gender": "F",
+			"popularity": "-1"
+		}
+	},
+	{
+		"model": "user_app.Name",
+		"pk": "999999",
+		"fields": {
+			"name": "DEFAULT",
+			"gender": "M",
+			"popularity": "-1"
+		}
+	},
+	{
+		"model": "user_app.Name",
 		"pk": "1",
 		"fields": {
 			"name": "Mary",
