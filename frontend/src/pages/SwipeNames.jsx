@@ -9,7 +9,7 @@ import { UserContext } from "../App";
 
 export default function SwipeNames() {
 	const nameList=useLoaderData();
-	const [toShowList,setToShowList]=useState(nameList.slice(0,2)); 	
+	const [toShowList,setToShowList]=useState(nameList); 	
 	const {uuid}=useParams();
 	const {children} = useContext(UserContext)
 
@@ -40,14 +40,14 @@ export default function SwipeNames() {
 			console.log(toShowList)
 	}}
 	//working on this, its not working yet
-	useEffect(async()=>{
-		if (toShowList.length===0){ 
-			console.log("noname to swipe")
-			const newlist=await nameListLoader(uuid)
-			console.log(newlist)
-			setToShowList(newlist.slice(0,2))
-		}
-	},[toShowList.length])
+	// useEffect(async()=>{
+	// 	if (toShowList.length===0){ 
+	// 		console.log("noname to swipe")
+	// 		const newlist=await nameListLoader(uuid)
+	// 		console.log(newlist)
+	// 		setToShowList(newlist.slice(0,2))
+	// 	}
+	// },[toShowList.length])
 	if (!toShowList){
         return (<div>Loading...</div>);
     }

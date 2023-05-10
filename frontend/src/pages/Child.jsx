@@ -38,7 +38,7 @@ export default function Child() {
 					<div className="flex flex-col items-front pb-10">
 					<h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Parents</h5>
 					<span className="text-sm text-gray-500 dark:text-gray-400">{child.parent_1.username} | {child.parent_1.email}</span>
-					<span className="text-sm text-gray-500 dark:text-gray-400">{child.parent_2.username} | {child.parent_1.email}</span>
+					<span className="text-sm text-gray-500 dark:text-gray-400">{child.parent_2.username} | {child.parent_2.email}</span>
 					</div>
 
 				</div>
@@ -56,7 +56,7 @@ export default function Child() {
 							<button id="disliked-tab" data-tabs-target="#disliked" type="button" role="tab" aria-controls="disliked" aria-selected="false" className="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">Disliked</button>
 						</li>
 						<li className="mr-2">
-							<button id="agreed-tab" data-tabs-target="#agreed" type="button" role="tab" aria-controls="agreed" aria-selected="false" className="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">Facts</button>
+							<button id="agreed-tab" data-tabs-target="#agreed" type="button" role="tab" aria-controls="agreed" aria-selected="false" className="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">Agreed</button>
 						</li>
 					</ul>
 					<div id="defaultTabContent">
