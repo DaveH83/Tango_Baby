@@ -237,7 +237,7 @@ def handle_voted_names(request, uuid):
     # Define liked names for other parent
     if parent2 and user == parent1:
         alt_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child.id, liked = True)
-        print(other_parent_liked_names)
+        print('alt parent liked names', other_parent_liked_names)
     elif parent2 and user == parent2:
         alt_parent_liked_names = Voted_Name.objects.filter(participant = parent2, child = child.id, liked = True)
 
