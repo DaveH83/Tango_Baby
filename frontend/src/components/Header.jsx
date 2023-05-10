@@ -229,17 +229,17 @@ export default function Header() {
 								</button>
 								<div className="py-4 overflow-y-auto">
 									<ul className="space-y-2 font-medium">
-										<li>
-											<Link
-												href="#"
+										{ activeChild && <li>
+											<Link to="/"
+												// href="#"
 												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 											>
 												<span className="flex-1 ml-3 whitespace-nowrap">
 													Results
 												</span>
 											</Link>
-										</li>
-										<li>
+										</li>}
+										{/* <li>
 											<Link
 												to="matches"
 												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -248,7 +248,7 @@ export default function Header() {
 													Matches
 												</span>
 											</Link>
-										</li>
+										</li> */}
 										<li>
 											<Link
 												to={`${uuid}`}

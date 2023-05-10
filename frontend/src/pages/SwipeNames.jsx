@@ -10,7 +10,7 @@ import { UserContext } from "../App";
 
 export default function SwipeNames() {
 	const nameList=useLoaderData();
-	const [toShowList,setToShowList]=useState(nameList.slice(0,2)); 	
+	const [toShowList,setToShowList]=useState(nameList); 	
 	const {uuid}=useParams();
 	const {children} = useContext(UserContext)
 
