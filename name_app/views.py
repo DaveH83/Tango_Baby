@@ -45,7 +45,7 @@ def handle_child(request, uuid):
         # if request.method == 'PUT':
 
 
-        return JsonResponse({'message': 'User is not logged in', 'success': False})
+    return JsonResponse({'message': 'User is not logged in', 'success': False})
 
 
 # Handle viewing and adding children
