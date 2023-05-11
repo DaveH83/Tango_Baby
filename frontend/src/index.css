@@ -37,3 +37,36 @@ body {
 	position: fixed;
 	bottom: 30px;
 }
+
+.react-date-picker {
+	--tw-bg-opacity: 1;
+	border-color: rgb(209 213 219 / var(--tw-border-opacity));
+	color: rgb(17 24 39 / var(--tw-text-opacity));
+	border-width: 1px;
+	font-size: 0.875rem/* 14px */;
+  line-height: 1.25rem/* 20px */;
+	border-radius: 0.5rem/* 8px */;
+	padding: 0.625rem/* 10px */;
+	background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+	border-color: rgb(75 85 99 / var(--tw-border-opacity));
+	color: white;
+	width: 100%;
+}
+
+.react-date-picker:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
+  border-color: rgb(59 130 246 / var(--tw-border-opacity));
+}
+
+.react-date-picker__inputGroup {
+	min-width: 0 !important;
+}
+
+.react-date-picker__wrapper {
+	border: none !important;
+}
+
+.react-date-picker__button__icon {
+	stroke: white;
+}
