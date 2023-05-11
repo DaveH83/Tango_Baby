@@ -57,11 +57,11 @@ export default function Profile() {
 			<h1 className="text-transform: capitalize text-3xl font-bold">
 				Welcome, {user.username}!
 			</h1>
-			<div className="pb-4 flex flex-wrap justify-center md:justify-start">
+			<div className="pb-4 flex flex-wrap justify-center md:justify-start pt-4">
 				{children.map((child) => (
 					<div
 						key={child.guest_url}
-						className="w-fit p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-2 flex items-center flex-col"
+						className="w-fit p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center flex-col mr-2"
 					>
 						<img
 							className="w-24 h-24 mb-3 rounded-full shadow-lg"
