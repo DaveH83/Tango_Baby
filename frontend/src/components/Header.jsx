@@ -5,12 +5,11 @@ import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
-
 export default function Header() {
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
 	const { user, children, activeChild, setActiveChild } =
 		useContext(UserContext);
-	const uuid = activeChild ? `swipe/${activeChild.parent_url}` : "/"
+	const uuid = activeChild ? `swipe/${activeChild.parent_url}` : "/";
 	const nav = useNavigate();
 	const handleLogout = async () => {
 		const response = await axios.post("/user/logout/");
@@ -35,7 +34,7 @@ export default function Header() {
 	}, [isLargeScreen, user]);
 
 	return (
-		<nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+		<nav className="fixed top-0 w-full border-b bg-gray-800 border-gray-700">
 			<div className="px-3 py-3 lg:px-5 lg:pl-3">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center justify-start">
@@ -70,7 +69,7 @@ export default function Header() {
 								alt="Logo"
 							/>
 							<span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-								Baby Name Swiper
+								Baby Swiper
 							</span>
 						</Link>
 					</div>
@@ -196,7 +195,7 @@ export default function Header() {
 						{user && (
 							<div
 								id="drawer-navigation"
-								className="fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800 mt-14"
+								className="fixed top-0 left-0 w-64 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-gray-700 mt-[64px]"
 								tabIndex="-1"
 								aria-labelledby="drawer-navigation-label"
 							>
@@ -229,17 +228,20 @@ export default function Header() {
 								</button>
 								<div className="py-4 overflow-y-auto">
 									<ul className="space-y-2 font-medium">
-										{ activeChild && <><li>
-											<Link to="/"
-												// href="#"
-												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-											>
-												<span className="flex-1 ml-3 whitespace-nowrap">
-													Results
-												</span>
-											</Link>
-										</li>
-										{/* <li>
+										{activeChild && (
+											<>
+												<li>
+													<Link
+														to="/"
+														// href="#"
+														className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+													>
+														<span className="flex-1 ml-3 whitespace-nowrap">
+															Results
+														</span>
+													</Link>
+												</li>
+												{/* <li>
 											<Link
 												to="matches"
 												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -249,27 +251,28 @@ export default function Header() {
 												</span>
 											</Link>
 										</li> */}
-										<li>
-											<Link
-												to={`${uuid}`}
-												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-											>
-												<span className="flex-1 ml-3 whitespace-nowrap">
-													Swipe Names
-												</span>
-											</Link>
-										</li>
-										<li>
-											<Link
-												href="#"
-												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-											>
-												<span className="flex-1 ml-3 whitespace-nowrap">
-													Rank Choices
-												</span>
-											</Link>
-										</li>
-										</>}
+												<li>
+													<Link
+														to={`${uuid}`}
+														className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+													>
+														<span className="flex-1 ml-3 whitespace-nowrap">
+															Swipe Names
+														</span>
+													</Link>
+												</li>
+												<li>
+													<Link
+														href="#"
+														className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+													>
+														<span className="flex-1 ml-3 whitespace-nowrap">
+															Rank Choices
+														</span>
+													</Link>
+												</li>
+											</>
+										)}
 									</ul>
 								</div>
 							</div>

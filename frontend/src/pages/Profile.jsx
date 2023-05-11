@@ -3,6 +3,7 @@ import { UserContext } from "../App";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import AddChild from "../components/AddChild";
+import baby_head from "../images/baby_head.jpg";
 
 const updatePassword = async (
 	email,
@@ -46,29 +47,34 @@ const deleteUser = async () => {
 };
 
 export default function Profile() {
-	const { user, children } = useContext(UserContext);
+	const { user, children, setActiveChild } = useContext(UserContext);
 	const nav = useNavigate();
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 
 	return (
 		<div className="p-6">
-			<h1 className="text-transform: capitalize text-4xl font-bold">
+			<h1 className="text-transform: capitalize text-3xl font-bold">
 				Welcome, {user.username}!
 			</h1>
-			<div className="pt-4 text-xl">Children:</div>
-			<div className="pb-4 flex flex-wrap justify-center md:justify-start">
+			<div className="pb-4 flex flex-wrap justify-center md:justify-start pt-4">
 				{children.map((child) => (
 					<div
 						key={child.guest_url}
-						className="w-fit p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-2"
+						className="w-fit p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center flex-col mr-2"
 					>
+						<img
+							className="w-24 h-24 mb-3 rounded-full shadow-lg"
+							src={baby_head}
+							alt="Baby Profile Picture"
+						/>
 						<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 							{child.nickname}
 						</h5>
 						<Link
 							to={`/child/${child.guest_url}`}
-							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800"
+							onClick={() => setActiveChild(child)}
 						>
 							More Info
 							<svg
@@ -229,7 +235,6 @@ export default function Profile() {
 						data-modal-toggle="popup-modal"
 						className="block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mt-4"
 						type="button"
-						onClick={deleteUser}
 					>
 						Delete Account
 					</button>
@@ -284,6 +289,7 @@ export default function Profile() {
 										data-modal-hide="popup-modal"
 										type="button"
 										className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+										onClick={deleteUser}
 									>
 										Yes, I&apos;m sure
 									</button>
