@@ -31,11 +31,13 @@ export function App() {
 	handleCSRF();
 
 	useEffect(() => {
-		children.length > 0
-			? Object.keys(activeChild).length === 0
-				? setActiveChild(data.children[0])
-				: null
-			: setActiveChild({});
+		if (children.length > 0) {
+			if (Object.keys(activeChild).length === 0) {
+				setActiveChild(data.children[0]);
+			} else {
+				setActiveChild({});
+			}
+		}
 		initFlowbite();
 	}, [location, data]);
 
