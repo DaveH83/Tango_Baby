@@ -54,10 +54,12 @@ def handle_child(request, uuid):
                 try:
                     updated_parent2 = App_User.objects.get(email=request.data['parent2'])
                 except:
-                    pass
+                    return JsonResponse({'error':'Update failed.  No user account associated with that e-mail exists'})
 
                 if updated_parent2:
+                    default_child = Name.objects.get(name='DEFAULT', gender=child.gender)
                     child.parent_2 = request.data['parent2']
+                    Voted_Name.objects.create(name=default_child, liked=True, participant = updated_parent2, child=child)
 
             if request.data['nickname']:
                 child.nickname = request.data['nickname']

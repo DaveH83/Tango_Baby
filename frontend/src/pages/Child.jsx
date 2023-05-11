@@ -30,7 +30,7 @@ export default function Child({ params }) {
 	const [parent2, setParent2] = useState(null);
 	const [lastname, setLastName] = useState(null);
 	const [selectedDueDate, setSelectedDueDate] = useState(null);
-	const [editChild, setEditChild] = useState(true)
+	const [editChild, setEditChild] = useState(false)
 	const { user, activeChild } = useContext(UserContext);
 	const data = useLoaderData();
 	const child = data[0].child
@@ -66,6 +66,9 @@ export default function Child({ params }) {
 						<span className="text-sm text-gray-500 dark:text-gray-400">
 							{activeChild.gender === "M" ? "Boy" : "Girl"}
 						</span>
+						<span className="text-sm text-gray-500 dark:text-gray-400">
+							Due: {activeChild.due_date}
+						</span>
 					</div>
 
 					<div className="flex flex-col items-front pb-10 border-l-2 p-4">
@@ -93,7 +96,7 @@ export default function Child({ params }) {
 
 						<input id="nickname" placeholder="New Baby Nickname" label="nickname" value={nickname} onChange={(e) => setNickname(e.target.value)} />
 
-						<input id="parent2" placeholder="E-mail address of 2nd parent" label="parent2" value={parent2} onChange={(e) => setParent2(e.target.value)} />
+						{!child.parent_2 && <input id="parent2" placeholder="E-mail address of 2nd parent" label="parent2" value={parent2} onChange={(e) => setParent2(e.target.value)} />}
 
 						<input id="lastname" placeholder="Projected surname of Baby" label="lastname" value={lastname} onChange={(e) => setLastName(e.target.value)} />
 
