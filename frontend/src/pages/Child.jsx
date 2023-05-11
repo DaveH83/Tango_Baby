@@ -29,10 +29,10 @@ export default function Child() {
 	console.log(data);
 
 	return (
-		<div className="p-1">
-			<div>
-				<div className="w-full border rounded-lg shadow bg-gray-800 border-gray-700 items-center flex">
-					<div className="flex flex-col items-center p-6">
+		<div className="p-2">
+			<div className="">
+				<div className="w-fit border rounded-lg shadow bg-gray-800 border-gray-700 items-center flex p-2">
+					<div className="flex flex-col items-center p-4">
 						<img
 							className="w-24 h-24 mb-3 rounded-full shadow-lg"
 							src={baby_head}
@@ -46,7 +46,7 @@ export default function Child() {
 						</span>
 					</div>
 
-					<div className="flex flex-col items-front pb-10 border-l-2 p-2">
+					<div className="flex flex-col items-front pb-10 border-l-2 p-4">
 						<h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
 							Parents
 						</h5>
