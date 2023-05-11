@@ -12,16 +12,18 @@ export default function SwipeNames() {
 	const [toShowList,setToShowList]=useState(nameList); 
 	const [listLength,setListLength]=useState(toShowList.length)
 	const {uuid}=useParams();
-	const {children} = useContext(UserContext)
+	const {children,activeChild} = useContext(UserContext)
 
 	//handler for swiping name card
 	const onSwipe = (name, direction) => {
 		// Update liked based on swipe direction
 		if (direction === "right") {
 			swipeHandler(name, uuid, true);
+			console.log('swipe right')
 			setListLength(preLength=>preLength-1)
 		} else if (direction === "left") {
 			swipeHandler(name, uuid, false);
+			console.log('swipe left')
 			setListLength(preLength=>preLength-1)
 		}
 	};
@@ -32,13 +34,14 @@ export default function SwipeNames() {
 			swipeHandler(name, uuid, true);
 			setToShowList((prevList) => prevList.slice(0, -1));
 			setListLength(preLength=>preLength-1)
-			console.log(listLength)
+			console.log(name,'right')
+
 		}
 		else if(button==='left'){
 			swipeHandler(name,uuid,false);
 			setToShowList((prevList) => prevList.slice(0, -1));
 			setListLength(preLength=>preLength-1)
-			console.log(listLength)
+			console.log(name,'left')
 	}}
 
 	// working on this, its not working yet
@@ -57,9 +60,11 @@ export default function SwipeNames() {
 
 	return (
 		children && (
+			<div className='swipe-name-container'>
+			<p>Swipe name for {activeChild.nickname}</p>
 			<div className="card-container h-[500px]">
-				<AddName />
 				{toShowList.map((name) => (
+				<>
 					<div className="single-card">
 						<TinderCard
 							className="tinder_card"
@@ -71,15 +76,22 @@ export default function SwipeNames() {
 							</p>
 						</TinderCard>
 						<div className="icons">
-							<button onClick={() => onClick(name, "left")}>
-								<HeartBrokenIcon fontSize="large" />
-							</button>
-							<button onClick={() => onClick(name, "right")}>
-								<FavoriteIcon fontSize="large" />
-							</button>
-						</div>
+								<button 
+								className="icon-button"
+								onClick={() => onClick(name, "left")}>
+									<HeartBrokenIcon className='heart-broken-icon' fontSize="large" />
+								</button>
+								<button 
+								className="icon-button"
+								onClick={() => onClick(name, "right")}>
+									<FavoriteIcon className="favorite-icon" fontSize="large" />
+								</button>
+							</div>
 					</div>
-				))}
+				</>		
+				))}	
+			</div>
+			<AddName />
 			</div>
 		)
 	);
