@@ -146,8 +146,11 @@ def vote_name(request):
             childIns=Child.objects.get(parent_url=child_uuid)
             nameIns=Name.objects.get(id=name['id'])
             participant=request.user
-            Voted_Name.objects.create(name=nameIns,liked=liked,participant=participant,child=childIns)
-            return JsonResponse({'voted':True})
+            if not Voted_Name.objects.filter(name=nameIns,participant=participant,child=childIns).exists():
+                Voted_Name.objects.create(name=nameIns,liked=liked,participant=participant,child=childIns)
+                return JsonResponse({'voted':True})
+            else:
+                return JsonResponse({'voted': False, 'message': 'Vote already exists.'})
         except Exception as e:
             print(e)
             return JsonResponse({'voted':False})
