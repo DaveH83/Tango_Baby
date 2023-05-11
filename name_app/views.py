@@ -13,32 +13,39 @@ Blacklist = apps.get_model('user_app', 'Blacklist')
 
 
 # Handle viewing and adding children
-@api_view(["GET"])
+@api_view(["GET", "PUT"])
 def handle_child(request, uuid):
     
     if request.user.is_authenticated:
         # Find child from UUID
 
-        try:
-            child = Child.objects.get(parent_url=uuid)
-        except:
-            child = Child.objects.get(guest_url=uuid)
+        if request.method == 'GET':
 
-        # Pull and clean up user data for parents
-        parent1 = model_to_dict(child.parent_1, fields=['username', 'email', 'first_name', 'last_name'])
-        if child.parent_2:
-            parent2_obj = App_User.objects.get(email=child.parent_2)
-            parent2 = model_to_dict(parent2_obj, fields=['username', 'email', 'first_name', 'last_name'])
+            # get specific child object based on UUID
+            try:
+                child = Child.objects.get(parent_url=uuid)
+            except:
+                child = Child.objects.get(guest_url=uuid)
+
+            # Pull and clean up user data for parents
+            parent1 = model_to_dict(child.parent_1, fields=['username', 'email', 'first_name', 'last_name'])
+            if child.parent_2:
+                parent2_obj = App_User.objects.get(email=child.parent_2)
+                parent2 = model_to_dict(parent2_obj, fields=['username', 'email', 'first_name', 'last_name'])
+            
+            # serialize data and insert cleaned up parent data to final object
+            child = model_to_dict(child)
+            child['parent_1'] = parent1
+            if child['parent_2']:
+                child['parent_2'] = parent2
+                    
+            # return child object, now with parent information
+            return JsonResponse({'message': 'Found UUID', 'success': True, 'child': child})
         
-        # serialize data and insert cleaned up parent data to final object
-        child = model_to_dict(child)
-        child['parent_1'] = parent1
-        if child['parent_2']:
-            child['parent_2'] = parent2
-                
-        # return child object, now with parent information
-        return JsonResponse({'message': 'Found UUID', 'success': True, 'child': child})
-    return JsonResponse({'message': 'User is not logged in', 'success': False})
+        if request.method == 'PUT':
+
+
+        return JsonResponse({'message': 'User is not logged in', 'success': False})
 
 
 # Handle viewing and adding children
@@ -218,7 +225,7 @@ def handle_voted_names(request, uuid):
         parent2 = App_User.objects.get(email=child.parent_2)
         
     
-    # Declare variables liked / disliked / other parent liked names
+    # Declare variables liked / disliked / agreed / other parent liked names
     liked_names = []
     disliked_names = []
     other_parent_liked_names = []

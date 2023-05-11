@@ -74,7 +74,7 @@ export default function Child() {
 							{votedNamesList.disliked.length > 0 ? votedNamesList.disliked.map((dislikedNames) => (
 								<p className="mb-3 text-gray-500 dark:text-white">{dislikedNames.name}</p>
 							)):
-							<p className="mb-3 text-gray-500 dark:text-white">My, aren't you open minded?  You haven't disliked anything yet!</p>}
+							<p className="mb-3 text-gray-500 dark:text-white">My, aren't you open minded, you haven't disliked anything yet!</p>}
 							
 						</div>
 
