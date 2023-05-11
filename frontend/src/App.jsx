@@ -31,16 +31,18 @@ export function App() {
 	handleCSRF();
 
 	useEffect(() => {
-		data
+		children.length > 0
 			? Object.keys(activeChild).length === 0
 				? setActiveChild(data.children[0])
 				: null
 			: setActiveChild({});
 		initFlowbite();
-	}, [location, data, activeChild]);
+	}, [location, data]);
 
 	return (
-		<UserContext.Provider value={{user, children, activeChild, setActiveChild}}>
+		<UserContext.Provider
+			value={{ user, children, activeChild, setActiveChild }}
+		>
 			<div>
 				<Header />
 				{user ? (
