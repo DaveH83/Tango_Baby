@@ -55,14 +55,17 @@ export const swipeHandler = async(name,uuid,liked)=> {
 };
 
 
-export const updateChild = (uuid, nickname, parent_2, due_date) => {
+export const updateChild = (uuid, nickname, parent2, lastname, due_date) => {
 
 	const response = axios.put(`/app/child/${uuid}`, {
+		
 		'nickname': nickname,
-		'parent_2': parent_2,
+		'parent2': parent2,
+		'lastname': lastname,
 		'due_date': due_date,
-
 	})
+
+	console.log(uuid, nickname, parent2, lastname, due_date)
 
 	return {'task':'success'}
 }

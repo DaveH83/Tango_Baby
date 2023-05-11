@@ -42,7 +42,37 @@ def handle_child(request, uuid):
             # return child object, now with parent information
             return JsonResponse({'message': 'Found UUID', 'success': True, 'child': child})
         
-        # if request.method == 'PUT':
+        if request.method == 'PUT':
+            print(request.data)
+             # get specific child object based on UUID
+            try:
+                child = Child.objects.get(parent_url=uuid)
+            except:
+                child = Child.objects.get(guest_url=uuid)
+
+            if request.data['parent2']:
+                try:
+                    updated_parent2 = App_User.objects.get(email=request.data['parent2'])
+                except:
+                    pass
+
+                if updated_parent2:
+                    child.parent_2 = request.data['parent2']
+
+            if request.data['nickname']:
+                child.nickname = request.data['nickname']
+                
+            if request.data['lastname']:
+                child.last_name = request.data['lastname']
+                print(child.last_name)
+
+            if request.data['due_date']:
+                date_str = request.data['due_date']
+                date_obj = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
+                child.due_date = date_obj.strftime('%Y-%m-%d')
+
+            print(child)
+            child.save()
 
 
     return JsonResponse({'message': 'User is not logged in', 'success': False})
@@ -286,9 +316,9 @@ def handle_voted_names(request, uuid):
             'agreed': None,
         }
 
-    print('\nliked names\n****************\n', liked_names)
-    print('\ndisliked names\n****************\n', disliked_names)
-    print('\nagreed names\n****************\n', agreed_names)
+    # print('\nliked names\n****************\n', liked_names)
+    # print('\ndisliked names\n****************\n', disliked_names)
+    # print('\nagreed names\n****************\n', agreed_names)
     # print(response)
 
     return JsonResponse({'names': response})
