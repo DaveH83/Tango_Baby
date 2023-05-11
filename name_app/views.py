@@ -37,6 +37,7 @@ def handle_child(request, uuid):
             child['parent_2'] = parent2
                 
         # return child object, now with parent information
+      
         return JsonResponse({'message': 'Found UUID', 'success': True, 'child': child})
     return JsonResponse({'message': 'User is not logged in', 'success': False})
 
@@ -161,10 +162,11 @@ def handle_name(request):
             child=Child.objects.get(parent_url=uuid)
             gender=child.gender
             names=Name.objects.filter(gender=gender)
+            user=request.user
             name_list=[model_to_dict (name) for name in names]
-            voted_list=[model_to_dict (voted_name)for voted_name in (Voted_Name.objects.all())]
+            voted_list=[model_to_dict (voted_name)for voted_name in (Voted_Name.objects.filter(participant_id=user.id))]
             voted_list_id=[i['name'] for i in voted_list]
-            unshown_list=[name for name in name_list if name['id'] not in voted_list_id]
+            unshown_list=[name for name in name_list if name['id'] not in voted_list_id][:100]
             return JsonResponse({'unshown_list':unshown_list})
         except Exception as e:
             print(e)
@@ -217,9 +219,8 @@ def handle_voted_names(request, uuid):
     if child.parent_2:
         print('conditional parent 2 db call')
         parent2 = App_User.objects.get(email=child.parent_2)
-        
     
-    # Declare variables liked / disliked / other parent liked names
+    # Set current user liked / disliked names
     liked_names = []
     disliked_names = []
     other_parent_liked_names = []

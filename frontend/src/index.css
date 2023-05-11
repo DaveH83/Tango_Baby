@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* html {
+html {
 	overflow-y: auto;
-} */
+}
 
 body {
 	background-color: #acceef;
@@ -19,22 +19,21 @@ body {
 	justify-content: center;
 }
 
-.name-holder{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
-  position:absolute;
-  background-color: antiquewhite;
-  width: 400px;
-  padding: 20px;
-  border-radius: 20px;
-  max-width: 65vw;
-
+.name-holder {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 2rem;
+	position: absolute;
+	background-color: antiquewhite;
+	width: 400px;
+	padding: 20px;
+	border-radius: 20px;
+	max-width: 65vw;
 }
-.icons{
-  display: flex;
-  justify-content: space-evenly;
-  position:fixed;
-  bottom: 30px;
+.icons {
+	display: flex;
+	justify-content: space-evenly;
+	position: fixed;
+	bottom: 30px;
 }
