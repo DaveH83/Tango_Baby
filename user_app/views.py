@@ -97,7 +97,6 @@ def curr_user(request):
                 user = App_User.objects.get(id=user_info['pk'])
                 user.set_password(request.data['password'])
                 user.save()
-                # print(user)
                 return JsonResponse({"success": True, "message": "Updated users password"})
             except Exception as e:
                 return JsonResponse({"success": False, "message": e})
@@ -105,8 +104,8 @@ def curr_user(request):
             try:
                 user_info = json.loads(serialize("json", [request.user]))[0]
                 user = App_User.objects.get(id=user_info['pk'])
-                user.delete()
-                print(user)
+                user.is_active = False
+                user.save()
                 return JsonResponse({"success": True, "message": "Deleted User"})
             except Exception as e:
                 return JsonResponse({"success": False, "message": e})
