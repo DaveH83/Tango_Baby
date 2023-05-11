@@ -5,7 +5,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 import { nameListLoader, swipeHandler } from '../Utilities/Utilities';
 import AddName from '../components/AddName';
-import AddChild from "../components/AddChild";
 import { UserContext } from "../App";
 
 export default function SwipeNames() {
