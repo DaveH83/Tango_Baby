@@ -37,7 +37,7 @@ export function App() {
 				: null
 			: setActiveChild({});
 		initFlowbite();
-	}, [location, data]);
+	}, [location, data, activeChild]);
 
 	return (
 		<UserContext.Provider value={{user, children, activeChild, setActiveChild}}>
