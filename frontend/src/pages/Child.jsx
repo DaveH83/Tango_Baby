@@ -48,7 +48,7 @@ export default function Child({ params }) {
 		setEditChild(false)
 	}
 
-	
+	console.log(activeChild)
 
 	return (
 		<div className="p-2">
