@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { getDadJoke } from "../Utilities/Utilities";
 
 export default function Header() {
+	const [dadJoke, setDadJoke] = useState("")
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
 	const { user, children, activeChild, setActiveChild } =
 		useContext(UserContext);
@@ -15,6 +17,18 @@ export default function Header() {
 		const response = await axios.post("/user/logout/");
 		response.data.success ? nav("/") : null;
 	};
+
+	
+	
+    useEffect(() => {
+        if (Object.keys(activeChild).length > 0){
+			const awaitDadJoke = async () => {
+				setDadJoke(await getDadJoke())
+			}
+			awaitDadJoke()
+		}
+        
+      }, [activeChild]);
 
 	useEffect(() => {
 		const handleResize = () => setIsLargeScreen(window.innerWidth >= 768);
@@ -32,6 +46,8 @@ export default function Header() {
 			isLargeScreen ? drawer.show() : drawer.hide();
 		}
 	}, [isLargeScreen, user]);
+
+
 
 	return (
 		<nav className="fixed top-0 w-full border-b bg-gray-800 border-gray-700">
