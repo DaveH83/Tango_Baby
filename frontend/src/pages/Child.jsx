@@ -52,7 +52,7 @@ export default function Child({ params }) {
 
 	return (
 		<div className="p-2">
-			<div className="">
+			<div className="w-fit flex flex-row">
 				<div className="w-fit border rounded-lg shadow bg-gray-800 border-gray-700 items-center flex p-2">
 					<div className="flex flex-col items-center p-4">
 						<img
@@ -83,29 +83,66 @@ export default function Child({ params }) {
 								{child.parent_2.username} | {child.parent_2.email}
 							</span>
 						)}
-					<button onClick={() => setEditChild(!editChild)}>Edit Child</button>
+					<button 
+						className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800" 
+						onClick={() => [
+							setEditChild(!editChild),
+							setLastName(null),
+							setNickname(null),
+							setParent2(null),
+							setSelectedDueDate(null)
+						]}>Edit Child</button>
 					</div>
 				</div>
-				<div>
-					{editChild && 
-					
-					<form className="max-w-md mx-auto" onSubmit={(e) => [
-						e.preventDefault(),
-						handleSubmit(uuid, nickname, parent2, lastname, selectedDueDate),
+				{ editChild &&
+				<div className="w-fit border rounded-lg shadow bg-gray-800 border-gray-700 items-center flex p-2">
+					 					
+					<form 
+						className="w-fit mx-auto" onSubmit={(e) => [
+							e.preventDefault(),
+							handleSubmit(uuid, nickname, parent2, lastname, selectedDueDate),
 						]}>
 
-						<input id="nickname" placeholder="New Baby Nickname" label="nickname" value={nickname} onChange={(e) => setNickname(e.target.value)} />
+						<input 
+							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+							id="nickname" 
+							placeholder="New Baby Nickname" 
+							label="nickname" 
+							value={nickname} 
+							onChange={(e) => setNickname(e.target.value)} 
+						/>
 
-						{!child.parent_2 && <input id="parent2" placeholder="E-mail address of 2nd parent" label="parent2" value={parent2} onChange={(e) => setParent2(e.target.value)} />}
+						{!child.parent_2 && 
+							<input 
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+								id="parent2" 
+								placeholder="E-mail address of 2nd parent" 
+								label="parent2" 
+								value={parent2} 
+								onChange={(e) => setParent2(e.target.value)} 
+							/>}
 
-						<input id="lastname" placeholder="Projected surname of Baby" label="lastname" value={lastname} onChange={(e) => setLastName(e.target.value)} />
+						<input 
+							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+							id="lastname" 
+							placeholder="Projected surname of Baby" 
+							label="lastname" 
+							value={lastname} 
+							onChange={(e) => setLastName(e.target.value)} />
 
-						<DatePicker minDate={new Date()} value={selectedDueDate} onChange={handleDate} />
+						<DatePicker 
+							minDate={new Date()} 
+							value={selectedDueDate} 
+							onChange={handleDate} 
+						/>
 
-						<button type="submit" className="mt-4">Update</button>
+						<button 
+							type="submit" 
+							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800"
+						>Update</button>
 
-    				</form>}
-				</div>
+    				</form>
+				</div>}
 			</div>
 
 			<div className="name-lists mt-2">
