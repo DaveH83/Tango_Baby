@@ -37,6 +37,7 @@ export function App() {
 				: null
 			: setActiveChild({});
 		initFlowbite();
+		
 	}, [location, data]);
 
 	return (

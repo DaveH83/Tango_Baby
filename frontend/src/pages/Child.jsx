@@ -1,8 +1,12 @@
 import axios from "axios";
-import baby_head from "../images/baby_head.jpg";
+import DatePicker from "react-date-picker";
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
 import { useLoaderData } from "react-router-dom";
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
+import { updateChild } from "../Utilities/Utilities";
+import baby_head from "../images/baby_head.jpg";
 
 export async function ChildLoader({ params }) {
 	const apiCalls = [
@@ -21,12 +25,30 @@ export async function ChildLoader({ params }) {
 	// 	.catch(error => console.log(error)))
 }
 
-export default function Child() {
+export default function Child({ params }) {
+	const [nickname, setNickname] = useState(null);
+	const [parent2, setParent2] = useState(null);
+	const [lastname, setLastName] = useState(null);
+	const [selectedDueDate, setSelectedDueDate] = useState(null);
+	const [editChild, setEditChild] = useState(false)
 	const { user, activeChild } = useContext(UserContext);
 	const data = useLoaderData();
-	const child = data[0].child;
-	const votedNamesList = data[1].names;
-	console.log(data);
+	const child = data[0].child
+	const votedNamesList = data[1].names
+	const uuid = child.guest_url
+	console.log(child.last_name)
+	
+	const handleDate = (selectedDueDate) => {
+		setSelectedDueDate(selectedDueDate);
+		console.log(selectedDueDate)
+	};
+
+	const handleSubmit = (uuid, nickname, parent2, lastname, selectedDueDate) => {
+		updateChild(uuid, nickname, parent2, lastname, selectedDueDate)
+		setEditChild(false)
+	}
+
+	
 
 	return (
 		<div className="p-2">
@@ -44,6 +66,9 @@ export default function Child() {
 						<span className="text-sm text-gray-500 dark:text-gray-400">
 							{activeChild.gender === "M" ? "Boy" : "Girl"}
 						</span>
+						<span className="text-sm text-gray-500 dark:text-gray-400">
+							Due: {activeChild.due_date}
+						</span>
 					</div>
 
 					<div className="flex flex-col items-front pb-10 border-l-2 p-4">
@@ -58,7 +83,28 @@ export default function Child() {
 								{child.parent_2.username} | {child.parent_2.email}
 							</span>
 						)}
+					<button onClick={() => setEditChild(!editChild)}>Edit Child</button>
 					</div>
+				</div>
+				<div>
+					{editChild && 
+					
+					<form className="max-w-md mx-auto" onSubmit={(e) => [
+						e.preventDefault(),
+						handleSubmit(uuid, nickname, parent2, lastname, selectedDueDate),
+						]}>
+
+						<input id="nickname" placeholder="New Baby Nickname" label="nickname" value={nickname} onChange={(e) => setNickname(e.target.value)} />
+
+						{!child.parent_2 && <input id="parent2" placeholder="E-mail address of 2nd parent" label="parent2" value={parent2} onChange={(e) => setParent2(e.target.value)} />}
+
+						<input id="lastname" placeholder="Projected surname of Baby" label="lastname" value={lastname} onChange={(e) => setLastName(e.target.value)} />
+
+						<DatePicker minDate={new Date()} value={selectedDueDate} onChange={handleDate} />
+
+						<button type="submit" className="mt-4">Update</button>
+
+    				</form>}
 				</div>
 			</div>
 
