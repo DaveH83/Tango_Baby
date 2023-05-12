@@ -4,7 +4,7 @@ import { createContext, useEffect, useState } from "react";
 import Auth from "./pages/Auth";
 import axios from "axios";
 import { initFlowbite } from "flowbite";
-import { handleCSRF } from "./Utilities/Utilities";
+import { handleCSRF, getDadJoke } from "./Utilities/Utilities";
 
 export const UserContext = createContext(null);
 
@@ -17,6 +17,7 @@ export async function AppLoader() {
 }
 
 export function App() {
+	const [dadJoke, setDadJoke] = useState("");
 	const data = useLoaderData();
 	let user = null;
 	let children = [];
@@ -37,8 +38,16 @@ export function App() {
 				: null
 			: setActiveChild({});
 		initFlowbite();
-		
 	}, [location, data]);
+
+	useEffect(() => {
+		if (Object.keys(activeChild).length > 0) {
+			const awaitDadJoke = async () => {
+				setDadJoke(await getDadJoke());
+			};
+			awaitDadJoke();
+		}
+	}, [activeChild]);
 
 	return (
 		<UserContext.Provider
@@ -55,6 +64,40 @@ export function App() {
 						<Auth />
 					</div>
 				)}
+			</div>
+
+			<div
+				id="bottom-banner"
+				tabindex="-1"
+				class="fixed bottom-0 left-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+			>
+				<div class="flex items-center mx-auto">
+					<p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+						<span>{dadJoke}</span>
+					</p>
+				</div>
+				<div class="flex items-center">
+					<button
+						data-dismiss-target="#bottom-banner"
+						type="button"
+						class="flex-shrink-0 inline-flex justify-center items-center text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 dark:hover:bg-gray-600 dark:hover:text-white"
+					>
+						<svg
+							aria-hidden="true"
+							class="w-4 h-4"
+							fill="currentColor"
+							viewBox="0 0 20 20"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								fill-rule="evenodd"
+								d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+								clip-rule="evenodd"
+							></path>
+						</svg>
+						<span class="sr-only">Close banner</span>
+					</button>
+				</div>
 			</div>
 		</UserContext.Provider>
 	);
