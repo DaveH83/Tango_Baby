@@ -45,6 +45,7 @@ export const swipeHandler = async(name,uuid,liked)=> {
 			'uuid':uuid,//parent_url
 			'liked':liked 
 	})
+		console.log('swipeHandler are called')
 		return response.data
 	  
 	} catch (e){

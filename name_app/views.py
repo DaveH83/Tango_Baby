@@ -207,7 +207,7 @@ def handle_name(request):
             name_list=[model_to_dict (name) for name in names]
             voted_list=[model_to_dict (voted_name)for voted_name in (Voted_Name.objects.filter(participant_id=user.id))]
             voted_list_id=[i['name'] for i in voted_list]
-            unshown_list=[name for name in name_list if name['id'] not in voted_list_id][:100]
+            unshown_list=[name for name in name_list if name['id'] not in voted_list_id][:20]
             return JsonResponse({'unshown_list':unshown_list})
         except Exception as e:
             print(e)
