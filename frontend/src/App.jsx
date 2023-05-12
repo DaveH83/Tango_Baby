@@ -45,7 +45,6 @@ export function App() {
 			const awaitDadJoke = async () => {
 				setDadJoke(await getDadJoke());
 				let banner = document.getElementById("bottom-banner");
-				// console.log(banner)
 				banner.classList.remove("hidden");
 				banner.classList.add("flex");
 			};
