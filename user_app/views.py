@@ -5,6 +5,11 @@ from .models import App_User, Voted_Name, Child
 import json
 from django.core.serializers import serialize
 from django.forms.models import model_to_dict
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 @api_view(["POST"])
 def register_user(request):
@@ -111,3 +116,19 @@ def curr_user(request):
                 return JsonResponse({"success": False, "message": e})
     
     return JsonResponse({"error": "Not currently logged in."})
+
+
+
+@api_view(["GET"])
+def dad_joke(request):
+    
+    api_url = 'https://api.api-ninjas.com/v1/dadjokes?limit=1'
+    response = requests.get(api_url, headers={'X-Api-Key': os.environ['dad_joke_api_key']})
+    
+    if response.status_code == requests.codes.ok:
+        joke = json.loads(response.text)
+        print(joke[0]['joke'])
+        return JsonResponse({'joke': joke[0]['joke']})
+    else:
+        print("Error:", response.status_code, response.text)
+        return JsonResponse({"dad_joke":["Error", response.status_code]})

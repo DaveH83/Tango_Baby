@@ -70,3 +70,9 @@ export const updateChild = (uuid, nickname, parent2, lastname, due_date) => {
 	return {'task':'success'}
 }
 
+
+export const getDadJoke = async() => {
+    let response = await axios.get('/user/dadjoke/')
+   
+    return response.data.joke
+}
