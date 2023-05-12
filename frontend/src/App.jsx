@@ -44,6 +44,10 @@ export function App() {
 		if (Object.keys(activeChild).length > 0) {
 			const awaitDadJoke = async () => {
 				setDadJoke(await getDadJoke());
+				let banner = document.getElementById("bottom-banner");
+				// console.log(banner)
+				banner.classList.remove("hidden");
+				banner.classList.add("flex");
 			};
 			awaitDadJoke();
 		}
@@ -72,7 +76,7 @@ export function App() {
 				class="fixed bottom-0 left-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
 			>
 				<div class="flex items-center mx-auto">
-					<p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+					<p class="flex items-center text-lg font-normal text-gray-500 dark:text-gray-200">
 						<span>{dadJoke}</span>
 					</p>
 				</div>
