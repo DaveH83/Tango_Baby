@@ -19,16 +19,18 @@ const closeActiveChildMenu = () => {
 };
 
 export default function Header() {
-	const [isLargeScreen, setIsLargeScreen] = useState(false);
-	const { user, children, activeChild, setActiveChild } = useContext(UserContext);
-	const uuid = activeChild ? `swipe/${activeChild.parent_url}` : "/";
+	const [isLargeScreen, setIsLargeScreen] = useState(true);
+	const { user, children, activeChild, setActiveChild } =
+		useContext(UserContext);
+	const swipe_url = activeChild ? `/swipe/${activeChild.parent_url}` : "/";
+	const rank_url = activeChild ? `/rank/${activeChild.guest_url}` : "/";
 	const nav = useNavigate();
 
 	useEffect(() => {
 		const handleResize = () => setIsLargeScreen(window.innerWidth >= 768);
 		window.addEventListener("resize", handleResize);
 		handleResize(); // Initial check
-		return () => window.removeEventListener("resize", handleResize);
+		// return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
 	useEffect(() => {
@@ -232,37 +234,70 @@ export default function Header() {
 										{activeChild && (
 											<>
 												<li>
-													<Link
-														to="/"
-														data-drawer-hide="drawer-navigation"
-														className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-													>
-														<span className="flex-1 ml-3 whitespace-nowrap">
-															Results
-														</span>
-													</Link>
+													{isLargeScreen ? (
+														<Link
+															to="/"
+															className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+														>
+															<span className="flex-1 ml-3 whitespace-nowrap">
+																Results
+															</span>
+														</Link>
+													) : (
+														<Link
+															to="/"
+															data-drawer-hide="drawer-navigation"
+															className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+														>
+															<span className="flex-1 ml-3 whitespace-nowrap">
+																Results
+															</span>
+														</Link>
+													)}
 												</li>
 												<li>
-													<Link
-														to={`${uuid}`}
-														data-drawer-hide="drawer-navigation"
-														className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-													>
-														<span className="flex-1 ml-3 whitespace-nowrap">
-															Swipe Names
-														</span>
-													</Link>
+													{isLargeScreen ? (
+														<Link
+															to={swipe_url}
+															className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+														>
+															<span className="flex-1 ml-3 whitespace-nowrap">
+																Swipe Names
+															</span>
+														</Link>
+													) : (
+														<Link
+															to={swipe_url}
+															data-drawer-hide="drawer-navigation"
+															className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+														>
+															<span className="flex-1 ml-3 whitespace-nowrap">
+																Swipe Names
+															</span>
+														</Link>
+													)}
 												</li>
 												<li>
-													<Link
-														href="#"
-														data-drawer-hide="drawer-navigation"
-														className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-													>
-														<span className="flex-1 ml-3 whitespace-nowrap">
-															Rank Choices
-														</span>
-													</Link>
+													{isLargeScreen ? (
+														<Link
+															to={rank_url}
+															className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+														>
+															<span className="flex-1 ml-3 whitespace-nowrap">
+																Rank Choices
+															</span>
+														</Link>
+													) : (
+														<Link
+															to={rank_url}
+															data-drawer-hide="drawer-navigation"
+															className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+														>
+															<span className="flex-1 ml-3 whitespace-nowrap">
+																Rank Choices
+															</span>
+														</Link>
+													)}
 												</li>
 											</>
 										)}
