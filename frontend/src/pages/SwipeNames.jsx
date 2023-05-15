@@ -74,6 +74,8 @@ export default function SwipeNames() {
 							className="tinder_card"
 							onSwipe={(dir) => onSwipe(name, dir)}
 							preventSwipe={["up", "down"]}
+							swipeRequirementType='position'
+							swipeThreshold = {200}
 						>
 							<p className="name-holder" key={name.id}>
 								{name.name}
