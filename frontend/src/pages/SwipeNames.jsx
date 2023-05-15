@@ -63,7 +63,8 @@ export default function SwipeNames() {
 	
 
 	return (
-		children && (
+		children && (<>
+		
 			<div className='swipe-name-container'>
 			<p>Swipe name for {activeChild.nickname}</p>
 			<div className="card-container h-[500px]">
@@ -96,6 +97,8 @@ export default function SwipeNames() {
 					</div>
 				</>		
 				))}	
+			</div>
+			
 			</div>
 			<div
 				id="accordion-collapse"
@@ -136,7 +139,7 @@ export default function SwipeNames() {
 					</div>
 				</div>
 			</div>
-			</div>
+		</>
 		)
 	);
 }
