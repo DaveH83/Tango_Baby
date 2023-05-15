@@ -13,7 +13,6 @@ export async function ChildLoader({ params }) {
 		`/app/child/${params.uuid}`,
 		`/app/namelist/${params.uuid}`,
 	];
-	console.log("loader called");
 
 	const promises = apiCalls.map((apiCall) => axios.get(apiCall));
 
@@ -36,7 +35,6 @@ export default function Child({ params }) {
 	const child = data[0].child
 	const votedNamesList = data[1].names
 	const uuid = child.guest_url
-	console.log(child.last_name)
 	
 	const handleDate = (selectedDueDate) => {
 		setSelectedDueDate(selectedDueDate);
@@ -48,7 +46,6 @@ export default function Child({ params }) {
 		setEditChild(false)
 	}
 
-	console.log(activeChild)
 
 	return (
 		<div className="p-2">

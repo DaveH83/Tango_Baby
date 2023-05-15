@@ -6,7 +6,7 @@ import Results from "./pages/Results";
 import Matches from "./pages/Matches";
 import Search from "./pages/Search";
 import SwipeNames from "./pages/SwipeNames";
-import RankChoices from "./pages/RankChoices";
+import {RankChoices, RankLoader} from "./pages/RankChoices";
 import Profile from "./pages/Profile";
 import "flowbite/dist/flowbite.js";
 import Child, { ChildLoader } from "./pages/Child";
@@ -49,8 +49,9 @@ const router = createBrowserRouter([
 				loader: ({ params }) => nameListLoader(params.uuid),
 			},
 			{
-				path: ":id/rank",
+				path: "rank/:uuid",
 				element: <RankChoices />,
+				loader: RankLoader
 			},
 		],
 	},

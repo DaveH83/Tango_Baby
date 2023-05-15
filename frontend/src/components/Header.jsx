@@ -4,31 +4,25 @@ import { useEffect, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import { getDadJoke } from "../Utilities/Utilities";
+
+const handleLogout = async () => {
+	const response = await axios.post("/user/logout/");
+	response.data.success ? nav("/") : null;
+};
+const closeUserMenu = () => {
+	let dropdown = document.getElementById("dropdown-user");
+	dropdown.classList.add("hidden");
+};
+const closeActiveChildMenu = () => {
+	let dropdown = document.getElementById("dropdown");
+	dropdown.classList.add("hidden");
+};
 
 export default function Header() {
-	const [dadJoke, setDadJoke] = useState("")
 	const [isLargeScreen, setIsLargeScreen] = useState(false);
-	const { user, children, activeChild, setActiveChild } =
-		useContext(UserContext);
+	const { user, children, activeChild, setActiveChild } = useContext(UserContext);
 	const uuid = activeChild ? `swipe/${activeChild.parent_url}` : "/";
 	const nav = useNavigate();
-	const handleLogout = async () => {
-		const response = await axios.post("/user/logout/");
-		response.data.success ? nav("/") : null;
-	};
-
-	
-	
-    useEffect(() => {
-        if (Object.keys(activeChild).length > 0){
-			const awaitDadJoke = async () => {
-				setDadJoke(await getDadJoke())
-			}
-			awaitDadJoke()
-		}
-        
-      }, [activeChild]);
 
 	useEffect(() => {
 		const handleResize = () => setIsLargeScreen(window.innerWidth >= 768);
@@ -46,8 +40,6 @@ export default function Header() {
 			isLargeScreen ? drawer.show() : drawer.hide();
 		}
 	}, [isLargeScreen, user]);
-
-
 
 	return (
 		<nav className="fixed top-0 w-full border-b bg-gray-800 border-gray-700">
@@ -132,6 +124,7 @@ export default function Header() {
 												setActiveChild(child),
 												// will need to add logic here to see if should use parent or guest url, using guest for now
 												nav(`/child/${child.guest_url}`),
+												closeActiveChildMenu(),
 											]}
 											href="#"
 											className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -181,17 +174,9 @@ export default function Header() {
 												to="/"
 												className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
 												role="menuitem"
+												onClick={closeUserMenu}
 											>
 												Profile
-											</Link>
-										</li>
-										<li>
-											<Link
-												href="#"
-												className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-												role="menuitem"
-											>
-												Settings
 											</Link>
 										</li>
 										<li>
@@ -249,7 +234,7 @@ export default function Header() {
 												<li>
 													<Link
 														to="/"
-														// href="#"
+														data-drawer-hide="drawer-navigation"
 														className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 													>
 														<span className="flex-1 ml-3 whitespace-nowrap">
@@ -257,19 +242,10 @@ export default function Header() {
 														</span>
 													</Link>
 												</li>
-												{/* <li>
-											<Link
-												to="matches"
-												className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-											>
-												<span className="flex-1 ml-3 whitespace-nowrap">
-													Matches
-												</span>
-											</Link>
-										</li> */}
 												<li>
 													<Link
 														to={`${uuid}`}
+														data-drawer-hide="drawer-navigation"
 														className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 													>
 														<span className="flex-1 ml-3 whitespace-nowrap">
@@ -280,6 +256,7 @@ export default function Header() {
 												<li>
 													<Link
 														href="#"
+														data-drawer-hide="drawer-navigation"
 														className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 													>
 														<span className="flex-1 ml-3 whitespace-nowrap">
