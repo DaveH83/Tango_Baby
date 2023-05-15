@@ -22,7 +22,7 @@ class VoteSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Voted_Name
-    fields = ['id', 'name', 'liked', 'participant', 'child']
+    fields = ['id', 'name', 'liked', 'participant', 'child', 'weight']
 
 
 class ChildSerializer(serializers.ModelSerializer):

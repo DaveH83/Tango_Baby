@@ -41,6 +41,7 @@ class Voted_Name(models.Model):
     liked = models.BooleanField()
     participant = models.ForeignKey(App_User, on_delete=models.CASCADE)
     child = models.ForeignKey(Child, on_delete=models.CASCADE)
+    weight = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return f"Voted_name object: {self.name}, belonging to: {self.child}"

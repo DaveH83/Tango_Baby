@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from rest_framework.decorators import api_view
 
 App_User = apps.get_model('user_app', 'App_User')
 Child = apps.get_model('user_app', 'Child')
@@ -56,6 +57,19 @@ class VoteViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_201_CREATED,
                     headers=headers)
 
+@api_view(["POST"])
+def add_rank(request):
+  print('add')
+  try:
+    vote = Voted_Name.objects.get(participant=request.user, name=request.data['name'])
+    print(vote.weight)
+    vote.weight += 1
+    print('new', vote.weight)
+    vote.save()
+    return JsonResponse({'success': True})
+  except: 
+    return JsonResponse({'success': False})
+
 class ChildViewSet(viewsets.ModelViewSet):
   serializer_class = ChildSerializer
   queryset = Child.objects.all()
@@ -73,18 +87,27 @@ class ChildViewSet(viewsets.ModelViewSet):
         disliked_names = Voted_Name.objects.filter(participant=request.user,
                                           child=instance,
                                           liked=False)
-        data['liked'] = liked_names
-        data['disliked'] = disliked_names
-        if instance.parent_2 and instance.parent_1 and (request.user==instance.parent_1 or request.user==instance.parent_2):
+        data['liked'] = [model_to_dict(Name.objects.get(id=vote['name_id'])) for vote in liked_names.values() if vote['name_id']!=1]
+        data['disliked'] = [model_to_dict(Name.objects.get(id=vote['name_id'])) for vote in disliked_names.values() if vote['name_id']!=1]
+        if instance.parent_2 and instance.parent_1:
+          print('agreed')
           # determine mutually liked name
           agreed_names = []
           if request.user == instance.parent_1:
-            other_parent_likes = Voted_Name.objects.filter(participant=instance.parent_2, child=instance, liked=True)
-          elif request.user == instance.parent_2:
-            other_parent_likes = Voted_Name.objects.filter(participant=instance.parent_1, child=instance, liked=True)
-          for name in liked_names:
+            parent_2 = App_User.objects.get(email=instance.parent_2)
+            other_parent_likes_query = Voted_Name.objects.filter(participant=parent_2, child=instance, liked=True)
+          elif request.user.email == instance.parent_2:
+            parent_1 = App_User.objects.get(id=instance.parent_1)
+            other_parent_likes_query = Voted_Name.objects.filter(participant=parent_1, child=instance, liked=True)
+          other_parent_likes = [ model_to_dict(Name.objects.get(id=vote['name_id'])) for vote in other_parent_likes_query.values() if vote['name_id']!=1]
+          print(other_parent_likes)
+          for name in data['liked']:
             if name in other_parent_likes:
-              agreed_names.append(name)
+              vote = Voted_Name.objects.get(name=name['id'],participant=request.user,child=instance,liked=True)
+              print(vote)
+              agreed_names.append({**name, 'vote':vote.id, 'weight': vote.weight})
           data['agreed'] = agreed_names
-          
+        else:
+          data['agreed'] = []
+        print(data)
         return JsonResponse(data)

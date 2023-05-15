@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from .viewsets import NameViewSet, VoteViewSet, ChildViewSet
+from .viewsets import NameViewSet, VoteViewSet, ChildViewSet, add_rank
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -17,5 +17,6 @@ urlpatterns = [
     path("ranking/", views.handle_ranking),
     path("namelist/<str:uuid>", views.handle_voted_names),
     path("new/", include(router.urls)),
+    path("new/add_rank/", add_rank)
 
 ]
