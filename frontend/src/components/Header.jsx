@@ -5,7 +5,7 @@ import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
-const handleLogout = async () => {
+const handleLogout = async (nav) => {
 	const response = await axios.post("/user/logout/");
 	response.data.success ? nav("/") : null;
 };
@@ -184,7 +184,7 @@ export default function Header() {
 												href="#"
 												className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
 												role="menuitem"
-												onClick={handleLogout}
+												onClick={() => handleLogout(nav)}
 											>
 												Sign out
 											</Link>
