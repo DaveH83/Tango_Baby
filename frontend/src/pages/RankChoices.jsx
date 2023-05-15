@@ -13,7 +13,9 @@ export async function RankLoader({params}) {
 		const resp2 = await axios.get(`/app/new/child/${child.id}/`)
 		console.log(resp2)
 		if (resp2.data) {
-			return resp2.data.agreed
+			if (resp2.data.agreed.length>1){
+				return resp2.data.agreed
+			}
 		}
 	}
 	return null
@@ -22,8 +24,15 @@ export async function RankLoader({params}) {
 export function RankChoices() {
 	const agreedNames = useLoaderData();
 
+	if (!agreedNames) {
+		return (
+			<div className="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800">
+				<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Come back after you like some more names!</h5>
+			</div>
+		)
+	}
+
 	const randomIndices = (lst) => {
-		console.log('len', lst.length)
 		let first = Math.floor(Math.random()*(lst.length));
 		let second = Math.floor(Math.random()*(lst.length));
 		while (second === first) {
