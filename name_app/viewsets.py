@@ -97,14 +97,13 @@ class ChildViewSet(viewsets.ModelViewSet):
             parent_2 = App_User.objects.get(email=instance.parent_2)
             other_parent_likes_query = Voted_Name.objects.filter(participant=parent_2, child=instance, liked=True)
           elif request.user.email == instance.parent_2:
-            parent_1 = App_User.objects.get(id=instance.parent_1)
-            other_parent_likes_query = Voted_Name.objects.filter(participant=parent_1, child=instance, liked=True)
+            #parent_1 = App_User.objects.get(id=instance.parent_1)
+            other_parent_likes_query = Voted_Name.objects.filter(participant=instance.parent_1, child=instance, liked=True)
           other_parent_likes = [ model_to_dict(Name.objects.get(id=vote['name_id'])) for vote in other_parent_likes_query.values() if vote['name_id']!=1]
           print(other_parent_likes)
           for name in data['liked']:
             if name in other_parent_likes:
               vote = Voted_Name.objects.get(name=name['id'],participant=request.user,child=instance,liked=True)
-              print(vote)
               agreed_names.append({**name, 'vote':vote.id, 'weight': vote.weight})
           data['agreed'] = agreed_names
         else:
