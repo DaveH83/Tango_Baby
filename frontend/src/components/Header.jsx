@@ -25,19 +25,17 @@ export default function Header() {
 	const swipe_url = activeChild ? `/swipe/${activeChild.parent_url}` : "/";
 	const rank_url = activeChild ? `/rank/${activeChild.guest_url}` : "/";
 	const nav = useNavigate();
+	const handleResize = () => setIsLargeScreen(window.innerWidth >= 768);
+	window.addEventListener("resize", handleResize);
 
 	useEffect(() => {
-		const handleResize = () => setIsLargeScreen(window.innerWidth >= 768);
-		window.addEventListener("resize", handleResize);
 		handleResize(); // Initial check
-		// return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
 	useEffect(() => {
 		if (user) {
 			const $targetEl = document.getElementById("drawer-navigation");
-			const options = {};
-			const drawer = new Drawer($targetEl, options);
+			const drawer = new Drawer($targetEl, {});
 
 			isLargeScreen ? drawer.show() : drawer.hide();
 		}
