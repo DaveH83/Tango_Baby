@@ -68,12 +68,12 @@ export default function Profile() {
 							src={baby_head}
 							alt="Baby Profile Picture"
 						/>
-						<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+						<h5 className="mb-2 text-xl tracking-tight  text-gray-500 dark:text-white">
 							{child.nickname}
 						</h5>
 						<Link
 							to={`/child/${child.guest_url}`}
-							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl  focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800"
+							className="inline-flex items-center px-3 py-2 text-sm font-sm text-center text-white rounded-xl  focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800"
 							onClick={() => setActiveChild(child)}
 						>
 							More Info

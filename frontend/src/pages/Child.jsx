@@ -49,9 +49,9 @@ export default function Child({ params }) {
 
 	return (
 		<div className="p-2">
-			<div className="w-fit flex flex-row">
-				<div className="w-fit border rounded-lg shadow bg-gray-800 border-gray-700 items-center flex p-2">
-					<div className="flex flex-col items-center p-4">
+			<div className="w-fit flex flex-col">
+				<div className="w-fit border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex p-2">
+					<div className="flex flex-col items-center p-4 m-2z">
 						<img
 							className="w-24 h-24 mb-3 rounded-full shadow-lg"
 							src={baby_head}
@@ -81,7 +81,7 @@ export default function Child({ params }) {
 							</span>
 						)}
 					<button 
-						className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800" 
+						className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800" 
 						onClick={() => [
 							setEditChild(!editChild),
 							setLastName(null),
@@ -92,7 +92,8 @@ export default function Child({ params }) {
 					</div>
 				</div>
 				{ editChild &&
-				<div className="w-fit border rounded-lg shadow bg-gray-800 border-gray-700 items-center flex p-2">
+				<div className="w-fit border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex p-2 m-2 " >
+					
 					 					
 					<form 
 						className="w-fit mx-auto" onSubmit={(e) => [
@@ -101,7 +102,7 @@ export default function Child({ params }) {
 						]}>
 
 						<input 
-							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2 " 
 							id="nickname" 
 							placeholder="New Baby Nickname" 
 							label="nickname" 
@@ -111,7 +112,7 @@ export default function Child({ params }) {
 
 						{!child.parent_2 && 
 							<input 
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2" 
 								id="parent2" 
 								placeholder="E-mail address of 2nd parent" 
 								label="parent2" 
@@ -120,7 +121,7 @@ export default function Child({ params }) {
 							/>}
 
 						<input 
-							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2" 
 							id="lastname" 
 							placeholder="Projected surname of Baby" 
 							label="lastname" 
@@ -135,7 +136,7 @@ export default function Child({ params }) {
 
 						<button 
 							type="submit" 
-							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800"
+							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 m-2"
 						>Update</button>
 
     				</form>
@@ -143,7 +144,7 @@ export default function Child({ params }) {
 			</div>
 
 			<div className="name-lists mt-2">
-				<div className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+				<div className="w-full bg-white border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700">
 					<ul
 						className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
 						id="defaultTab"
@@ -192,7 +193,7 @@ export default function Child({ params }) {
 					</ul>
 					<div id="defaultTabContent">
 						<div
-							className="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800"
+							className="hidden p-4 bg-white rounded-xl md:p-8 dark:bg-gray-800"
 							id="liked"
 							role="tabpanel"
 							aria-labelledby="liked-tab"
@@ -211,7 +212,7 @@ export default function Child({ params }) {
 						</div>
 
 						<div
-							className="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800"
+							className="hidden p-4 bg-white rounded-xl md:p-8 dark:bg-gray-800"
 							id="disliked"
 							role="tabpanel"
 							aria-labelledby="disliked-tab"
@@ -230,7 +231,7 @@ export default function Child({ params }) {
 						</div>
 
 						<div
-							className="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800"
+							className="hidden p-4 bg-white rounded-xl md:p-8 dark:bg-gray-800"
 							id="agreed"
 							role="tabpanel"
 							aria-labelledby="agreed-tab"
