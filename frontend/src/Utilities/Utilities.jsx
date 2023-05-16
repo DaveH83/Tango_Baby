@@ -66,8 +66,6 @@ export const updateChild = (uuid, nickname, parent2, lastname, due_date) => {
 		'due_date': due_date,
 	})
 
-	console.log(uuid, nickname, parent2, lastname, due_date)
-
 	return {'task':'success'}
 }
 
