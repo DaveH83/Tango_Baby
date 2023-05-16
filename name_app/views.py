@@ -264,29 +264,40 @@ def handle_voted_names(request, uuid):
         
     
     # Declare variables liked / disliked / other parent liked names
+    all_names = []
+    all_names_set = set(all_names)
+    duplicate_names = []
     liked_names = []
     disliked_names = []
     other_parent_liked_names = []
     alt_parent_liked_names = []
     agreed_names = []
 
-    # pull liked names for current user
-    liked_names_query = Voted_Name.objects.filter(participant = user, child_id = child.id, liked = True)
+    #pull all voted names for user
+    names_query = Voted_Name.objects.filter(participant = user, child_id = child.id)
 
-    # serialize liked names query set, and add name string for rendering on front end
-    for name in liked_names_query:
-      liked_name = model_to_dict(name.name)
-      if liked_name['name'] == 'DEFAULT':
-          continue
-      liked_names.append(liked_name)
+    # create list of all names and duplicate names
+    for name in names_query:
+        if name.name.name == 'DEFAULT':
+            pass
+        elif name.name.name not in all_names_set:
+            all_names.append(name)
+            all_names_set.add(name.name.name)
+        else:            
+            duplicate_names.append(name)
 
-    # pull disliked names for current user        
-    disliked_names_query = Voted_Name.objects.filter(participant = user, child_id = child.id, liked = False)
+    # delete duplicate names from DB
+    for name in duplicate_names:
+        name.delete()
 
-    # serialize disliked names query set, and add name string for rendering on front end
-    for name in disliked_names_query:
-      disliked_name = model_to_dict(name.name)
-      disliked_names.append(disliked_name)
+    # create like / disliked name lists
+    for name in all_names:
+        if name.liked == True:
+            liked_name = model_to_dict(name.name)
+            liked_names.append(liked_name)
+        else:
+            disliked_name = model_to_dict(name.name)
+            disliked_names.append(disliked_name)
            
     # Define liked names for other parent as long as parent 2 exists
     # If current user is parent 1, pull liked names for parent 2
