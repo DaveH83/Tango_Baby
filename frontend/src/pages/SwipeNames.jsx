@@ -25,30 +25,26 @@ export default function SwipeNames() {
 		// Update liked based on swipe direction
 		if (direction === "right") {
 			swipeHandler(name, uuid, true)
-			setToShowList((prevList) => prevList.slice(0, -1));
-			setListLength(preLength=>preLength-1)
 		} else if (direction === "left") {
 			swipeHandler(name, uuid, false);
-			setToShowList((prevList) => prevList.slice(0, -1));
-			setListLength(preLength=>preLength-1)
 		}
+		setToShowList((prevList) => prevList.slice(0, -1));
+		setListLength((preLength) => preLength - 1);
 	};
 	
 	//handler for clicking icon
 	const onClick = (name, button) => {
 		if (button === "right") {
 			swipeHandler(name, uuid, true);
-			setToShowList((prevList) => prevList.slice(0, -1));
-			setListLength(preLength=>preLength-1)
 			console.log(name,'right')
-
 		}
 		else if(button==='left'){
 			swipeHandler(name,uuid,false);
-			setToShowList((prevList) => prevList.slice(0, -1));
-			setListLength(preLength=>preLength-1)
 			console.log(name,'left')
-	}}
+		}
+		setToShowList((prevList) => prevList.slice(0, -1));
+		setListLength(preLength=>preLength-1)
+	}
 
 	// working on this, its not working yet
 	useEffect(()=>{
