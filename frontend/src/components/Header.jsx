@@ -24,6 +24,7 @@ export default function Header() {
 		useContext(UserContext);
 	const swipe_url = activeChild ? `/swipe/${activeChild.parent_url}` : "/";
 	const rank_url = activeChild ? `/rank/${activeChild.guest_url}` : "/";
+	const results_url = activeChild ? `/results/${activeChild.parent_url}` : "/";
 	const nav = useNavigate();
 	const handleResize = () => setIsLargeScreen(window.innerWidth >= 768);
 	window.addEventListener("resize", handleResize);
@@ -234,7 +235,7 @@ export default function Header() {
 												<li>
 													{isLargeScreen ? (
 														<Link
-															to="/"
+															to={results_url}
 															className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 														>
 															<span className="flex-1 ml-3 whitespace-nowrap">
