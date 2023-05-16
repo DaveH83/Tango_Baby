@@ -27,10 +27,6 @@ const router = createBrowserRouter([
 				element: <Child />,
 				loader: ChildLoader,
 			},
-			// {
-			// 	path: "profile",
-			// 	element: <Profile />,
-			// },
 			{
 				path: "results/:uuid",
 				element: <Results />,

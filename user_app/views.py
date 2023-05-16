@@ -88,6 +88,7 @@ def curr_user(request):
             children = []
 
             for kid in output:
+                kid['fields']['pk'] = kid['pk']
                 children.append(kid['fields'])
 
             response = {
@@ -127,7 +128,6 @@ def dad_joke(request):
     
     if response.status_code == requests.codes.ok:
         joke = json.loads(response.text)
-        print(joke[0]['joke'])
         return JsonResponse({'joke': joke[0]['joke']})
     else:
         print("Error:", response.status_code, response.text)
