@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.db.models import Count, Q
 from django.core.serializers import serialize
 from rest_framework.decorators import api_view
 from django.apps import apps
@@ -336,10 +337,38 @@ def handle_voted_names(request, uuid):
 
 # Handle viewing and ranking of pairs of names
 @api_view(["GET", "PUT"])
-def handle_ranking(request):
+def handle_results(request, uuid):
+    
     if request.method == "GET":
-        # return a pair of names to rank
-        pass
+
+        child = Child.objects.get(parent_url=uuid)
+        parent1 = App_User.objects.get(email=child.parent_1.email)
+        parent2 = App_User.objects.get(email=child.parent_2)
+
+
+        # 
+        p1 = Voted_Name.objects.filter(participant=parent1,child=child, liked=True)
+        p2 = Voted_Name.objects.filter(participant=parent2,child=child, liked=True)
+
+        agreed = []
+
+        for vote in p1:
+            if vote.name.name == 'DEFAULT':
+                continue
+            for vote2 in p2:
+                if vote.name == vote2.name:
+                    weight = vote.weight + vote2.weight
+                    agreed.append([weight, vote.name.name])
+        
+        agreed.sort(reverse=True)
+
+        return JsonResponse({'weighted':agreed})
+        
+    
+    
+    
+    
+    
     elif request.method == "PUT":
         # update names objects with ranking
         # this will require future model update most likely

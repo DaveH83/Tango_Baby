@@ -87,8 +87,8 @@ class ChildViewSet(viewsets.ModelViewSet):
         disliked_names = Voted_Name.objects.filter(participant=request.user,
                                           child=instance,
                                           liked=False)
-        data['liked'] = [model_to_dict(Name.objects.get(id=vote['name_id'])) for vote in liked_names.values() if vote['name_id']!=1]
-        data['disliked'] = [model_to_dict(Name.objects.get(id=vote['name_id'])) for vote in disliked_names.values() if vote['name_id']!=1]
+        data['liked'] = [model_to_dict(Name.objects.get(id=vote['name_id'])) for vote in liked_names.values() if Name.objects.get(id=vote['name_id']).name != 'DEFAULT']
+        data['disliked'] = [model_to_dict(Name.objects.get(id=vote['name_id'])) for vote in disliked_names.values() if Name.objects.get(id=vote['name_id']).name != 'DEFAULT']
         if instance.parent_2 and instance.parent_1:
           print('agreed')
           # determine mutually liked name
@@ -99,7 +99,7 @@ class ChildViewSet(viewsets.ModelViewSet):
           elif request.user.email == instance.parent_2:
             #parent_1 = App_User.objects.get(id=instance.parent_1)
             other_parent_likes_query = Voted_Name.objects.filter(participant=instance.parent_1, child=instance, liked=True)
-          other_parent_likes = [ model_to_dict(Name.objects.get(id=vote['name_id'])) for vote in other_parent_likes_query.values() if vote['name_id']!=1]
+          other_parent_likes = [ model_to_dict(Name.objects.get(id=vote['name_id'])) for vote in other_parent_likes_query.values() if Name.objects.get(id=vote['name_id']).name != 'DEFAULT']
           print(other_parent_likes)
           for name in data['liked']:
             if name in other_parent_likes:

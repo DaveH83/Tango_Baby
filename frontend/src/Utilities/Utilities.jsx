@@ -75,3 +75,15 @@ export const getDadJoke = async() => {
    
     return response.data.joke
 }
+
+
+export async function ResultsLoader({ params }) {
+	
+	const response = await axios.get(`/app/results/${params.uuid}/`)
+
+	
+	
+	
+
+	return response.data.weighted
+}

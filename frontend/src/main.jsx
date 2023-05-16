@@ -6,11 +6,11 @@ import Results from "./pages/Results";
 import Matches from "./pages/Matches";
 import Search from "./pages/Search";
 import SwipeNames from "./pages/SwipeNames";
-import {RankChoices, RankLoader} from "./pages/RankChoices";
+import { RankChoices, RankLoader } from "./pages/RankChoices";
 import Profile from "./pages/Profile";
 import "flowbite/dist/flowbite.js";
 import Child, { ChildLoader } from "./pages/Child";
-import { nameListLoader } from "./Utilities/Utilities";
+import { nameListLoader, ResultsLoader } from "./Utilities/Utilities";
 
 const router = createBrowserRouter([
 	{
@@ -28,8 +28,9 @@ const router = createBrowserRouter([
 				loader: ChildLoader,
 			},
 			{
-				path: ":id/results",
+				path: "results/:uuid",
 				element: <Results />,
+				loader: ResultsLoader
 			},
 			{
 				path: "matches",
