@@ -64,11 +64,14 @@ export default function SwipeNames() {
 		children && (<>
 		
 			<div className='swipe-name-container'>
-			<p>Swipe name for {activeChild.nickname}</p>
-			<div className="card-container h-[500px]">
+			<p className="text-xl text-gray-600 pb-3">You are swiping name for "{activeChild.nickname}"</p>
+			<div className="card-container ">
+		
+				
 				{toShowList.map((name) => (
 				<>
-					<div className="single-card">
+					<div className="single-card">	
+	
 						<TinderCard
 							className="tinder_card"
 							onSwipe={(dir) => onSwipe(name, dir)}
@@ -76,9 +79,11 @@ export default function SwipeNames() {
 							swipeRequirementType='position'
 							swipeThreshold = {200}
 						>
-							<p className="name-holder" key={name.id}>
+							<p className="name-holder"
+								key={name.id}>
 								{name.name}
 							</p>
+						
 						</TinderCard>
 						<div className="icons">
 								<button 
@@ -94,19 +99,19 @@ export default function SwipeNames() {
 							</div>
 					</div>
 				</>		
-				))}	
+				))}	 
 			</div>
 			
 			</div>
 			<div
 				id="accordion-collapse"
 				data-accordion="collapse"
-				className="bg-gray-800 overflow-hidden rounded-lg"
+				className="bg-gray-800 overflow-hidden  text-gray-500  rounded-xl dark:hover:text-black mx-5 shadow-xl"
 			>
 				<h2 id="accordion-collapse-heading-1">
 					<button
 						type="button"
-						className="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-800"
+						className="flex items-center justify-between w-full p-5  font-medium text-left text-gray-500 border border-b-0 border-gray-200 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-800"
 						data-accordion-target="#accordion-collapse-body-1"
 						aria-expanded="false"
 						aria-controls="accordion-collapse-body-1"

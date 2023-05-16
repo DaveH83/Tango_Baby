@@ -6,6 +6,7 @@ from django.apps import apps
 from django.forms.models import model_to_dict
 from datetime import datetime
 import json, uuid
+
 App_User = apps.get_model('user_app', 'App_User')
 Child = apps.get_model('user_app', 'Child')
 Name = apps.get_model('user_app', 'Name')
@@ -174,6 +175,7 @@ def handle_children(request):
 
 #Handle swiping name and create Voted_name objects
 @api_view(["POST"])
+
 def vote_name(request):
     if request.method=="POST":
         try:
@@ -183,11 +185,11 @@ def vote_name(request):
             childIns=Child.objects.get(parent_url=child_uuid)
             nameIns=Name.objects.get(id=name['id'])
             participant=request.user
-            if not Voted_Name.objects.filter(name=nameIns,participant=participant,child=childIns).exists():
+            if  Voted_Name.objects.filter(name=nameIns,participant=participant,child=childIns).exists():
+                return JsonResponse({'voted': False, 'message': 'Vote already exists.'})
+            else:
                 Voted_Name.objects.create(name=nameIns,liked=liked,participant=participant,child=childIns)
                 return JsonResponse({'voted':True})
-            else:
-                return JsonResponse({'voted': False, 'message': 'Vote already exists.'})
         except Exception as e:
             print(e)
             return JsonResponse({'voted':False})

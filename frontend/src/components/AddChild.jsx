@@ -78,14 +78,14 @@ export default function AddChild() {
 						<>
 							<label
 								htmlFor="parent1"
-								className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+								className="block mb-2 text-sm font-medium text-gray-500 dark:text-white"
 							>
 								Parent 1
 							</label>
 							<input
 								type="email"
 								id="parent1"
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								placeholder="name@flowbite.com"
 								value={user.email}
 								disabled
@@ -97,14 +97,14 @@ export default function AddChild() {
 						<>
 							<label
 								htmlFor="parent1"
-								className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+								className="block mb-2 text-sm font-medium text-gray-500 dark:text-white"
 							>
 								Parent 1
 							</label>
 							<input
 								type="email"
 								id="parent1"
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								placeholder="name@email.com"
 								required
 							/>
@@ -114,7 +114,7 @@ export default function AddChild() {
 				<div className="mb-6">
 					<label
 						htmlFor="parent2"
-						className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						className="block mb-2 text-sm font-medium text-gray-500 dark:text-white"
 					>
 						Parent 2
 					</label>
@@ -124,13 +124,13 @@ export default function AddChild() {
 						placeholder="optional@optional.com"
 						value={parent2}
 						onChange={(e) => setParent2(e.target.value)}
-						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 					/>
 				</div>
 				<div className="mb-6">
 					<label
 						htmlFor="nickname"
-						className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						className="block mb-2 text-sm font-medium text-gray-500 dark:text-white"
 					>
 						Child Nickname
 					</label>
@@ -140,14 +140,14 @@ export default function AddChild() {
 						placeholder="Our first baby"
 						value={nickname}
 						onChange={(e) => setNickname(e.target.value)}
-						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						required
 					/>
 				</div>
 				<div className="mb-6">
 					<label
 						htmlFor="lastname"
-						className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						className="block mb-2 text-sm font-medium text-gray-500 dark:text-white"
 					>
 						Last Name
 					</label>
@@ -157,13 +157,13 @@ export default function AddChild() {
 						placeholder="Optional last name"
 						value={lastname}
 						onChange={(e) => setLastName(e.target.value)}
-						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 					/>
 				</div>
 				<div className="mb-6">
 					<label
 						htmlFor="date-picker"
-						className="block text-sm font-medium text-gray-900 dark:text-white"
+						className="block text-sm font-medium text-gray-500 dark:text-white mb-2"
 					>
 						When is the baby due?:
 					</label>
@@ -173,7 +173,7 @@ export default function AddChild() {
 							</div>
 							<input datepicker datepicker-autohide 
 								type="date" 
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
 								placeholder="select date"
 								
 								value={selectedDueDate}
@@ -189,7 +189,7 @@ export default function AddChild() {
 						<legend className="sr-only">Gender</legend>
 						<label
 							htmlFor="gender"
-							className="block mb-2 text-sm font-medium text-gray-900 dark:text-white mt-2"
+							className="block mb-2 text-sm font-medium text-gray-500 dark:text-white mt-2"
 						>
 							Gender:
 						</label>
@@ -200,13 +200,13 @@ export default function AddChild() {
 								type="radio"
 								name="gender"
 								value="M"
-								className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
+								className="w-4 h-4  border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
 								checked={gender === "M"}
 								onClick={() => setGender("M")}
 							/>
 							<label
 								htmlFor="gender-option-1"
-								className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+								className="block ml-2 text-sm font-medium text-gray-500 dark:text-gray-300"
 							>
 								Boy
 							</label>
@@ -224,7 +224,7 @@ export default function AddChild() {
 							/>
 							<label
 								htmlFor="gender-option-2"
-								className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+								className="block ml-2 text-sm font-medium text-gray-500 dark:text-gray-300"
 							>
 								Girl
 							</label>
@@ -235,7 +235,8 @@ export default function AddChild() {
 
 				<button
 					type="submit"
-					className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-fit px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 h-fit"
+					className="text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm  px-5 py-2.5 text-center dark:bg-blue-600 dark:focus:ring-blue-800 h-fit hover:text-gray-600 hover:bg-white hover:border-gray-600 hover:drop-shadow-xl
+					focus:border-gray-300 w-40"
 				>
 					Create Child
 				</button>
