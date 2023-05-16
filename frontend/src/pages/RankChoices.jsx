@@ -3,7 +3,11 @@ import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import AgreedList from "../components/AgreedList.jsx"
 
-export async function RankLoader({params}) {
+export async function RankLoader({ params }) {
+	// this is a band-aid solution via get call to clean database of duplicate votes before rendering
+	const bandaid = await axios.get(`/app/namelist/${params.uuid}`)
+
+	
 	const resp = await axios.get(`/app/new/child/`)
 	
 	if (resp.data) {
