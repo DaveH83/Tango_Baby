@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-	font-family: Trebuchet;
-}
+
 html {
 	overflow-y: auto;
 }
