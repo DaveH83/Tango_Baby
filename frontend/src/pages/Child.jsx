@@ -1,5 +1,4 @@
 import axios from "axios";
-import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { useLoaderData } from "react-router-dom";
@@ -19,33 +18,29 @@ export async function ChildLoader({ params }) {
 	return Promise.all(promises)
 		.then((responses) => responses.map((response) => response.data))
 		.catch((error) => console.log(error));
-	// console.log(Promise.all(promises)
-	// 	.then(responses => responses.map(response => response.data))
-	// 	.catch(error => console.log(error)))
 }
 
-export default function Child({ params }) {
-	const [nickname, setNickname] = useState(null);
-	const [parent2, setParent2] = useState(null);
-	const [lastname, setLastName] = useState(null);
-	const [selectedDueDate, setSelectedDueDate] = useState(null);
-	const [editChild, setEditChild] = useState(false)
-	const { user, activeChild } = useContext(UserContext);
+export default function Child() {
 	const data = useLoaderData();
-	const child = data[0].child
-	const votedNamesList = data[1].names
-	const uuid = child.guest_url
-	
+	const child = data[0].child;
+	const [nickname, setNickname] = useState(child.nickname);
+	const [parent2, setParent2] = useState(null);
+	const [lastname, setLastName] = useState(child.last_name);
+	const [selectedDueDate, setSelectedDueDate] = useState(child.due_date);
+	const [editChild, setEditChild] = useState(false);
+	const { activeChild } = useContext(UserContext);
+	const votedNamesList = data[1].names;
+	const uuid = child.guest_url;
+
 	const handleDate = (selectedDueDate) => {
 		setSelectedDueDate(selectedDueDate);
-		console.log(selectedDueDate)
 	};
 
 	const handleSubmit = (uuid, nickname, parent2, lastname, selectedDueDate) => {
-		updateChild(uuid, nickname, parent2, lastname, selectedDueDate)
-		setEditChild(false)
-	}
-
+		updateChild(uuid, nickname, parent2, lastname, selectedDueDate);
+		setEditChild(false);
+		window.location.reload();
+	};
 
 	return (
 		<div className="p-2">
@@ -80,78 +75,97 @@ export default function Child({ params }) {
 								{child.parent_2.username} | {child.parent_2.email}
 							</span>
 						)}
-					<button 
-						className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800" 
-						onClick={() => [
-							setEditChild(!editChild),
-							setLastName(null),
-							setNickname(null),
-							setParent2(null),
-							setSelectedDueDate(null)
-						]}>Edit Child</button>
+						<button
+							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800"
+							onClick={() => [
+								setEditChild(!editChild),
+							]}
+						>
+							Edit Child
+						</button>
 					</div>
 				</div>
-				{ editChild &&
-				<div className="w-fit border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex p-2 m-2 " >
+				{editChild && (
+					<div className="w-fit border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex p-2 m-2 " >
 					
-					 					
-					<form 
-						className="w-fit mx-auto" onSubmit={(e) => [
-							e.preventDefault(),
-							handleSubmit(uuid, nickname, parent2, lastname, selectedDueDate),
-						]}>
+						<form
+							className="w-fit mx-auto"
+							onSubmit={(e) => [
+								e.preventDefault(),
+								handleSubmit(
+									uuid,
+									nickname,
+									parent2,
+									lastname,
+									selectedDueDate
+								),
+							]}
+						>
+							<input
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2 "
+								id="nickname"
+								placeholder="New Baby Nickname"
+								label="nickname"
+								value={nickname}
+								onChange={(e) => setNickname(e.target.value)}
+							/>
 
-						<input 
-							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2 " 
-							id="nickname" 
-							placeholder="New Baby Nickname" 
-							label="nickname" 
-							value={nickname} 
-							onChange={(e) => setNickname(e.target.value)} 
-						/>
-
-						{!child.parent_2 && 
-							<input 
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2" 
-								id="parent2" 
-								placeholder="E-mail address of 2nd parent" 
-								label="parent2" 
-								value={parent2} 
-								onChange={(e) => setParent2(e.target.value)} 
-							/>}
-
-						<input 
-							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2" 
-							id="lastname" 
-							placeholder="Projected surname of Baby" 
-							label="lastname" 
-							value={lastname} 
-							onChange={(e) => setLastName(e.target.value)} />
-
-						
-						<div className="relative max-w-sm">
-							<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-								<svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-							</div>
-							<input datepicker datepicker-autohide 
-								type="date" 
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-								placeholder="select date"
-								
-								value={selectedDueDate}
-								onChange={(e) => [
-									handleDate(e.target.value)
-								]}
+							{!child.parent_2 && (
+								<input
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2"
+									id="parent2"
+									placeholder="E-mail address of 2nd parent"
+									label="parent2"
+									value={parent2}
+									onChange={(e) => setParent2(e.target.value)}
 								/>
-						</div>
-						
-						<button 
-							type="submit" 
-							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 m-2"
-						>Update</button>
+							)}
 
-    				</form>
-				</div>}
+							<input
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2"
+								id="lastname"
+								placeholder="Projected surname of Baby"
+								label="lastname"
+								value={lastname}
+								onChange={(e) => setLastName(e.target.value)}
+							/>
+
+							<div className="relative max-w-sm">
+								<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+									<svg
+										aria-hidden="true"
+										className="w-5 h-5 text-gray-500 dark:text-gray-400"
+										fill="currentColor"
+										viewBox="0 0 20 20"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											fill-rule="evenodd"
+											d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+											clip-rule="evenodd"
+										></path>
+									</svg>
+								</div>
+								<input
+									datepicker
+									datepicker-autohide
+									type="date"
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									placeholder={child.due_date}
+									value={selectedDueDate}
+									onChange={(e) => [handleDate(e.target.value)]}
+								/>
+							</div>
+
+							<button
+								type="submit"
+								className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 m-2"
+							>
+								Update
+							</button>
+						</form>
+					</div>
+				)}
 			</div>
 
 			<div className="name-lists mt-2">

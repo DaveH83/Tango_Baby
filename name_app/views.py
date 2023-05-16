@@ -44,8 +44,7 @@ def handle_child(request, uuid):
             return JsonResponse({'message': 'Found UUID', 'success': True, 'child': child})
         
         if request.method == 'PUT':
-            print(request.data)
-             # get specific child object based on UUID
+            # get specific child object based on UUID
             try:
                 child = Child.objects.get(parent_url=uuid)
             except:
@@ -67,7 +66,6 @@ def handle_child(request, uuid):
                 
             if request.data['lastname']:
                 child.last_name = request.data['lastname']
-                print(child.last_name)
 
             if request.data['due_date']:
                 date_str = request.data['due_date']
@@ -333,11 +331,6 @@ def handle_voted_names(request, uuid):
             'disliked': disliked_names,
             'agreed': None,
         }
-
-    # print('\nliked names\n****************\n', liked_names)
-    # print('\ndisliked names\n****************\n', disliked_names)
-    # print('\nagreed names\n****************\n', agreed_names)
-    # print(response)
 
     return JsonResponse({'names': response})
 
