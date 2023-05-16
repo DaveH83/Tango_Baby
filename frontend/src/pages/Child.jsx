@@ -1,5 +1,4 @@
 import axios from "axios";
-import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { useLoaderData } from "react-router-dom";
@@ -19,9 +18,6 @@ export async function ChildLoader({ params }) {
 	return Promise.all(promises)
 		.then((responses) => responses.map((response) => response.data))
 		.catch((error) => console.log(error));
-	// console.log(Promise.all(promises)
-	// 	.then(responses => responses.map(response => response.data))
-	// 	.catch(error => console.log(error)))
 }
 
 export default function Child({ params }) {
@@ -30,7 +26,7 @@ export default function Child({ params }) {
 	const [lastname, setLastName] = useState(null);
 	const [selectedDueDate, setSelectedDueDate] = useState(null);
 	const [editChild, setEditChild] = useState(false)
-	const { user, activeChild } = useContext(UserContext);
+	const { activeChild } = useContext(UserContext);
 	const data = useLoaderData();
 	const child = data[0].child
 	const votedNamesList = data[1].names
@@ -38,7 +34,6 @@ export default function Child({ params }) {
 	
 	const handleDate = (selectedDueDate) => {
 		setSelectedDueDate(selectedDueDate);
-		console.log(selectedDueDate)
 	};
 
 	const handleSubmit = (uuid, nickname, parent2, lastname, selectedDueDate) => {
@@ -98,6 +93,7 @@ export default function Child({ params }) {
 						className="w-fit mx-auto" onSubmit={(e) => [
 							e.preventDefault(),
 							handleSubmit(uuid, nickname, parent2, lastname, selectedDueDate),
+							window.location.reload()
 						]}>
 
 						<input 
