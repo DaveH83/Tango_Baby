@@ -25,9 +25,11 @@ export default function SwipeNames() {
 		// Update liked based on swipe direction
 		if (direction === "right") {
 			swipeHandler(name, uuid, true)
+			setToShowList((prevList) => prevList.slice(0, -1));
 			setListLength(preLength=>preLength-1)
 		} else if (direction === "left") {
 			swipeHandler(name, uuid, false);
+			setToShowList((prevList) => prevList.slice(0, -1));
 			setListLength(preLength=>preLength-1)
 		}
 	};
