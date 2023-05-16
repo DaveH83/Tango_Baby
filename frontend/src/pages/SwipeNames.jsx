@@ -64,11 +64,14 @@ export default function SwipeNames() {
 		children && (<>
 		
 			<div className='swipe-name-container'>
-			<p>Swipe name for {activeChild.nickname}</p>
-			<div className="card-container h-[500px]">
+			<p className="text-xl text-gray-600 pb-3">You are swiping name for "{activeChild.nickname}"</p>
+			<div className="card-container ">
+		
+				
 				{toShowList.map((name) => (
 				<>
-					<div className="single-card">
+					<div className="single-card">	
+	
 						<TinderCard
 							className="tinder_card"
 							onSwipe={(dir) => onSwipe(name, dir)}
@@ -76,9 +79,11 @@ export default function SwipeNames() {
 							swipeRequirementType='position'
 							swipeThreshold = {200}
 						>
-							<p className="name-holder" key={name.id}>
+							<p className="name-holder"
+								key={name.id}>
 								{name.name}
 							</p>
+						
 						</TinderCard>
 						<div className="icons">
 								<button 

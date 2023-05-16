@@ -67,7 +67,8 @@ export default function AddName() {
           </select>
         </div>
       </div>
-      <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm w-fit px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 h-fit" type="submit">Save</button>
+      <button className="text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 h-fit hover:text-gray-600 hover:bg-white hover:border-gray-600 hover:drop-shadow-xl
+			focus:border-gray-300 w-40" type="submit">Save</button>
     </form>
     );
 }

@@ -43,16 +43,16 @@ export default function Child() {
 	};
 
 	return (
-		<div className="p-2">
-			<div className="w-fit flex flex-col">
-				<div className="w-fit border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex p-2">
-					<div className="flex flex-col items-center p-4 m-2z">
+		<div className="p-2 ">
+			<div className="w-fit   ">
+				<div className="w-fit md:w-full border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex p-2 justify-start md:justify-center" >
+					<div className="flex flex-col items-center p-4 m-2">
 						<img
 							className="w-24 h-24 mb-3 rounded-full shadow-lg"
 							src={baby_head}
 							alt="Baby Profile Picture"
 						/>
-						<h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+						<h5 className="mb-2 text-xl font-medium text-white dark:text-white">
 							{activeChild.nickname}
 						</h5>
 						<span className="text-sm text-gray-500 dark:text-gray-400">
@@ -64,7 +64,7 @@ export default function Child() {
 					</div>
 
 					<div className="flex flex-col items-front pb-10 border-l-2 p-4">
-						<h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+						<h5 className="mb-2 text-xl font-medium text-white dark:text-white">
 							Parents
 						</h5>
 						<span className="text-sm text-gray-500 dark:text-gray-400">
@@ -76,7 +76,7 @@ export default function Child() {
 							</span>
 						)}
 						<button
-							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800"
+							className="inline-flex items-center px-3 py-2 text-sm font-medium  text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 mt-2"
 							onClick={() => [
 								setEditChild(!editChild),
 							]}
@@ -86,10 +86,10 @@ export default function Child() {
 					</div>
 				</div>
 				{editChild && (
-					<div className="w-fit border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex p-2 m-2 " >
+					<div className="w-full border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex my-2 " >
 					
 						<form
-							className="w-fit mx-auto"
+							className="w-full mx-2"
 							onSubmit={(e) => [
 								e.preventDefault(),
 								handleSubmit(
@@ -102,7 +102,7 @@ export default function Child() {
 							]}
 						>
 							<input
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2 "
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 my-2 "
 								id="nickname"
 								placeholder="New Baby Nickname"
 								label="nickname"
@@ -112,7 +112,7 @@ export default function Child() {
 
 							{!child.parent_2 && (
 								<input
-									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2"
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 my-2"
 									id="parent2"
 									placeholder="E-mail address of 2nd parent"
 									label="parent2"
@@ -122,7 +122,7 @@ export default function Child() {
 							)}
 
 							<input
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 m-2"
+								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 my-2"
 								id="lastname"
 								placeholder="Projected surname of Baby"
 								label="lastname"
@@ -150,7 +150,7 @@ export default function Child() {
 									datepicker
 									datepicker-autohide
 									type="date"
-									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 									placeholder={child.due_date}
 									value={selectedDueDate}
 									onChange={(e) => [handleDate(e.target.value)]}
@@ -159,7 +159,7 @@ export default function Child() {
 
 							<button
 								type="submit"
-								className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 m-2"
+								className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 my-2"
 							>
 								Update
 							</button>
