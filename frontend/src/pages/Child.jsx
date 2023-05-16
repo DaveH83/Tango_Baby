@@ -20,15 +20,15 @@ export async function ChildLoader({ params }) {
 		.catch((error) => console.log(error));
 }
 
-export default function Child({ params }) {
-	const [nickname, setNickname] = useState(null);
-	const [parent2, setParent2] = useState(null);
-	const [lastname, setLastName] = useState(null);
-	const [selectedDueDate, setSelectedDueDate] = useState(null);
-	const [editChild, setEditChild] = useState(false);
-	const { activeChild } = useContext(UserContext);
+export default function Child() {
 	const data = useLoaderData();
 	const child = data[0].child;
+	const [nickname, setNickname] = useState(child.nickname);
+	const [parent2, setParent2] = useState(null);
+	const [lastname, setLastName] = useState(child.last_name);
+	const [selectedDueDate, setSelectedDueDate] = useState(child.due_date);
+	const [editChild, setEditChild] = useState(false);
+	const { activeChild } = useContext(UserContext);
 	const votedNamesList = data[1].names;
 	const uuid = child.guest_url;
 
@@ -79,10 +79,6 @@ export default function Child({ params }) {
 							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800"
 							onClick={() => [
 								setEditChild(!editChild),
-								setLastName(null),
-								setNickname(null),
-								setParent2(null),
-								setSelectedDueDate(null),
 							]}
 						>
 							Edit Child
