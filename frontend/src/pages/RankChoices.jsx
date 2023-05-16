@@ -12,10 +12,7 @@ export async function RankLoader({ params }) {
 	
 	if (resp.data) {
 		const child = resp.data.find(child => child.guest_url == params.uuid)
-		// console.log(child)
-		// console.log(child.id)
 		const resp2 = await axios.get(`/app/new/child/${child.id}/`)
-		// console.log(resp2)
 		if (resp2.data) {
 			if (resp2.data.agreed.length>1){
 				return resp2.data.agreed
@@ -49,7 +46,6 @@ export function RankChoices() {
 
 	const handleClick = async (id) => {
 		const resp = await axios.post(`/app/new/add_rank/`, {'name': id});
-		console.log(resp)
 		if (resp.data.success) {
 			location.reload()
 		}

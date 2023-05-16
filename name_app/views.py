@@ -330,11 +330,6 @@ def handle_voted_names(request, uuid):
             'agreed': None,
         }
 
-    # print('\nliked names\n****************\n', liked_names)
-    # print('\ndisliked names\n****************\n', disliked_names)
-    # print('\nagreed names\n****************\n', agreed_names)
-    # print(response)
-
     return JsonResponse({'names': response})
 
 
