@@ -22,8 +22,14 @@ export default function Header() {
 	const [isLargeScreen, setIsLargeScreen] = useState(true);
 	const { user, children, activeChild, setActiveChild } =
 		useContext(UserContext);
-	const swipe_url = activeChild ? `/swipe/${activeChild.parent_url}` : "/";
-	const rank_url = activeChild ? `/rank/${activeChild.guest_url}` : "/";
+	const swipe_url =
+		Object.keys(activeChild).length > 0
+			? `/swipe/${activeChild.parent_url}`
+			: "/";
+	const rank_url =
+		Object.keys(activeChild).length > 0
+			? `/rank/${activeChild.guest_url}`
+			: "/";
 	const nav = useNavigate();
 	const handleResize = () => setIsLargeScreen(window.innerWidth >= 768);
 	window.addEventListener("resize", handleResize);
