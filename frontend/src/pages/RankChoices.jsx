@@ -27,7 +27,7 @@ export function RankChoices() {
 
 	if (!agreedNames) {
 		return (
-			<div className="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800">
+			<div className="p-4 bg-white rounded-xl md:p-8 dark:bg-gray-800">
 				<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Come back after you like some more names!</h5>
 			</div>
 		)
@@ -53,9 +53,9 @@ export function RankChoices() {
 
 	return (
 		<>
-			<div className="pb-4 flex flex-wrap justify-center md:justify-start pt-4">
+			<div className="pb-4 flex flex-wrap justify-center md:justify-start pt-4 mx-5">
 				<button
-					className="w-fit p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center flex-col mr-2"
+					className="w-fit p-6 bg-white border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700 flex items-center flex-col mr-2"
 					onClick={()=>handleClick(choices[0].id)}
 				>
 					<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -63,7 +63,7 @@ export function RankChoices() {
 					</h5>
 				</button>
 				<button
-					className="w-fit p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center flex-col mr-2"
+					className="w-fit p-6 bg-white border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700 flex items-center flex-col mr-2"
 					onClick={()=>handleClick(choices[1].id)}
 				>
 					<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
