@@ -42,6 +42,7 @@ body {
 	align-items: center;
 	font-size: 4vw;
 	position: absolute;
+	color:rgb(89, 89, 90);
 	top:0;
 	left: 0;
 	right: 0;
@@ -88,13 +89,13 @@ body {
 }
 
 .heart-broken-icon {
-	color: rgb(143, 15, 15);
-	font-size: 2rem;
+	color: rgb(113, 12, 12);
+	font-size: 2.5rem;
 }
 
 .favorite-icon {
-	color: rgb(76, 99, 76);
-	font-size: 2rem;
+	color: rgb(32, 52, 32);
+	font-size: 2.5rem;
 }
 
 .react-date-picker {
