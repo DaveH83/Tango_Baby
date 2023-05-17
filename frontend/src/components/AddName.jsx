@@ -13,9 +13,9 @@ export default function AddName() {
     await axios.post('/app/name/', {
       'name': name,
       'gender': activeChild['gender'],
-      'child': activeChild
+      'child': activeChild,
+      'parent_2': null
     });
-    console.log('child-id',child)
     setName('');
     setGender('');
   };

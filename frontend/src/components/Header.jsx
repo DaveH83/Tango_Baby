@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import crying_baby from "../images/crying_baby.png"
 
 const handleLogout = async (nav) => {
 	const response = await axios.post("/user/logout/");
@@ -74,13 +75,13 @@ export default function Header() {
 						)}
 						<Link href="/" className="flex ml-2 md:mr-24">
 							<img
-								src="https://flowbite.com/docs/images/logo.svg"
+								src={crying_baby}
 								className="h-8 mr-3"
 								alt="Logo"
 							/>
-							<span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-								Baby Swiper
-							</span>
+							{isLargeScreen && <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+								Tinder Tots
+							</span>}
 						</Link>
 					</div>
 					<div className="flex items-center">

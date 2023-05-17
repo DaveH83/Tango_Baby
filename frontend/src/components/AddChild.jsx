@@ -21,19 +21,20 @@ const axCreateChild = async (
 		due_date: selectedDueDate,
 	});
 	// then creates a voted_name object for that child
+	console.log(c.data)
 	if (c.data.success) {
 		if (parent2) {
 			const vote_1 = await axios.post("/app/name/", {
 				name: "DEFAULT",
 				gender: gender,
-				id: c.data.id,
+				child: c.data.child,
 				parent_2: null,
 			});
 
 			const vote_2 = await axios.post("/app/name/", {
 				name: "DEFAULT",
 				gender: gender,
-				id: c.data.id,
+				child: c.data.child,
 				parent_2: parent2,
 			});
 			window.location.reload();
@@ -41,7 +42,7 @@ const axCreateChild = async (
 			const vote_1 = await axios.post("/app/name/", {
 				name: "DEFAULT",
 				gender: gender,
-				id: c.data.id,
+				child: c.data.child,
 				parent_2: parent2,
 			});
 			window.location.reload();

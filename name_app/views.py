@@ -230,12 +230,12 @@ def handle_name(request):
         child=request.data['child']
         child=Child.objects.get(parent_url=child['parent_url'])
         participant=request.user
-        # if request.data['parent_2']:
-        #     try:
-        #         participant=App_User.objects.get(email=request.data['parent_2'])
-        #     except Exception as e:
-        #         participant=None
-        #         print(e)
+        if request.data['parent_2']:
+            try:
+                participant=App_User.objects.get(email=request.data['parent_2'])
+            except Exception as e:
+                participant=None
+                print(e)
 
         if participant and Name.objects.filter(name=name,gender=gender).exists():
             try:
