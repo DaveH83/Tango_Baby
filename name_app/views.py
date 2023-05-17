@@ -15,7 +15,7 @@ Blacklist = apps.get_model('user_app', 'Blacklist')
 
 
 # Handle viewing and adding children
-@api_view(["GET", "PUT"])
+@api_view(["GET", "PUT", "DELETE"])
 def handle_child(request, uuid):
     
     if request.user.is_authenticated:
@@ -76,6 +76,15 @@ def handle_child(request, uuid):
             print(child)
             child.save()
 
+        if request.method == "DELETE":
+            
+            child = Child.objects.get(guest_url=uuid)
+            
+            print('delete this child: ', child)
+
+            child.delete()
+
+            return JsonResponse({'message':'Child Deleted Successfully'})
 
     return JsonResponse({'message': 'User is not logged in', 'success': False})
 

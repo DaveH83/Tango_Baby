@@ -25,11 +25,13 @@ export function App() {
 
 	if (data) {
 		user = data.curr_user;
-		children = data.children;
+		children = data.children
 	}
 	const [activeChild, setActiveChild] = useState({});
 
 	handleCSRF();
+
+	
 
 	useEffect(() => {
 		children.length > 0
@@ -38,6 +40,7 @@ export function App() {
 				: null
 			: setActiveChild({});
 		initFlowbite();
+		console.log('init flowbite test')
 	}, [location, data]);
 
 	useEffect(() => {

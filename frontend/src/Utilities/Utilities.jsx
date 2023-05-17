@@ -70,6 +70,14 @@ export const updateChild = (uuid, nickname, parent2, lastname, due_date) => {
 }
 
 
+export const deleteChild = (uuid) => {
+
+	const response = axios.delete(`/app/child/${uuid}`)
+
+	return response.data
+}
+
+
 export const getDadJoke = async() => {
     let response = await axios.get('/user/dadjoke/')
    
@@ -80,10 +88,6 @@ export const getDadJoke = async() => {
 export async function ResultsLoader({ params }) {
 	
 	const response = await axios.get(`/app/results/${params.uuid}/`)
-
-	
-	
-	
 
 	return response.data.weighted
 }
