@@ -44,8 +44,8 @@ export default function Child() {
 
 	return (
 		<div className="p-2 ">
-			<div className="w-fit   ">
-				<div className="w-fit md:w-full border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex p-2 justify-start md:justify-center" >
+			<div className="w-full lg:w-fit   ">
+				<div className="w-full lg:w-fit border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex p-2 justify-start md:justify-center" >
 					<div className="flex flex-col items-center p-4 m-2">
 						<img
 							className="w-24 h-24 mb-3 rounded-full shadow-lg"
