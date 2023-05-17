@@ -54,7 +54,7 @@ export default function Profile() {
 
 	return (
 		<div className="py-6">
-			<h1 className="text-transform: capitalize text-3xl font-bold">
+			<h1 className="text-transform: capitalize text-3xl font-bold mx-5">
 				Welcome, {user.username}!
 			</h1>
 			<div className="p-4 flex flex-wrap sm:justify-start justify-center ">

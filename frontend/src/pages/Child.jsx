@@ -86,11 +86,9 @@ export default function Child() {
 							</span>
 						)}
 						<button
-							className="inline-flex w-40 items-center px-3 py-2 text-sm font-medium  text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 mt-2"
+							className="flex w-40 items-center justify-center px-3 py-2 text-sm font-medium  text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 mt-2"
 							onClick={() => [
 								setEditChild(!editChild),
-								initFlowbite(),
-								console.log('child page init flobite')
 							]}
 						>
 							Edit Child
@@ -171,7 +169,7 @@ export default function Child() {
 
 							<button
 								type="submit"
-								className="w-40 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 my-2"
+								className="w-40 flex justify-center items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 my-2"
 							>
 								Update
 							</button>
