@@ -53,22 +53,22 @@ export default function Profile() {
 	const [confirmPassword, setConfirmPassword] = useState("");
 
 	return (
-		<div className="p-6">
+		<div className="py-6">
 			<h1 className="text-transform: capitalize text-3xl font-bold">
 				Welcome, {user.username}!
 			</h1>
-			<div className="pb-4 flex flex-wrap justify-center md:justify-start pt-4 m-2">
+			<div className="p-4 flex flex-wrap sm:justify-start justify-center ">
 				{children.map((child) => (
 					<div
 						key={child.guest_url}
-						className="w-fit p-4 bg-white border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700 flex items-center flex-col m-2"
+						className="w-40 sm:w-50 p-4 bg-white border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700 flex align-center items-center justify-center  flex-col m-2"
 					>
 						<img
 							className="w-24 h-24 mb-3 rounded-full shadow-lg"
 							src={baby_head}
 							alt="Baby Profile Picture"
 						/>
-						<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+						<h5 className="mb-2 text-xl font-bold tracking-tight text-gray-600 dark:text-white whitespace-normal">
 							{child.nickname}
 						</h5>
 						<Link

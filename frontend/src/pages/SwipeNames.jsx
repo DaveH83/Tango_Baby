@@ -64,7 +64,7 @@ export default function SwipeNames() {
 		children && (<>
 		
 			<div className='swipe-name-container'>
-			<p className="text-xl text-gray-600 pb-3">You are swiping name for "{activeChild.nickname}"</p>
+			<p className="text-xl text-gray-600 py-3">You are swiping name for "{activeChild.nickname}"</p>
 			<div className="card-container ">
 		
 				

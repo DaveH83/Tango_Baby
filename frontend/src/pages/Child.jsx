@@ -54,8 +54,8 @@ export default function Child() {
 
 	return (
 		<div className="p-2 ">
-			<div className="w-fit   ">
-				<div className="w-fit md:w-full border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex p-2 justify-start md:justify-center" >
+			<div className="w-full lg:w-fit   ">
+				<div className="w-full lg:w-fit border rounded-xl shadow bg-gray-800 border-gray-700 items-center flex p-2 justify-start md:justify-center" >
 					<div className="flex flex-col items-center p-4 m-2">
 						<img
 							className="w-24 h-24 mb-3 rounded-full shadow-lg"
@@ -86,7 +86,7 @@ export default function Child() {
 							</span>
 						)}
 						<button
-							className="inline-flex items-center px-3 py-2 text-sm font-medium  text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 mt-2"
+							className="inline-flex w-40 items-center px-3 py-2 text-sm font-medium  text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 mt-2"
 							onClick={() => [
 								setEditChild(!editChild),
 								initFlowbite(),
@@ -171,7 +171,7 @@ export default function Child() {
 
 							<button
 								type="submit"
-								className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 my-2"
+								className="w-40 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-xl focus:ring-4 focus:outline-none bg-gray-600 hover:bg-blue-700 focus:ring-blue-800 my-2"
 							>
 								Update
 							</button>
@@ -179,7 +179,7 @@ export default function Child() {
 					<button
 						data-modal-target="popup-modal"
 						data-modal-toggle="popup-modal"
-						className=" w-40 block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mt-4"
+						className=" w-40 block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-xl text-sm px-5 py-2 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mb-2"
 						type="button"
 					>
 						Delete Child
