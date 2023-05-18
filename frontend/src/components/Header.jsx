@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import crying_baby from "../images/crying_baby.png"
+import crying_baby from "../images/crying_baby.png";
 
 const handleLogout = async (nav) => {
 	const response = await axios.post("/user/logout/");
@@ -45,7 +45,7 @@ export default function Header() {
 	}, [isLargeScreen, user]);
 
 	return (
-		<nav className="fixed top-0 w-full border-b bg-gray-800 border-gray-700">
+		<nav className="fixed top-0 w-full border-b bg-gray-800 border-gray-700 z-50">
 			<div className="px-3 py-3 lg:px-5 lg:pl-3">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center justify-start">
@@ -74,14 +74,12 @@ export default function Header() {
 							</button>
 						)}
 						<Link href="/" className="flex ml-2 md:mr-24">
-							<img
-								src={crying_baby}
-								className="h-8 mr-3"
-								alt="Logo"
-							/>
-							{isLargeScreen && <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-								Tinder Tots
-							</span>}
+							<img src={crying_baby} className="h-8 mr-3" alt="Logo" />
+							{isLargeScreen && (
+								<span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+									Tinder Tots
+								</span>
+							)}
 						</Link>
 					</div>
 					<div className="flex items-center">
